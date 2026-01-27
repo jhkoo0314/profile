@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Sales Planning Expert | Revenue Ops Specialist - Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: { 900: '#0F172A', 800: '#1E293B' }, // Primary: Trust
+                        teal: { 600: '#0891B2', 500: '#06B6D4' }, // Secondary: Data/Logic
+                        orange: { 600: '#EA580C', 500: '#F97316' }, // Accent: Insight/Action
+                        slate: { 50: '#F8FAFC' } // Background
+                    },
+                    spacing: {
+                        'a4-w': '297mm',
+                        'a4-h': '210mm',
+                    },
+                    boxShadow: {
+                        'slide': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Print & Layout Settings */
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        body {
+            background-color: #e2e8f0; /* Screen bg */
+        }
+
+        .slide {
+            width: 297mm;
+            height: 210mm;
+            background: white;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            page-break-after: always;
+            display: none; /* JS toggles this */
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* McKinsey Style Typography */
+        h1.governing-message {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0F172A;
+            line-height: 1.3;
+            margin-bottom: 2rem;
+            border-left: 6px solid #0891B2;
+            padding-left: 1.5rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 35% 65%;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        /* CSS Diagrams (No Images) */
+        .diagram-box {
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            background: #F8FAFC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Print Override */
+        @media print {
+            body { 
+                background: none !important; 
+                margin: 0 !important; 
+                padding: 0 !important;
+            }
+            .slide { 
+                display: flex !important; 
+                margin: 0 !important; 
+                padding: 0 !important;
+                box-shadow: none !important;
+                width: 297mm !important;
+                height: 210mm !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+            }
+            .no-print { display: none !important; }
+            
+            /* Ensure A4 Full Screen */
+            html, body {
+                width: 297mm;
+                height: 210mm;
+            }
+        }
+
+        /* Utility */
+        .highlight { color: #EA580C; font-weight: 700; }
+        .bg-grid-pattern {
+            background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Formula Box */
+        .formula-box {
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            border-left: 6px solid #2563eb;
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-700">
+
+    <!-- Navigation (Screen Only) -->
+    <div class="fixed bottom-6 right-6 z-50 flex gap-2 bg-white/90 p-2 rounded-full shadow-lg border border-slate-200 backdrop-blur no-print">
+        <button onclick="prevSlide()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition"><i class="fa-solid fa-chevron-left"></i></button>
+        <span id="page-num" class="flex items-center justify-center px-4 font-mono font-bold text-slate-700 text-sm">1 / 14</span>
+        <button onclick="nextSlide()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition"><i class="fa-solid fa-chevron-right"></i></button>
+        <button onclick="window.print()" class="w-10 h-10 rounded-full bg-navy-900 text-white flex items-center justify-center transition shadow hover:bg-navy-800" title="PDF 저장/인쇄"><i class="fa-solid fa-print"></i></button>
+    </div>
+
+    <!-- ================= Slide 0: Cover ================= -->
+    <section class="slide active bg-navy-900 text-white relative">
+        <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(0deg, transparent 24%, #ffffff 25%, #ffffff 26%, transparent 27%, transparent 74%, #ffffff 75%, #ffffff 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, #ffffff 25%, #ffffff 26%, transparent 27%, transparent 74%, #ffffff 75%, #ffffff 76%, transparent 77%, transparent); background-size: 50px 50px;"></div>
+        
+        <div class="flex flex-col justify-center h-full px-20 z-10">
+            <div class="mb-6 flex items-center gap-3 text-teal-500 font-bold tracking-widest uppercase text-sm">
+                <i class="fa-solid fa-chess-knight"></i> Revenue Operations Case Study
+            </div>
+            <h1 class="text-6xl font-black leading-tight mb-4">
+                The <span class="text-teal-500">BIDIX</span> Case:<br>
+                Revenue Operating Framework
+            </h1>
+            <p class="text-2xl font-light text-slate-300 mb-12">부동산 경매의 권리와 수익을 분석하고 예측하는 경매 전략 솔루션</p>
+            
+            <div class="w-24 h-1 bg-orange-600 mb-12"></div>
+
+            <div class="flex items-end justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold">구 재 현</h2>
+                    <p class="text-slate-400 mt-1">Sales Strategic & Performance Insight</p>
+                </div>
+                <div class="text-right opacity-80">
+                    <p class="text-sm">Strategic Framework Portfolio</p>
+                    <p class="text-xl font-bold font-mono text-teal-500">From Vision to Deployment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 1: Problem Definition ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">01. Vision & Strategy</div>
+            <h1 class="governing-message">
+                개인의 노하우를 시스템으로 만들어 누구나 성공할 수 있는 구조를 만듭니다.<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">주관적인 판단 대신 데이터를 활용하여 분석 효율을 높일 수 있습니다.</span>
+            </h1>
+
+            <div class="content-grid items-center">
+                <div class="space-y-8">
+                    <div class="border-l-4 border-navy-900 pl-4">
+                        <h3 class="text-lg font-bold text-navy-900 mb-1">Subjective Risk (주관적 리스크)</h3>
+                        <p class="text-sm text-slate-600">개인의 노하우와 운에 의존하는 영업은 예측 불가능한 결과와 높은 실패 비용을 발생시킵니다.</p>
+                    </div>
+                    <div class="border-l-4 border-teal-500 pl-4">
+                        <h3 class="text-lg font-bold text-teal-600 mb-1">Knowledge Silo (지식의 고립)</h3>
+                        <p class="text-sm text-slate-600">Top Performer의 노하우가 시스템화되지 못하고 개인의 역량에 머물러 있어 조직적 복제가 불가능합니다.</p>
+                    </div>
+                    <div class="border-l-4 border-orange-500 pl-4">
+                        <h3 class="text-lg font-bold text-orange-600 mb-1">High Failure Cost (보이지 않는 실패)</h3>
+                        <p class="text-sm text-slate-600">복잡한 정책 위반 사항을 실시간으로 통제하지 못해 발생하는 사후적 손실 비용이 조직의 성장을 저해합니다.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl p-8 h-full flex items-center justify-center border border-slate-200">
+                    <div class="text-center">
+                        <div class="text-4xl text-navy-900 font-black mb-4">Scale-up Strategy</div>
+                        <div class="flex justify-center gap-4 mb-6">
+                            <div class="px-4 py-2 bg-white rounded shadow-sm text-xs font-bold border border-slate-200 shadow-card">개인의 노하우(Art)</div>
+                            <i class="fa-solid fa-arrow-right-long text-teal-500 flex items-center"></i>
+                            <div class="px-4 py-2 bg-teal-600 text-white rounded shadow-sm text-xs font-bold shadow-card">조직의 시스템(Science)</div>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed">BIDIX는 이 '복제 가능한 성공'을 증명하기 위한<br>전략적 의사결정 지원 시스템(DSS)입니다.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The BIDIX Case Study</span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 2: Complexity Modeling ================= -->
+    <section class="slide">
+        <div class="flex flex-col h-full p-16 bg-slate-50">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">02. Business Modeling</div>
+            <h1 class="governing-message">
+                제각각인 현장 정보를 하나의 분석 모델로 정리하여 업무 효율을 높입니다.<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">복잡한 18종의 법률 권리 관계와 시시각각 변하는 시장 상황을 하나의 기준으로 설계했습니다.</span>
+            </h1>
+
+            <div class="flex-1 flex items-center justify-center">
+                <div class="grid grid-cols-2 gap-10 w-full">
+                    <div class="bg-white p-10 rounded-2xl shadow-card border border-slate-200">
+                        <h4 class="text-teal-600 font-black text-xs uppercase mb-3">01. Analysis Standard</h4>
+                        <p class="text-base font-bold text-navy-900 mb-2">분석 기준 정립</p>
+                        <p class="text-xs text-slate-500 leading-relaxed">법적 예외 조항과 권리 관계가 서로 미치는 영향을 규칙으로 정리했습니다.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-card border border-slate-200">
+                        <h4 class="text-teal-600 font-black text-xs uppercase mb-3">02. Market Change</h4>
+                        <p class="text-base font-bold text-navy-900 mb-2">시장 변화 반영</p>
+                        <p class="text-xs text-slate-500 leading-relaxed">지역별 특성과 금리 등 시장의 변화를 분석 지표에 반영하여 정밀도를 높였습니다.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-card border border-slate-200">
+                        <h4 class="text-teal-600 font-black text-xs uppercase mb-3">03. Profit/Loss Calculation</h4>
+                        <p class="text-base font-bold text-navy-900 mb-2">수익 및 비용 계산</p>
+                        <p class="text-xs text-slate-500 leading-relaxed">각종 세금과 부대비용을 꼼꼼하게 계산하여 실제 손에 쥐는 수익을 예측합니다.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-card border border-slate-200">
+                        <h4 class="text-teal-600 font-black text-xs uppercase mb-3">04. Score System</h4>
+                        <p class="text-base font-bold text-navy-900 mb-2">지표 기반 관리</p>
+                        <p class="text-xs text-slate-500 leading-relaxed">사람마다 다른 역량을 3가지 핵심 지표를 숫자로 바꿔 체계적으로 관리합니다.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The BIDIX Case Study</span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 3: Analysis Process ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">03. Analysis Process</div>
+            <h1 class="governing-message">
+                [수집-분석-계산] 과정의 표준화로 흔들림 없는 성과를 만듭니다.<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">분석 기준을 시스템으로 만들어 누구나 전문가처럼 판단할 수 있습니다.</span>
+            </h1>
+
+            <div class="flex-1 flex flex-col justify-center gap-10">
+                <div class="flex justify-between items-start">
+                    <!-- Step 1 -->
+                    <div class="w-[30%] space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-navy-900 text-white w-10 h-10 rounded-full flex items-center justify-center font-black">01</span>
+                            <h4 class="text-xl font-bold text-navy-900">Data Gathering</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            흩어져 있는 법률 정보와 시장 데이터에서 의사결정에 꼭 필요한 핵심 정보를 찾아내고 정리합니다.
+                        </p>
+                    </div>
+                    <div class="pt-4 text-slate-200"><i class="fa-solid fa-chevron-right text-4xl"></i></div>
+                    <!-- Step 2 -->
+                    <div class="w-[30%] space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-teal-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-black">02</span>
+                            <h4 class="text-xl font-bold text-navy-900">Auto Risk Check</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            정리된 데이터를 분석 엔진에 넣어 위험 수준과 낙찰 성공 확률을 자동으로 판정합니다.
+                        </p>
+                    </div>
+                    <div class="pt-4 text-slate-200"><i class="fa-solid fa-chevron-right text-4xl"></i></div>
+                    <!-- Step 3 -->
+                    <div class="w-[30%] space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-black">03</span>
+                            <h4 class="text-xl font-bold text-navy-900">Profit Simulation</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            분석 결과를 바탕으로 최적의 낙찰가와 예상 수익 시나리오를 실시간으로 계산해 리포트로 보여줍니다.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 shadow-inner flex items-center gap-8">
+                    <div class="bg-white p-4 rounded-lg shadow-sm font-mono text-[10px] text-navy-700 w-1/3 border border-slate-200">
+                        <span class="text-teal-600 font-bold block mb-2">// Analysis Logic Example</span>
+                        if (tenant.has_counter_power && !tenant.is_paid_full) {<br>
+                        &nbsp;&nbsp;risk_level = "CRITICAL";<br>
+                        &nbsp;&nbsp;recommendation = "BLOCK_BID";<br>
+                        }
+                    </div>
+                    <div class="flex-1">
+                        <h5 class="font-bold text-navy-900 mb-2 underline decoration-teal-500 decoration-2 underline-offset-4">Logic Enforcement (원칙이 지켜지는 시스템)</h5>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            분석하는 사람의 주관이 개입되는 것을 방지합니다. 
+                            성공을 위한 원칙은 공부하는 것이 아니라, <br>시스템으로 즉시 실행되어야 한다는 기획 철학을 담았습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The BIDIX Case Study</span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 4: Core Logic 1 (Normalization) ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">04. Core Logic 1: Data Normalization</div>
+            <h1 class="governing-message">
+                파편화된 외부 데이터를 분석 가능한 자산으로 변환 (Adapter Layer)<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">CRM 데이터의 오입력을 방지하고 정합성(Data Integrity)을 100% 확보합니다.</span>
+            </h1>
+
+            <div class="content-area">
+                <div class="grid grid-cols-2 gap-12 items-center">
+                    <!-- Logic & Application -->
+                    <div class="flex flex-col justify-center space-y-8">
+                        <div class="bg-white p-6 rounded-lg border-l-4 border-slate-400 shadow-card">
+                            <h4 class="text-sm font-bold text-slate-500 uppercase mb-2">Technology Logic</h4>
+                            <h3 class="text-lg font-bold text-slate-800 mb-2">Validation Pipeline</h3>
+                            <p class="text-sm text-slate-600">
+                                서로 다른 형식의 법원 문건, 등기부등본 데이터를 자체 표준 규격(Internal Standard Schema)으로 강제 매핑 및 검증(Validate).
+                            </p>
+                        </div>
+                        
+                        <div class="flex justify-center my-2">
+                            <i class="fa-solid fa-arrow-down text-slate-300 text-xl"></i>
+                        </div>
+
+                        <div class="bg-teal-50 p-6 rounded-lg border-l-4 border-teal-600 shadow-card">
+                            <h4 class="text-sm font-bold text-teal-600 uppercase mb-2">Business Application</h4>
+                            <h3 class="text-lg font-bold text-navy-900 mb-2">CRM Data Integrity</h3>
+                            <p class="text-sm text-slate-700">
+                                영업사원마다 제각각 입력하는 CRM 데이터를 표준화된 UI/UX로 강제하여, 
+                                데이터 분석의 전제 조건인 <strong>'무결성'</strong>을 확보하는 파이프라인을 <br>설계 할 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Diagram -->
+                    <div class="diagram-box p-12 flex flex-col justify-center items-center relative shadow-xl rounded-2xl bg-white border border-slate-200">
+                        <!-- Funnel Visual -->
+                        <div class="flex items-center w-full gap-4">
+                            <!-- Input -->
+                            <div class="flex flex-col gap-3 w-1/4">
+                                <div class="bg-white border border-slate-300 p-3 rounded text-center text-[10px] text-slate-500 shadow-sm font-bold">Unstructured A</div>
+                                <div class="bg-white border border-slate-300 p-3 rounded text-center text-[10px] text-slate-500 shadow-sm font-bold">Unstructured B</div>
+                                <div class="bg-white border border-slate-300 p-3 rounded text-center text-[10px] text-slate-500 shadow-sm font-bold">Unstructured C</div>
+                            </div>
+                            
+                            <!-- Funnel -->
+                            <div class="w-2/4 h-48 bg-slate-100 relative shadow-inner" style="clip-path: polygon(0% 0%, 100% 25%, 100% 75%, 0% 100%); border: 1px solid #e2e8f0;">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div class="font-black text-navy-900 text-sm">Adapter Layer</div>
+                                        <div class="text-[9px] text-teal-600 font-bold uppercase tracking-wider">Mapping & Validation</div>
+                                    </div>
+                                </div>
+                                <!-- Grid lines overlay -->
+                                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiLz4KPC9zdmc+')] opacity-20"></div>
+                            </div>
+
+                            <!-- Output -->
+                            <div class="w-1/4">
+                                <div class="bg-navy-900 text-white p-6 rounded-xl shadow-2xl text-center transform hover:scale-105 transition">
+                                    <i class="fa-solid fa-database mb-3 text-2xl text-teal-400"></i>
+                                    <div class="text-[10px] font-black uppercase tracking-widest text-teal-400 mb-1">Asset</div>
+                                    <div class="text-xs font-bold text-white">Standard DB</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The BIDIX Case Study</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 5: Automated Compliance (Policy Model) ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">05. Automated Compliance</div>
+            <h1 class="governing-message">
+                수 많은 규정과 변동되는 정책을 시스템으로 자동화하여<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">휴먼 에러(Human Error)와 리스크를 원천 차단하는 지능형 정책 관리 체계를 구축했습니다.</span>
+            </h1>
+
+            <div class="content-area">
+                <div class="grid grid-cols-12 gap-8 w-full items-center">
+                    <!-- Text Area (4 cols) -->
+                    <div class="col-span-4 space-y-8">
+                        <div>
+                            <h4 class="font-black text-navy-900 text-lg border-b-2 border-teal-500 pb-2 mb-4">Policy Operating Framework</h4>
+                            <ul class="text-sm text-slate-600 space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-square-check text-teal-500 mt-1"></i>
+                                    <div>
+                                        <strong class="text-navy-900">Rule-Based Mechanism:</strong><br>
+                                        18종의 권리 관계 분석 로직을 시스템 규정으로 정밀 검증.
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-square-check text-teal-500 mt-1"></i>
+                                    <div>
+                                        <strong class="text-navy-900">Intelligence Reference:</strong><br>
+                                        매년 바뀌는 법령 및 규제 문서를 실시간 참조하여 판단 근거 제시.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-card border-l-8 border-navy-900">
+                            <p class="text-[11px] text-slate-600 leading-relaxed italic">
+                                <strong>📌 Planning Insight:</strong><br>
+                                "매번 바뀌는 영업 규정을 사원들에게 외우게 하지 마십시오. 시스템이 가이드하고 통제하게 해야 합니다."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Flowchart Diagram (8 cols) -->
+                    <div class="col-span-8 bg-white p-10 rounded-3xl border border-slate-200 shadow-xl flex flex-col items-center justify-between h-[350px]">
+                        <!-- Top: Policy Sources -->
+                        <div class="flex gap-4">
+                            <span class="px-5 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs font-black text-slate-500 shadow-sm uppercase tracking-widest">부동산 대책</span>
+                            <span class="px-5 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs font-black text-slate-500 shadow-sm uppercase tracking-widest">세법 개정안</span>
+                            <span class="px-5 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs font-black text-slate-500 shadow-sm uppercase tracking-widest">대출 규제</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <i class="fa-solid fa-chevron-down text-slate-200 text-2xl mb-4"></i>
+                            
+                            <!-- Middle: Strategic Framework -->
+                            <div class="flex gap-6 w-full">
+                                <div class="flex-1 p-6 border-2 border-teal-500 bg-teal-50/30 rounded-2xl text-center transition hover:bg-teal-50">
+                                    <i class="fa-solid fa-scale-balanced text-teal-600 text-3xl mb-3"></i>
+                                    <div class="font-black text-base text-navy-900">Policy Framework</div>
+                                    <div class="text-[10px] text-slate-500 mt-1 font-bold">권리 리스크 자동 진단</div>
+                                </div>
+                                <div class="flex-1 p-6 border-2 border-teal-500 bg-teal-50/30 rounded-2xl text-center transition hover:bg-teal-50">
+                                    <i class="fa-solid fa-calculator text-teal-600 text-3xl mb-3"></i>
+                                    <div class="font-black text-base text-navy-900">Profit Model</div>
+                                    <div class="text-[10px] text-slate-500 mt-1 font-bold">비용 및 성과 정밀 예측</div>
+                                </div>
+                            </div>
+
+                            <i class="fa-solid fa-chevron-down text-slate-200 text-2xl mt-4"></i>
+                        </div>
+
+                        <!-- Bottom: Results -->
+                        <div class="flex gap-12 w-full justify-center">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white text-xl shadow-lg mb-2"><i class="fa-solid fa-check"></i></div>
+                                <span class="text-[10px] font-black text-slate-400 tracking-widest uppercase">Safe</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center text-white text-xl shadow-lg mb-2"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <span class="text-[10px] font-black text-slate-400 tracking-widest uppercase">Warning</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center text-white text-xl shadow-lg mb-2"><i class="fa-solid fa-ban"></i></div>
+                                <span class="text-[10px] font-black text-slate-400 tracking-widest uppercase">Critical</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The BIDIX Case Study</span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 6: Strategy Proof ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">06. Strategy Validation</div>
+            <h1 class="governing-message">
+                수천 개의 시뮬레이션으로 검증된 전략의 무결성<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">BIDIX에서 기획된 분석 모델이 실제 작동함을 확인했습니다.</span>
+            </h1>
+
+            <div class="content-area">
+                <div class="grid grid-cols-2 gap-16 items-center">
+                    <div class="space-y-10">
+                        <div>
+                            <h3 class="text-2xl font-black text-navy-900 mb-4 tracking-tight">Model Reliability: 100% Verified</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                                기획자가 가장 경계해야 할 것은 현장과 소통하지 않는 기획입니다. 
+                                <br>저는 설계한 모델의 케이스를 실제 경매 전문가와의 인터뷰를 통해 보완하고 검증했으며, 
+                                이는 이론적인 전략을 넘어 실제 작동하는 분석 모델의 신뢰도를 보장합니다.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-card">
+                                <div class="flex justify-between items-center mb-4">
+                                    <i class="fa-solid fa-check-double text-teal-500 text-xl"></i>
+                                    <span class="text-[10px] font-black text-slate-400 tracking-widest">UNIT</span>
+                                </div>
+                                <h5 class="font-bold text-sm mb-2">개별 정책 검증</h5>
+                                <p class="text-[10px] text-slate-500 leading-tight">18종 권리 관계 판정 체계의 개별 정밀도 검증 완료</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-card">
+                                <div class="flex justify-between items-center mb-4">
+                                    <i class="fa-solid fa-diagram-project text-navy-900 text-xl"></i>
+                                    <span class="text-[10px] font-black text-slate-400 tracking-widest">INTEGRATION</span>
+                                </div>
+                                <h5 class="font-bold text-sm mb-2">프로세스 검증</h5>
+                                <p class="text-[10px] text-slate-500 leading-tight">데이터 입력부터 리포트 산출까지 전체 <br>흐름 무결성 증명</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diagram-box p-12 bg-white flex flex-col justify-center items-center shadow-xl relative overflow-hidden rounded-2xl">
+                        <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-teal-400 to-navy-900"></div>
+                        <div class="text-6xl font-black text-navy-900 mb-4 tracking-tighter">100%</div>
+                        <div class="text-xs font-black tracking-[0.5em] text-teal-600 uppercase mb-8">Strategy Integrity Verified</div>
+                        <div class="w-full space-y-5">
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                                    <span>Automation Coverage</span>
+                                    <span class="text-navy-900">98.5%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                                    <div class="bg-navy-900 h-full rounded-full" style="width: 98.5%"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                                    <span>Policy Consistency</span>
+                                    <span class="text-teal-600">100%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                                    <div class="bg-teal-500 h-full rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The BIDIX Case Study</span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 7: Operational Excellence ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">07. Operational Excellence</div>
+            <h1 class="governing-message">
+                일회성 기획을 넘어, 순환하는 운영 체계를 설계하다<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">수익 모델과 피드백 루프를 통해 시장에서 살아남는 지속 가능한 서비스를 구축했습니다.</span>
+            </h1>
+
+            <div class="content-area">
+                <div class="flex items-center justify-between w-full px-2">
+                    <div class="w-1/3 text-center px-10">
+                        <div class="w-24 h-24 mx-auto bg-slate-50 rounded-full border-2 border-slate-200 flex items-center justify-center text-4xl text-navy-900 mb-8 shadow-sm transition hover:scale-110 hover:border-teal-500">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-navy-900 mb-4 tracking-tight">Monetization</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed text-center">
+                            Credit System 설계를 통한
+                            비즈니스 가치의 계량화 및
+                            지속 가능한 수익 <br>모델 구축
+                        </p>
+                    </div>
+                    <div class="text-slate-200 text-3xl"><i class="fa-solid fa-arrow-right-long"></i></div>
+                    <div class="w-1/3 text-center px-8 border-x border-slate-100">
+                        <div class="w-24 h-24 mx-auto bg-teal-50 rounded-full border-2 border-teal-200 flex items-center justify-center text-4xl text-teal-600 mb-8 shadow-sm transition hover:scale-110">
+                            <i class="fa-solid fa-comments-dollar"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-navy-900 mb-4 tracking-tight">Feedback Loop</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed text-center">
+                            사용자 행동 데이터 수집 및<br>
+                            피드백 분석을 통한<br>
+                            정책 시스템 실시간 고도화
+                        </p>
+                    </div>
+                    <div class="text-slate-200 text-3xl"><i class="fa-solid fa-arrow-right-long"></i></div>
+                    <div class="w-1/3 text-center px-8">
+                        <div class="w-24 h-24 mx-auto bg-navy-50 rounded-full border-2 border-navy-200 flex items-center justify-center text-4xl text-navy-900 mb-8 shadow-sm transition hover:scale-110">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-navy-900 mb-4 tracking-tight">Optimization</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed text-center">
+                            운영 데이터 분석 기반의<br>
+                            프로세스 병목 구간 식별 및<br>
+                            시스템 안정성 지속 강화
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The BIDIX Case Study</span>
+               
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 8: KPI Modeling ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">08. Performance Indexing</div>
+            <h1 class="governing-message">
+                성과의 품질을 측정하는 1,000pt 지표 시스템 설계<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">개인의 성과 지표를 숫자로  
+                    옮겨온 정교한 KPI 모델링입니다.</span>
+            </h1>
+
+            <div class="content-area">
+                <div class="grid grid-cols-3 gap-8 mt-4">
+                    <!-- KPI 1 -->
+                    <div class="bg-white p-10 rounded-2xl shadow-card border-t-8 border-t-navy-900 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="font-black text-xl text-navy-900 tracking-tight">Accuracy</h3>
+                                <span class="bg-navy-50 text-navy-900 text-[10px] px-3 py-1 rounded-full font-black tracking-widest">400pt</span>
+                            </div>
+                            <div class="text-5xl font-black text-navy-900 mb-4">92<span class="text-xl text-slate-300">%</span></div>
+                            <div class="h-1.5 w-full bg-slate-100 rounded-full mb-6 overflow-hidden">
+                                <div class="h-full bg-navy-900 w-[92%]"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed font-medium italic">
+                            "데이터는 진실을 말하는가?"<br>
+                            <span class="text-navy-900 not-italic font-bold">시장 가치 대비 예측 오차율 정밀 관리</span>
+                        </p>
+                    </div>
+                    <!-- KPI 2 -->
+                    <div class="bg-white p-10 rounded-2xl shadow-card border-t-8 border-t-teal-500 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="font-black text-xl text-navy-900 tracking-tight">Profitability</h3>
+                                <span class="bg-teal-50 text-teal-700 text-[10px] px-3 py-1 rounded-full font-black tracking-widest">400pt</span>
+                            </div>
+                            <div class="text-5xl font-black text-teal-600 mb-4">24<span class="text-xl text-teal-200">%</span></div>
+                            <div class="h-1.5 w-full bg-slate-100 rounded-full mb-6 overflow-hidden">
+                                <div class="h-full bg-teal-500 w-[80%]"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed font-medium italic">
+                            "실질적인 부가가치를 창출했는가?"<br>
+                            <span class="text-navy-900 not-italic font-bold">비용 공제 후 실질 순이익률 시뮬레이션</span>
+                        </p>
+                    </div>
+                    <!-- KPI 3 -->
+                    <div class="bg-white p-10 rounded-2xl shadow-card border-t-8 border-t-orange-500 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="font-black text-xl text-navy-900 tracking-tight">Stability</h3>
+                                <span class="bg-orange-50 text-orange-700 text-[10px] px-3 py-1 rounded-full font-black tracking-widest">200pt</span>
+                            </div>
+                            <div class="text-5xl font-black text-orange-600 mb-4">A<span class="text-xl text-orange-200">+</span></div>
+                            <div class="h-1.5 w-full bg-slate-100 rounded-full mb-6 overflow-hidden">
+                                <div class="h-full bg-orange-500 w-[95%]"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed font-medium italic">
+                            "지속 가능한 방식인가?"<br>
+                            <span class="text-navy-900 not-italic font-bold">법적 리스크 및 정책 준수 여부 자동 체크</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-12 text-center">
+                    <span class="text-sm font-black text-navy-900 italic tracking-wide">"성과는 반복된 행동의 과정과 그 지표의 
+                         숫자에서 결정됩니다."</span>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The BIDIX Case Study</span>
+               
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 9: The Bridge (Pivot) ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">09. Strategic Pivot</div>
+            <h1 class="governing-message">
+                비딕스로 증명된 '기획력'은<br>현장의 혁신을 위한 가장 강력한 무기가 됩니다.
+            </h1>
+
+            <div class="content-area">
+                <div class="flex items-center justify-center w-full gap-12">
+                    <!-- Left: Achievement -->
+                    <div class="w-[45%] bg-white p-10 rounded-3xl border border-slate-200 shadow-card">
+                        <div class="text-center mb-8">
+                            <div class="inline-block px-4 py-1 bg-slate-100 text-slate-500 rounded text-xs font-black mb-3 tracking-widest uppercase">Proved Model</div>
+                            <h3 class="text-2xl font-black text-navy-900 tracking-tight">BIDIX Case Study</h3>
+                        </div>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4">
+                                <i class="fa-solid fa-circle-check text-teal-500 mt-1 text-lg"></i>
+                                <div class="text-sm leading-relaxed text-slate-600 font-medium">복잡한 법률 도메인의 알고리즘화 및 시스템 구축.</div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i class="fa-solid fa-circle-check text-teal-500 mt-1 text-lg"></i>
+                                <div class="text-sm leading-relaxed text-slate-600 font-medium">현장 데이터의 전략적 자산화 프로세스 정립.</div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i class="fa-solid fa-circle-check text-teal-500 mt-1 text-lg"></i>
+                                <div class="text-sm leading-relaxed text-slate-600 font-medium">1,000pt 지표 기반의 성과 관리 체계 모델링 기획.</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Pivot Icon -->
+                    <div class="flex flex-col items-center gap-4">
+                        <i class="fa-solid fa-arrow-right-arrow-left text-4xl text-teal-500 animate-pulse"></i>
+                        <span class="text-[10px] font-black tracking-[0.3em] text-teal-500 uppercase">Pivot</span>
+                    </div>
+
+                    <!-- Right: Proposition -->
+                    <div class="w-[45%] bg-navy-900 p-10 rounded-3xl shadow-2xl relative overflow-hidden text-white">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-teal-500 rounded-full blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="text-center mb-8 relative z-10">
+                            <div class="inline-block px-4 py-1 bg-teal-600 text-white rounded text-xs font-black mb-3 tracking-widest uppercase">Future Value</div>
+                            <h3 class="text-2xl font-black text-white tracking-tight">Strategic Sales Planning</h3>
+                        </div>
+                        <ul class="space-y-6 relative z-10">
+                            <li class="flex items-start gap-4">
+                                <i class="fa-solid fa-rocket text-teal-400 mt-1 text-lg"></i>
+                                <div class="text-sm leading-relaxed text-white font-bold">영업 정책의 실시간 현장 적용 시스템 구축</div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i class="fa-solid fa-chart-line text-teal-400 mt-1 text-lg"></i>
+                                <div class="text-sm leading-relaxed text-white font-bold">데이터를 활용한 목표 설정 및 KPI 인센티브 설계</div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <i class="fa-solid fa-gauge-high text-teal-400 mt-1 text-lg"></i>
+                                <div class="text-sm leading-relaxed text-white font-bold">체계적인 영업 관리 시스템을 구축하여 팀 전체 성과의 상향평준화 달성.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The Strategic Pivot</span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 10: Strategic Framework ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">10. Strategic Framework</div>
+            <h1 class="governing-message">
+                현장과 소통하고 시스템으로 예측 가능한 성공을 만듭니다.
+            </h1>
+            
+            <div class="content-area">
+                <div class="grid grid-cols-3 gap-8 w-full">
+                    <!-- Step 1 -->
+                    <div class="p-12 bg-white rounded-3xl border border-slate-100 shadow-card hover:bg-slate-50 transition relative overflow-hidden">
+                        
+                        <div class="text-4xl text-slate-400 font-black mb-6">01</div>
+                        <h3 class="text-2xl font-black text-navy-900 mb-4">Diagnose</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            영업 현장과 소통하며 <br>
+                            문제점을 파악하고 <br>
+                            정밀 진단.
+                        </p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="p-12 bg-white rounded-3xl border border-slate-100 shadow-card hover:bg-slate-50 transition relative overflow-hidden">
+                        
+                        <div class="text-4xl text-slate-400 font-black mb-6">02</div>
+                        <h3 class="text-2xl font-black text-navy-900 mb-4">Design</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Top Performer의 성공 방식을<br>
+                            표준 프로세스로 시스템화하여<br>
+                            성공 방정식을 설계.
+                        </p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="p-12 bg-white rounded-3xl border border-slate-100 shadow-card hover:bg-slate-50 transition relative overflow-hidden">
+                        
+                        <div class="text-4xl text-slate-400 font-black mb-6">03</div>
+                        <h3 class="text-2xl font-black text-navy-900 mb-4">Scale-up</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            데이터 기반의 피드백과 코칭으로<br>
+                            조직 전체의 성과를
+                            상향 평준화.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The Strategic Framework</span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 11: Innovation Scenarios ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">11. Innovation Scenarios</div>
+            <h1 class="governing-message">
+                데이터로 영업의 미래를 통제합니다.<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">비딕스의 DNA를 영업 현장에 접목했을 때 
+                    일어날 실질적인 변화입니다.</span>
+            </h1>
+
+            <div class="content-area">
+                <div class="grid grid-cols-2 gap-12 mt-10">
+                    <div class="p-10 bg-slate-50 rounded-3xl border border-slate-200 shadow-card relative overflow-hidden transition hover:shadow-lg">
+                        <div class="absolute -top-10 -left-10 w-24 h-24 bg-teal-100 rounded-full opacity-30"></div>
+                        <h4 class="text-xl font-black text-navy-900 mb-6 flex items-center gap-3">
+                            <i class="fa-solid fa-database text-teal-600"></i> CRM Strategy Intelligence
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify font-medium">
+                            단순한 기록용 CRM을 '전략적 의사결정 체계'로 진화시킵니다. 
+                            <br>입력되는 모든 정보를 분석하여 성공 확률과 리스크 점수를 실시간으로 산출하여, 
+                            영업 담당자에게 최적 액션 가이드를 제공합니다.
+                        </p>
+                    </div>
+                    <div class="p-10 bg-slate-50 rounded-3xl border border-slate-200 shadow-card relative overflow-hidden transition hover:shadow-lg">
+                        <div class="absolute -top-10 -left-10 w-24 h-24 bg-orange-100 rounded-full opacity-30"></div>
+                        <h4 class="text-xl font-black text-navy-900 mb-6 flex items-center gap-3">
+                            <i class="fa-solid fa-gears text-orange-600"></i> Strategic Process Automation
+                        </h4>
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify font-medium">
+                            시장 상황에 따라 매번 변경되는 영업 정책과 규정을 시스템으로 <br>감지하여 
+                            즉시 반영하고 자동 적용합니다. 
+                            판단 오류와 정책 위반 <br>리스크를 사전에 차단하여 신뢰도 높은 운영 체계를 구축합니다.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-16 flex justify-center gap-24">
+                    <div class="flex flex-col items-center">
+                        <div class="text-5xl font-black text-navy-900 mb-2 tracking-tighter">90%</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Work Efficiency</div>
+                    </div>
+                    <div class="flex flex-col items-center border-x border-slate-200 px-24">
+                        <div class="text-5xl font-black text-navy-900 mb-2 tracking-tighter">Zero</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Compliance Risk</div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="text-5xl font-black text-navy-900 mb-2 tracking-tighter">2.5x</div>
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Scalability</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span>The Innovation Scenarios</span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 12: Why Me? ================= -->
+    <section class="slide bg-slate-50">
+        <div class="flex flex-col h-full p-16">
+            <div class="text-sm text-slate-400 font-bold uppercase mb-2">12. Why Me?</div>
+            <h1 class="governing-message">
+                현장 전문성과 기술력을 결합한 영업 기획 전문가<br>
+                <span class="text-slate-500 font-normal text-xl mt-2 block">현장의 실행력을 전략적 지표로 전환하여 성과의 재현 가능성을 높이는 모델을 기획합니다.</span>
+            </h1>
+            <div class="slide-body flex items-center justify-between gap-8 flex-1">
+                <!-- Venn Diagram Container -->
+                <div class="relative w-[550px] h-[400px] flex items-center justify-center scale-95">
+                    <!-- Circle Left (Field Expertise) -->
+                    <div class="absolute left-0 w-80 h-80 bg-blue-600 rounded-full opacity-90 mix-blend-multiply flex items-center justify-start text-white p-10 text-left transition-all duration-500 hover:scale-105 shadow-xl">
+                        <div class="max-w-[180px]">
+                            <h3 class="text-xl font-extrabold mb-4 border-b border-blue-400 pb-1 italic">Field Expertise</h3>
+                            <ul class="text-xs space-y-2 opacity-95 font-medium leading-relaxed">
+                                <li class="flex items-start gap-1"><i class="fa-solid fa-check text-[10px] mt-1"></i> GC녹십자 14년 근무</li>
+                                <li class="flex items-start gap-1"><i class="fa-solid fa-check text-[10px] mt-1"></i> 종합병원~의원 Coverage</li>
+                                <li class="flex items-start gap-1"><i class="fa-solid fa-check text-[10px] mt-1"></i> 사내 MBA / Top Performer</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Circle Right (Tech Capability) -->
+                    <div class="absolute right-0 w-80 h-80 bg-slate-700 rounded-full opacity-90 mix-blend-multiply flex items-center justify-end text-white p-10 text-right transition-all duration-500 hover:scale-105 shadow-xl">
+                        <div class="max-w-[180px]">
+                            <h3 class="text-xl font-extrabold mb-4 border-b border-slate-500 pb-1 italic">Tech Capability</h3>
+                            <ul class="text-xs space-y-2 opacity-95 font-medium leading-relaxed">
+                            <li class="flex items-start justify-end gap-1">영업 성과 관리(SFE)설계 <i class="fa-solid fa-check text-[10px] mt-1"></i></li>
+                            <li class="flex items-start justify-end gap-1">BIDIX 전략 플랫폼 개발 <i class="fa-solid fa-check text-[10px] mt-1"></i></li>
+                            <li class="flex items-start justify-end gap-1">비즈니스 체계 & 데이터 설계 <i class="fa-solid fa-check text-[10px] mt-1"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Intersection (The Core Value) -->
+                    <div class="absolute z-20 flex flex-col items-center justify-center bg-white/10 backdrop-blur-md w-40 h-40 rounded-full border border-white/30 shadow-2xl">
+                        <div class="text-[10px] tracking-[0.2em] text-orange-400 uppercase font-black mb-1 drop-shadow-md">Unfair Advantage</div>
+                        <div class="text-2xl text-white font-black leading-tight drop-shadow-lg text-center">Sales<br>Planner</div>
+                        <div class="mt-2 w-8 h-1 bg-orange-500 rounded-full"></div>
+                    </div>
+                </div>
+
+                <!-- Value Prop Text (Sales Planning Focus) -->
+                <div class="flex-1 max-w-md">
+                    <div class="bg-slate-50 p-8 rounded-2xl border-l-8 border-navy-800 shadow-sm relative overflow-hidden">
+                        <i class="fa-solid fa-chart-line absolute top-4 left-4 text-slate-200 text-4xl"></i>
+                        <p class="text-xl font-medium text-slate-800 leading-relaxed relative z-10">
+                            "단순 <span class="text-blue-600 font-bold underline decoration-blue-200 decoration-4 underline-offset-4">기술적 솔루션</span>에 매몰되지 않고, 
+                            <br>영업의 성과를 결정짓는 핵심 행동을 데이터 기반으로 <span class="text-navy-800 font-bold underline decoration-slate-300 decoration-4 underline-offset-4">체계화(Systematize)</span>합니다. <br>
+                            현장 실행력을 전략적 지표로 전환하여 성과의 재현 가능성을 높이는 모델을 기획합니다."
+                        </p>
+                        
+                        <div class="mt-8 flex items-center gap-5">
+                            <!-- High-Contrast Identity Badge (Auto-width) -->
+                            <div class="relative group">
+                                <div class="w-fit min-w-[64px] px-4 py-3 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex flex-col items-center justify-center text-white shadow-2xl border-2 border-white transition-all duration-300 group-hover:scale-105">
+                                    <span class="text-[9px] font-black opacity-80 leading-none mb-1 whitespace-nowrap uppercase tracking-wider">Sales Planner</span>
+                                    <span class="text-xl font-black tracking-tighter leading-none">KOO</span>
+                                </div>
+                                <div class="absolute -top-2 -right-2 bg-orange-500 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow-lg border border-white uppercase tracking-widest animate-bounce">Visionary</div>
+                            </div>
+                            
+                            <!-- Structured Planning Text -->
+                            <div class="flex flex-col">
+                                <div class="flex items-center gap-2 mb-1">
+                                    
+                                </div>
+                                <div class="text-lg font-black text-navy-900 tracking-tighter leading-none">
+                                    Sales Strategic <span class="text-blue-500">×</span> Performance Insight
+                                </div>
+                                <div class="mt-2 text-[11px] font-bold text-slate-500 border-l-2 border-slate-300 pl-2">
+                                    "현장의 실행을 성과로 연결하는 영업 기획 전문가"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-xs text-slate-400">
+                <span></span>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Slide 13: Closing ================= -->
+   <section class="slide bg-slate-50">
+    <div class="h-full flex flex-col p-20 relative">
+        <div class="absolute inset-0 opacity-40 bg-grid-pattern"></div>
+        <div class="flex-1 flex flex-col justify-center items-center relative z-10">
+            <!-- Minimal Design -->
+            <div class="text-center">
+                <div class="w-20 h-1.5 bg-teal-600 mx-auto mb-10"></div>
+                
+                <h1 class="text-5xl font-black text-navy-900 leading-tight mb-8 tracking-tighter">
+                    영업 현장을 가장 잘 아는 <br>기획력과 실행력을 갖춘
+                    <span class="text-teal-600">영업 전문가</span> 입니다.
+                </h1>
+                
+                <p class="text-xl text-slate-500 mb-20 font-medium tracking-wide">
+                    Sales Strategic & Performance Insight 
+                </p>
+
+                <div class="flex gap-20 border-t border-slate-200 pt-12">
+                    <div class="text-left">
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Email</div>
+                        <div class="text-lg font-bold text-navy-900">jhyun07@naver.com</div>
+                    </div>
+                    <div class="text-left border-x border-slate-200 px-20">
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Phone</div>
+                        <div class="text-lg font-bold text-navy-900">010-7337-1253</div>
+                    </div>
+                    <div class="text-left">
+                        <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Project</div>
+                        <div class="text-lg font-bold text-navy-900">www.bidix.co.kr</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-auto pt-6 border-t border-slate-200 flex justify-between text-[10px] font-bold text-slate-400 w-full relative z-10 uppercase tracking-widest">
+            <span>Strategic Sales Planning Portfolio</span>
+            <span>2026</span>
+        </div>
+    </div>
+   </section>
+
+
+    <!-- JavaScript for Presentation Mode -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const pageNum = document.getElementById('page-num');
+
+        function showSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= slides.length) index = slides.length - 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            currentSlide = index;
+            pageNum.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

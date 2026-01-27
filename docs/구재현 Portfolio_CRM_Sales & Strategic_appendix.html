@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-Gen Sales Force Effectiveness - Appendix (Detailed)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#0f172a',
+                            900: '#020617',
+                        },
+                        primary: '#2563eb',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        accent: {
+                            blue: '#2563eb',
+                            light: '#eff6ff',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles for Print and Layout */
+        body { background-color: #e2e8f0; word-break: keep-all; }
+        
+        .slide-container {
+            width: 100%;
+            max-width: 1123px; /* A4 width approx at 96dpi */
+            aspect-ratio: 16/9;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: none; /* Hidden by default, JS toggles active */
+        }
+
+        .slide-container.active { display: flex; flex-direction: column; }
+        
+        /* Slide Layout Utils */
+        .slide-header { padding: 2rem 3rem 0.5rem 3rem; border-bottom: 2px solid #f1f5f9; }
+        .slide-body { padding: 1.2rem 3rem; flex: 1; display: flex; gap: 2rem; overflow: hidden; }
+        .slide-footer { padding: 0.8rem 3rem; background: #f8fafc; font-size: 0.8rem; color: #64748b; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; }
+        
+        /* Grid Mode Styles */
+        body.grid-mode { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 2rem; padding: 3rem; overflow-y: auto; height: auto; background-color: #f1f5f9; }
+        body.grid-mode .slide-container { display: flex !important; flex-direction: column; margin-bottom: 0; transform: scale(1); cursor: pointer; aspect-ratio: 16/9; width: 45%; min-width: 500px; height: auto; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        
+        /* Visual Elements */
+        .formula-box { background: #f8fafc; border-left: 4px solid #2563eb; padding: 0.8rem; border-radius: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+        .tag { padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: bold; text-transform: uppercase; }
+        
+        /* Print Styles */
+        @media print {
+            body { background: white !important; padding: 0 !important; display: block !important; height: auto !important; overflow: visible !important; }
+            .slide-container { display: flex !important; flex-direction: column !important; page-break-after: always; break-after: page; box-shadow: none !important; width: 100% !important; height: 100vh !important; margin: 0 !important; border: none !important; opacity: 1 !important; visibility: visible !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            #controls { display: none !important; }
+        }
+
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="text-slate-700 h-screen flex flex-col justify-center items-center overflow-hidden">
+
+    <!-- Navigation Overlay -->
+    <div id="controls" class="fixed bottom-6 right-6 z-50 flex gap-2 bg-white p-2 rounded-full shadow-lg border border-slate-200">
+        <button onclick="prevSlide()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <span id="slide-counter" class="flex items-center justify-center px-4 font-mono font-bold text-slate-700 text-sm">15 / 20</span>
+        <button onclick="nextSlide()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+        <button onclick="toggleGridMode()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-600 transition">
+            <i class="fa-solid fa-border-all"></i>
+        </button>
+    </div>
+
+    <!-- Slide 15: Appendix Title (Enhanced) -->
+    <section class="slide-container active fade-in" id="slide-15">
+        <div class="flex-1 flex flex-col justify-center items-center bg-navy-900 text-white relative overflow-hidden">
+            <!-- Background Decorative Elements -->
+            <div class="absolute top-0 left-0 w-full h-full opacity-10">
+                <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[60%] rounded-full bg-blue-500 blur-[120px]"></div>
+                <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[60%] rounded-full bg-indigo-500 blur-[120px]"></div>
+            </div>
+            
+                        <div class="z-10 text-center px-12">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 border border-blue-400/30 bg-blue-400/10 text-blue-400 rounded-full text-xs font-black mb-8 tracking-[0.3em] uppercase">
+                    <i class="fa-solid fa-briefcase"></i> Strategy & Insight Appendix
+                </div>
+                <h1 class="text-6xl font-black mb-6 tracking-tighter leading-tight">Strategic Framework<br><span class="text-blue-500">& Business Logic</span></h1>
+                <p class="text-xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
+                    본 부록은 Behavior-Driven CRM v2.1의 <span class="text-white font-medium underline decoration-blue-500 underline-offset-8">전략적 핵심 지표, 성과 보정 모델, 그리고 데이터 기반 코칭 가이드라인</span>에 대한 구체적인 근거를 제공합니다.
+                </p>
+                
+                <div class="mt-16 grid grid-cols-6 gap-4 max-w-5xl mx-auto">
+                    <div class="group p-5 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                        <div class="text-blue-500 font-black text-xl mb-2">A</div>
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Behavioral<br>Metrics</div>
+                    </div>
+                    <div class="group p-5 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                        <div class="text-blue-500 font-black text-xl mb-2">B</div>
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Calculation<br>Logic</div>
+                    </div>
+                    <div class="group p-5 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                        <div class="text-blue-500 font-black text-xl mb-2">C</div>
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Outcome<br>Models</div>
+                    </div>
+                    <div class="group p-5 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                        <div class="text-blue-500 font-black text-xl mb-2">D</div>
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Interface<br>Design</div>
+                    </div>
+                    <div class="group p-5 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                        <div class="text-blue-500 font-black text-xl mb-2">E</div>
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Performance<br>Report</div>
+                    </div>
+                    <div class="group p-5 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all cursor-default">
+                        <div class="text-blue-500 font-black text-xl mb-2">F</div>
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Coaching<br>Signals</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Appendix: Strategic Infrastructure</span>
+            <span class="font-bold text-navy-800">15</span>
+        </div>
+    </section>
+
+    <!-- Slide 16: Appendix A. Behavioral Metrics (Deep Dive) -->
+    <section class="slide-container fade-in" id="slide-16">
+        <div class="slide-header">
+                <h2 class="text-2xl font-bold text-navy-800 flex items-center gap-3">
+                <span class="bg-navy-800 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm">A</span>
+                Appendix A. 8대 핵심 행동(Key Action) 측정 로직 상세 안내
+            </h2>
+        </div>
+        <div class="slide-body flex-col">
+            <div class="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+                <table class="w-full text-[10px] border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-navy-800 border-b">
+                            <th class="p-3 text-left w-[18%]">행동 유형</th>
+                            <th class="p-3 text-left w-[25%]">데이터 캡처 포인트 (Quantity)</th>
+                            <th class="p-3 text-left w-[47%]">품질 가중치 산출 로직 (Quality)</th>
+                            <th class="p-3 text-center w-[10%]">Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y text-slate-600">
+                        <tr>
+                            <td class="p-3 font-bold bg-slate-50/50">1. Approach (확보)</td>
+                            <td class="p-3">신규 계정 생성 및 프로파일링 로그</td>
+                            <td class="p-3">타겟 세그먼트 일치도(1.2), 필요 정보(의원장 성향 등) 입력 완성도(0.8)</td>
+                            <td class="p-3 text-center font-bold text-blue-600">1.0</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold bg-slate-50/50">2. Contact (컨택)</td>
+                            <td class="p-3">콜로그, 이메일 발송, DM 기록</td>
+                            <td class="p-3">NLP 기반 메시지 전문성 분석(1.0), 키 메시지 포함 여부(0.5)</td>
+                            <td class="p-3 text-center font-bold text-blue-600">1.2</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold bg-slate-50/50">3. Visit (대면)</td>
+                            <td class="p-3">GPS 기반 체크인, 면담 기록</td>
+                            <td class="p-3">체류 시간(15분 이상: 1.0), 위치 일치 여부(0.5), 다중 면담자 여부(0.3)</td>
+                            <td class="p-3 text-center font-bold text-blue-600">2.0</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold bg-slate-50/50">4. Need (니즈 환기)</td>
+                            <td class="p-3">면담 일지 내 질문 키워드 및 Pain-point 기록</td>
+                            <td class="p-3">개방형 질문 비중(1.0), 경쟁사 정보 도출(0.5), 고객 Pain-point 명시(1.5)</td>
+                            <td class="p-3 text-center font-bold text-blue-600">1.5</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold bg-slate-50/50">5. PT (설명회)</td>
+                            <td class="p-3">세미나 등록, 참석자 리스트</td>
+                            <td class="p-3">Q&A 발생 건수(0.5), 핵심 의사결정자 참석 비중(1.5), 자료 활용도(0.5)</td>
+                            <td class="p-3 text-center font-bold text-blue-600">3.5</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold bg-slate-50/50">6. Demo (시연)</td>
+                            <td class="p-3">디바이스/솔루션 시연 기록</td>
+                            <td class="p-3">고객 직접 조작 여부(1.0), 시연 후 긍정 반응 태깅(1.0), 실물 활용 여부(0.5)</td>
+                            <td class="p-3 text-center font-bold text-blue-600">3.0</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold bg-slate-50/50">7. Closing (클로징)</td>
+                            <td class="p-3">계약 체결 시도 및 확약 로그</td>
+                            <td class="p-3">처방 확약 여부(1.0), 향후 로드맵 공유(0.5), 추가 발주 기회 포착(0.5)</td>
+                            <td class="p-3 text-center font-bold text-blue-600">4.0</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-bold bg-slate-50/50 text-slate-400">8. Feedback (수렴)</td>
+                            <td class="p-3">VOC 기록, 거절 사유 분석</td>
+                            <td class="p-3">구체적 거절 사유 명시(1.0), 향후 과제 도출 여부(1.0)</td>
+                            <td class="p-3 text-center text-slate-400">1.0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-4">
+                <div class="p-3 bg-blue-50 rounded-lg border border-blue-100">
+                    <h4 class="text-[11px] font-bold text-blue-800 mb-1">전략적 Rationale</h4>
+                    <p class="text-[10px] text-blue-700 leading-tight">
+                        행동별 가중치는 <strong>'성과 전환 확률'</strong>에 비례하여 설계되었습니다. 예를 들어, 단순 Visit(2.0)보다 PT(3.5)나 Demo(3.0)가 실제 매출로 이어질 가능성이 1.5배 이상 높다는 현장 데이터(Field Intel)를 반영한 결과입니다.
+                    </p>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                    <h4 class="text-[11px] font-bold text-slate-800 mb-1">품질(Quality) 검증 프로세스</h4>
+                    <p class="text-[10px] text-slate-600 leading-tight">
+                        모든 입력 데이터는 <strong>Double-Check</strong> 시스템을 거칩니다. (1) 시스템에 의한 GPS/시간 검증, (2) NLP 알고리즘에 의한 텍스트 구체성 분석을 통해 허수 데이터를 80% 이상 필터링합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Appendix: Behavioral Data Modeling</span>
+            <span class="font-bold text-navy-800">16</span>
+        </div>
+    </section>
+
+    <!-- Slide 17: Appendix B. Calculation Logic (Technical Details) -->
+    <section class="slide-container fade-in" id="slide-17">
+        <div class="slide-header">
+            <h2 class="text-2xl font-bold text-navy-800 flex items-center gap-3">
+                <span class="bg-navy-800 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm">B</span>
+                Appendix B. 지표 산출 수학적 모델 및 정규화 체계
+            </h2>
+        </div>
+        <div class="slide-body grid grid-cols-5 gap-6">
+            <!-- Left: Formulas -->
+            <div class="col-span-2 flex flex-col gap-3">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm flex-1">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-xs font-black text-blue-600 uppercase tracking-widest italic">RTR Decay Logic</h3>
+                        <span class="tag bg-blue-100 text-blue-600">Time-Series</span>
+                    </div>
+                    <div class="formula-box mb-3 leading-relaxed">
+                        RTR_final = Sentiment_avg × e^(-λt)<br>
+                        <span class="text-[9px] text-slate-400 tracking-tighter">
+                            λ(감쇠상수) = 0.035 (20일 경과 시 점수 50% 하락 기준)<br>
+                            t = 마지막 방문 후 경과일
+                        </span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 leading-tight italic">
+                        "고객 관계는 접촉이 없을 때 기하급수적으로 식어갑니다. 이를 수학적으로 모델링하여 '방치된 계정'을 선제적으로 탐지합니다."
+                    </p>
+                </div>
+                
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm flex-1">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-xs font-black text-indigo-600 uppercase tracking-widest italic">BCR Components</h3>
+                        <span class="tag bg-indigo-100 text-indigo-600">Consistency</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-[9px]">
+                        <div class="p-2 bg-white rounded border">
+                            <span class="block text-slate-400 font-bold mb-1">Frequency (40%)</span>
+                            활동 일수 / 총 영업일
+                        </div>
+                        <div class="p-2 bg-white rounded border">
+                            <span class="block text-slate-400 font-bold mb-1">Interval (30%)</span>
+                            1 / 활동 간격 표준편차
+                        </div>
+                        <div class="p-2 bg-white rounded border col-span-2">
+                            <span class="block text-slate-400 font-bold mb-1">Quality Std (30%)</span>
+                            1 / 입력 품질(Quality)의 표준편차
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Normalization Table & Code -->
+            <div class="col-span-3 flex flex-col gap-3">
+                <div class="bg-navy-900 rounded-xl p-5 text-white flex-1 overflow-hidden relative">
+                    <div class="absolute top-4 right-4 text-[8px] font-mono text-slate-500 uppercase tracking-[0.3em]">Normalization Table</div>
+                    <table class="w-full text-[10px] border-collapse mt-4">
+                        <thead class="text-slate-500 border-b border-white/10">
+                            <tr>
+                                <th class="pb-2 text-left">Raw Score</th>
+                                <th class="pb-2 text-center">Standard Rank</th>
+                                <th class="pb-2 text-right">Strategic Context</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr class="text-blue-400 font-bold">
+                                <td class="py-2.5">90 - 100</td>
+                                <td class="py-2.5 text-center">Excellent (S)</td>
+                                <td class="py-2.5 text-right">성과 재현성 매우 높음 (Winning Pattern)</td>
+                            </tr>
+                            <tr class="text-slate-300">
+                                <td class="py-2.5">75 - 89</td>
+                                <td class="py-2.5 text-center">Good (A)</td>
+                                <td class="py-2.5 text-right">안정적 루틴 유지 (Standard)</td>
+                            </tr>
+                            <tr class="text-slate-400">
+                                <td class="py-2.5">60 - 74</td>
+                                <td class="py-2.5 text-center">Average (B)</td>
+                                <td class="py-2.5 text-right">품질 또는 빈도 개선 필요</td>
+                            </tr>
+                            <tr class="text-red-400">
+                                <td class="py-2.5">Below 60</td>
+                                <td class="py-2.5 text-center">Warning (C)</td>
+                                <td class="py-2.5 text-right">현장 이탈 및 데이터 불신 구간</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 font-mono text-[9px] text-slate-500 overflow-auto max-h-[140px]">
+<pre><code>// Normalization Implementation (Z-Score)
+function normalize(score, mean, std) {
+    const z = (score - mean) / (std || 1);
+    // T-Score conversion for 0-100 scale
+    return Math.min(100, Math.max(0, (z * 10) + 70));
+}
+
+// Example: HIR Final Normalization
+const rawHIR = calculateRawHIR(userActivities);
+const finalHIR = normalize(rawHIR, teamMean, teamStd);</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Appendix: Mathematical Framework</span>
+            <span class="font-bold text-navy-800">17</span>
+        </div>
+    </section>
+
+    <!-- Slide 18: Appendix C. Outcome Models (Deep Insight) -->
+    <section class="slide-container fade-in" id="slide-18">
+        <div class="slide-header">
+            <h2 class="text-2xl font-bold text-navy-800 flex items-center gap-3">
+                <span class="bg-navy-800 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm">C</span>
+                Appendix C. 성과 가중치(Outcome Weight) 및 상관관계 분석
+            </h2>
+        </div>
+        <div class="slide-body grid grid-cols-2 gap-10">
+            <!-- Left: Strategic Rationale -->
+            <div class="flex flex-col gap-6">
+                <div class="space-y-4">
+                    <h3 class="text-sm font-black text-navy-900 border-l-4 border-blue-600 pl-3">왜 처방량(Quantity) 중심인가?</h3>
+                    <p class="text-[11px] text-slate-600 leading-relaxed">
+                        제약/바이오 시장에서 매출액(Revenue)은 '약가 인하'나 '대량 발주' 등 외부 변수에 의해 왜곡되기 쉽습니다. <strong>순수 처방량(Quantity)</strong>은 현장에서의 마켓 쉐어(M/S) 장악력을 보여주는 가장 정직한 지표입니다. 
+                    </p>
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 italic text-[10px] text-blue-800">
+                        "FGR(0.6*Qty + 0.4*Rev) 설계는 시장 상황이 악화되어도 실질적인 점유율을 지켜내는 '진짜 실력'을 선별하기 위함입니다."
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-sm font-black text-navy-900 border-l-4 border-indigo-600 pl-3">Hospital Type Weights Rationale</h3>
+                    <div class="grid grid-cols-4 gap-2">
+                        <div class="bg-white border rounded p-2 text-center shadow-sm">
+                            <span class="text-[8px] block text-slate-400 mb-1">상급종합</span>
+                            <span class="font-black text-blue-600">1.5</span>
+                            <p class="text-[7px] text-slate-400 mt-1 leading-[1.2]">장기적 학술 영업 및 복잡한 의사결정 구조</p>
+                        </div>
+                        <div class="bg-white border rounded p-2 text-center shadow-sm">
+                            <span class="text-[8px] block text-slate-400 mb-1">종합병원</span>
+                            <span class="font-black text-blue-600">1.2</span>
+                            <p class="text-[7px] text-slate-400 mt-1 leading-[1.2]">높은 매출 기여도 및 경쟁 강도</p>
+                        </div>
+                        <div class="bg-white border rounded p-2 text-center shadow-sm">
+                            <span class="text-[8px] block text-slate-400 mb-1">일반의원</span>
+                            <span class="font-black text-blue-600">1.0</span>
+                            <p class="text-[7px] text-slate-400 mt-1 leading-[1.2]">개별 관계 중심 및 빠른 의사결정</p>
+                        </div>
+                        <div class="bg-white border rounded p-2 text-center shadow-sm">
+                            <span class="text-[8px] block text-slate-400 mb-1">약국/기타</span>
+                            <span class="font-black text-blue-600">0.8</span>
+                            <p class="text-[7px] text-slate-400 mt-1 leading-[1.2]">공급 안정성 및 정산 중심</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Correlation Analysis -->
+            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 shadow-inner flex flex-col gap-6">
+                <div>
+                    <h3 class="text-xs font-black text-navy-900 uppercase tracking-widest mb-4 flex items-center justify-between">
+                        <span>Predictive Correlation Map</span>
+                        <span class="text-[8px] text-slate-400 font-normal underline">Pearson Correlation (r)</span>
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 bg-white h-5 rounded-full border overflow-hidden">
+                                <div class="bg-blue-500 h-full" style="width: 82%"></div>
+                            </div>
+                            <span class="text-[10px] font-bold text-navy-900 w-12 text-right">0.82</span>
+                            <span class="text-[9px] text-slate-400 w-24">HIR → Outcome</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 bg-white h-5 rounded-full border overflow-hidden">
+                                <div class="bg-indigo-500 h-full" style="width: 65%"></div>
+                            </div>
+                            <span class="text-[10px] font-bold text-navy-900 w-12 text-right">0.65</span>
+                            <span class="text-[9px] text-slate-400 w-24">RTR → Growth</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 bg-white h-5 rounded-full border overflow-hidden">
+                                <div class="bg-slate-400 h-full" style="width: 45%"></div>
+                            </div>
+                            <span class="text-[10px] font-bold text-navy-900 w-12 text-right">0.45</span>
+                            <span class="text-[9px] text-slate-400 w-24">BCR → Stability</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex-1 bg-navy-900 rounded-xl p-4 flex flex-col justify-center">
+                    <p class="text-[10px] text-blue-400 font-bold mb-2 uppercase tracking-tighter"><i class="fa-solid fa-lightbulb mr-1"></i> Data-Driven Insight</p>
+                    <p class="text-[11px] text-slate-300 leading-relaxed">
+                        "분석 결과, <strong>HIR(행동품질)이 매출 달성과 가장 높은 상관관계(0.82)</strong>를 보였습니다. 이는 단순히 많이 만나는 것(Quantity)보다 '어떤 대화를 나누었는가(Quality)'가 성과의 선행 지표임을 과학적으로 증명합니다."
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Appendix: Strategic Rationale</span>
+            <span class="font-bold text-navy-800">18</span>
+        </div>
+    </section>
+
+    <!-- Slide 19: Appendix D. Interface Design (UX Strategy) -->
+    <section class="slide-container fade-in" id="slide-19">
+        <div class="slide-header">
+                <h2 class="text-2xl font-bold text-navy-800 flex items-center gap-3">
+                <span class="bg-navy-800 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm">D</span>
+                Appendix D. 의사결정 최적화 대시보드 설계 및 컴포넌트 구조
+            </h2>
+        </div>
+        <div class="slide-body grid grid-cols-4 gap-6">
+            <!-- Left: Component Value Prop -->
+            <div class="col-span-1 flex flex-col gap-3">
+                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-300 transition-colors">
+                    <h4 class="text-[11px] font-black text-navy-900 mb-1 uppercase tracking-tighter italic">Behavior Radar</h4>
+                    <p class="text-[9px] text-slate-500 leading-tight mb-2">단순 수치 나열이 아닌, <strong>'역량의 육각형'</strong>을 통해 개별 사원의 강/약점을 즉각 인지.</p>
+                    <span class="text-[8px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-bold uppercase">Decision: Coaching Priority</span>
+                </div>
+                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-green-300 transition-colors">
+                    <h4 class="text-[11px] font-black text-navy-900 mb-1 uppercase tracking-tighter italic">Outcome Funnel</h4>
+                    <p class="text-[9px] text-slate-500 leading-tight mb-2">행동이 결과로 전환되는 <strong>'병목 지점'</strong>을 시각화하여 영업 프로세스 최적화.</p>
+                    <span class="text-[8px] bg-green-50 text-green-600 px-2 py-0.5 rounded font-bold uppercase">Decision: Process Fix</span>
+                </div>
+                <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-orange-300 transition-colors">
+                    <h4 class="text-[11px] font-black text-navy-900 mb-1 uppercase tracking-tighter italic">Action Queue</h4>
+                    <p class="text-[9px] text-slate-500 leading-tight mb-2">분석된 데이터를 바탕으로 오늘 당장 <strong>'누구를 만나야 하는지'</strong> 우선순위 가이드.</p>
+                    <span class="text-[8px] bg-orange-50 text-orange-600 px-2 py-0.5 rounded font-bold uppercase">Decision: Immediate Task</span>
+                </div>
+            </div>
+
+            <!-- Right: Design System & Hierarchy -->
+            <div class="col-span-3 flex flex-col gap-4">
+                <div class="bg-slate-900 rounded-2xl p-6 relative overflow-hidden flex-1">
+                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                        <i class="fa-solid fa-layer-group text-[120px] text-white"></i>
+                    </div>
+                    <h4 class="text-xs font-black text-blue-400 mb-6 tracking-widest uppercase">Information Architecture (H-O-L Model)</h4>
+                    <div class="flex items-center gap-6">
+                        <div class="flex-1 space-y-3">
+                            <div class="p-3 bg-white/5 border border-white/10 rounded-lg">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                    <span class="text-[10px] font-bold text-white uppercase">Hierarchy 1: Status</span>
+                                </div>
+                                <p class="text-[9px] text-slate-400">Total Score, KPI Cards (What's happening now?)</p>
+                            </div>
+                            <div class="p-3 bg-white/5 border border-white/10 rounded-lg">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                                    <span class="text-[10px] font-bold text-white uppercase">Hierarchy 2: Optimization</span>
+                                </div>
+                                <p class="text-[9px] text-slate-400">Radar Chart, Scatter Plot (Where is the gap?)</p>
+                            </div>
+                            <div class="p-3 bg-white/5 border border-white/10 rounded-lg">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                    <span class="text-[10px] font-bold text-white uppercase">Hierarchy 3: Lead Action</span>
+                                </div>
+                                <p class="text-[9px] text-slate-400">Coaching Signal, Action List (What should I do?)</p>
+                            </div>
+                        </div>
+                        <div class="w-48 bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+                            <div class="text-xs font-black text-white mb-2">Design Principle</div>
+                            <p class="text-[9px] text-slate-400 font-light leading-relaxed italic">
+                                "CRM은 입력하는 곳이 아니라, <br>생각을 덜어주는 <br><span class="text-blue-500 font-bold text-[10px]">'Decision Tool'</span>이어야 한다."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Appendix: UX Strategy & Hierarchy</span>
+            <span class="font-bold text-navy-800">19</span>
+        </div>
+    </section>
+
+    <!-- Slide 20: Appendix E. Coaching Signals (Actionable Scenario) -->
+    <section class="slide-container fade-in" id="slide-20">
+        <div class="slide-header">
+            <h2 class="text-2xl font-bold text-navy-800 flex items-center gap-3">
+                <span class="bg-navy-800 text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm">E</span>
+                Appendix E. 데이터 기반 지능형 코칭 시나리오 및 처방(Prescription)
+            </h2>
+        </div>
+        <div class="slide-body flex-col gap-4">
+            <div class="grid grid-cols-2 gap-4 flex-1">
+                <!-- Case 1 -->
+                <div class="bg-red-50/50 border border-red-100 rounded-2xl p-5 flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center"><i class="fa-solid fa-ghost"></i></div>
+                        <div>
+                            <h4 class="text-xs font-black text-red-900 uppercase tracking-tighter leading-none">Scenario: The Ghost Hunter</h4>
+                            <p class="text-[9px] text-red-600 mt-1">High Activity, but Zero Quality/Outcome</p>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-3">
+                        <div class="p-3 bg-white rounded-lg border border-red-100 text-[10px]">
+                            <strong class="text-red-700 block mb-1">Detection Logic:</strong>
+                            방문 건수(Visit)는 상위 10%이나, HIR(품질) 점수가 하위 20%이며 고객 피드백(Question 키워드)이 전무할 때 발생.
+                        </div>
+                        <div class="p-3 bg-red-600 rounded-lg text-white text-[10px] font-medium">
+                            <strong class="block mb-1 opacity-80 underline underline-offset-4">Coaching Action:</strong>
+                            무분별한 방문 중단 명령. 핵심 3개 계정에 대한 'Deep Dive' 면담 계획 수립 및 관리자 동행(Joint Visit) 요청.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-5 flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-chart-line"></i></div>
+                        <div>
+                            <h4 class="text-xs font-black text-blue-900 uppercase tracking-tighter leading-none">Scenario: High Quality, Low Reach</h4>
+                            <p class="text-[9px] text-blue-600 mt-1">Perfect Content, but Insufficient Volume</p>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-3">
+                        <div class="p-3 bg-white rounded-lg border border-blue-100 text-[10px]">
+                            <strong class="text-blue-700 block mb-1">Detection Logic:</strong>
+                            HIR(품질) 및 RTR(관계) 점수는 최상위이나, BCR(빈도) 점수가 목표 대비 60% 미만으로 활동 생산성이 저조할 때 발생.
+                        </div>
+                        <div class="p-3 bg-blue-600 rounded-lg text-white text-[10px] font-medium">
+                            <strong class="block mb-1 opacity-80 underline underline-offset-4">Coaching Action:</strong>
+                            효율적 동선 계획(Route Optimization) 코칭. 성공 사례를 팀 내 템플릿화하여 '품질'을 '속도'로 전환하는 역량 전파.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-navy-900 rounded-xl flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+                        <i class="fa-solid fa-robot text-blue-400 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-black text-white tracking-widest uppercase italic">The Goal of Data Coaching</h4>
+                        <p class="text-[10px] text-slate-400 leading-relaxed font-light">
+                            "데이터는 사람을 평가하기 위한 도구가 아니라, <span class="text-blue-400 font-bold underline underline-offset-4 decoration-blue-500/50">성공의 재현성을 높이고 리스크를 예방</span>하기 위한 나침반이어야 합니다."
+                        </p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-[8px] text-slate-500 uppercase font-black tracking-[0.5em] mb-1">Project Portfolio</p>
+                    <p class="text-[10px] text-white font-black tracking-tighter">Behavior-Driven CRM v2.1</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>Appendix: Intelligent Coaching Scenarios</span>
+            <span class="font-bold text-navy-800">20</span>
+        </div>
+    </section>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let currentSlide = 15;
+        const totalSlides = 20;
+        let isGridMode = false;
+
+        function showSlide(n) {
+            if(isGridMode) return;
+            
+            // Bounds check
+            if (n < 15) n = 15;
+            if (n > totalSlides) n = totalSlides;
+            currentSlide = n;
+
+            // Hide all
+            document.querySelectorAll('.slide-container').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Show current
+            const activeSlide = document.getElementById(`slide-${currentSlide}`);
+            activeSlide.classList.add('active');
+            
+            // Update counter
+            document.getElementById('slide-counter').innerText = `${currentSlide} / ${totalSlides}`;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        function toggleGridMode() {
+            isGridMode = !isGridMode;
+            document.body.classList.toggle('grid-mode');
+            
+            if (isGridMode) {
+                // Show all slides
+                document.querySelectorAll('.slide-container').forEach(el => {
+                    el.style.display = 'flex';
+                    // Add click event to jump to slide
+                    el.onclick = function() {
+                        const id = parseInt(this.id.split('-')[1]);
+                        toggleGridMode(); // Turn off grid
+                        showSlide(id); // Go to clicked slide
+                    };
+                });
+                document.getElementById('controls').classList.add('opacity-50');
+            } else {
+                // Restore slide view
+                document.querySelectorAll('.slide-container').forEach(el => {
+                    el.style.display = ''; // Clear inline style
+                    el.onclick = null; // Remove handler
+                });
+                showSlide(currentSlide);
+                document.getElementById('controls').classList.remove('opacity-50');
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (isGridMode) return;
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Initialize
+        showSlide(15);
+    </script>
+</body>
+</html>

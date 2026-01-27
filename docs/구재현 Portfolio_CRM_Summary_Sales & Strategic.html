@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구재현 CRM Portfolio - Summary</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#0f172a',
+                            900: '#020617',
+                        },
+                        primary: '#2563eb',
+                        success: '#10b981',
+                        accent: {
+                            blue: '#2563eb',
+                            light: '#eff6ff',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* A4 Landscape Print Setup */
+        @page {
+            size: A4 landscape;
+            margin: 0; /* No margin as requested for impact */
+        }
+        
+        @media print {
+            body, html { margin: 0 !important; padding: 0 !important; height: auto !important; width: auto !important; }
+            .page-break { page-break-after: always; break-after: page; display: block; }
+            .no-print { display: none !important; }
+            .slide-card { 
+                box-shadow: none !important; 
+                border: none !important; 
+                margin: 0 !important; 
+                height: 208mm !important; /* Slightly smaller to avoid rounding overflow */
+                width: 297mm !important;
+                page-break-inside: avoid;
+                overflow: hidden;
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        body { 
+            background-color: #f1f5f9; 
+            color: #1e293b;
+            word-break: keep-all; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+
+        .slide-card {
+            width: 297mm; /* A4 Landscape Width */
+            height: 210mm; /* A4 Landscape Height */
+            background: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        /* Design Elements */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-accent {
+            width: 40px;
+            height: 4px;
+            background: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            height: 40px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Diagrams */
+        .node {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .node-active {
+            border-color: #2563eb;
+            background: #eff6ff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        }
+
+        .metric-pill {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="font-sans">
+
+    <!-- Page 1: Problem Definition & Design Philosophy -->
+    <section class="slide-card page-break">
+        <!-- Content -->
+        <div class="flex-1 flex flex-col p-8 overflow-hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <div class="header-accent"></div>
+                    <h1 class="text-4xl font-extrabold text-navy-900 tracking-tight mb-2">01. 문제 정의 및 설계 철학</h1>
+                    <p class="text-lg text-slate-500 font-medium italic">"결과(매출)를 추적하는 도구에서, 결과를 만드는 '행동'을 설계하는 엔진으로"</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs font-black text-blue-600 tracking-widest uppercase">Sales Strategy & Strategic CRM</span>
+                    <div class="text-sm font-bold text-slate-400 mt-1">구재현 (JH KOO)</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-8 flex-1">
+                <!-- Left: The Problem -->
+                <div class="col-span-4 flex flex-col gap-6">
+                    <div class="bg-red-50 p-6 rounded-2xl border border-red-100 flex-1">
+                        <div class="flex items-center gap-3 mb-4">
+                            <i class="fa-solid fa-circle-exclamation text-red-500 text-xl"></i>
+                            <h3 class="text-xl font-bold text-red-900">Current Pain Points</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-red-400 mt-2"></div>
+                                <p class="text-sm text-red-800 leading-relaxed font-medium"><strong>성과 원인 분석 불가:</strong> 매출 결과만 기록할 뿐, '왜 성공했는지' 혹은 '왜 실패했는지' 데이터로 설명되지 않음</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-red-400 mt-2"></div>
+                                <p class="text-sm text-red-800 leading-relaxed font-medium"><strong>단순 입력 도구 전락:</strong> 영업사원에게는 감시 도구, 관리자에게는 사후 보고용 엑셀 집계 시스템에 불과</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm mt-4">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">The Core Question</span>
+                                <p class="text-navy-900 font-black italic mt-1 leading-tight">"김 대리의 120% 목표 달성은 실력인가? 우연인가? 어떻게 복제할 것인가?"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Philosophy & Solution -->
+                <div class="col-span-8 flex flex-col gap-8">
+                    <!-- Paradigm Shift -->
+                    <div class="bg-navy-900 text-white p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -translate-y-16 translate-x-16"></div>
+                        <h3 class="text-2xl font-black mb-6 flex items-center gap-3">
+                            <span class="text-blue-500 italic">Paradigm Shift:</span> 
+                            Behavioral Management
+                        </h3>
+                        <div class="flex items-center justify-between gap-4">
+                            <div class="text-center flex-1">
+                                <div class="text-[10px] text-slate-400 uppercase mb-2">Legacy Model</div>
+                                <div class="bg-white/5 border border-white/20 p-4 rounded-xl">
+                                    <div class="text-xl font-bold line-through opacity-50">Result Only</div>
+                                    <div class="text-[10px] opacity-40 mt-1">후행 지표 (Lagging)</div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-right-long text-blue-500 text-2xl"></i>
+                            <div class="text-center flex-1 shrink-0">
+                                <div class="text-[10px] text-blue-400 font-bold uppercase mb-2">Strategic Model</div>
+                                <div class="bg-blue-600/20 border-2 border-blue-500 p-4 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+                                    <div class="text-xl font-black">Behavior Driven</div>
+                                    <div class="text-[10px] text-blue-300 mt-1">선행 지표 (Leading)</div>
+                                </div>
+                            </div>
+                            <div class="text-sm text-slate-400 flex-1 pl-4 border-l border-white/10">
+                                "영업은 블랙박스가 아닙니다.<br><strong>핵심 행동(P/I)</strong>을 통제하면 <br><strong>결과(KPI)</strong>는 자연스럽게 따라옵니다."
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Philosophy Pillars -->
+                    <div class="grid grid-cols-3 gap-6 flex-1">
+                        <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:border-blue-300 transition-all">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4 text-xl">
+                                <i class="fa-solid fa-microscope"></i>
+                            </div>
+                            <h4 class="font-bold text-navy-900 mb-2 underline decoration-blue-200 decoration-4 underline-offset-4">상세화 (Granularity)</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed font-medium">단순 '방문'을 넘어 PT, 니즈환기, 시연 등 8가지 핵심 액션으로 정성적 활동을 데이터화</p>
+                        </div>
+                        <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:border-blue-300 transition-all">
+                            <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 mb-4 text-xl">
+                                <i class="fa-solid fa-calculator"></i>
+                            </div>
+                            <h4 class="font-bold text-navy-900 mb-2 underline decoration-indigo-200 decoration-4 underline-offset-4">정량화 (Quantification)</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed font-medium">활동의 '양(Quantity)'뿐만 아니라 '질(Quality)'과 '빈도(Consistency)'를 지표로 산출</p>
+                        </div>
+                        <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 hover:border-blue-300 transition-all">
+                            <div class="w-10 h-10 bg-success/20 rounded-lg flex items-center justify-center text-success mb-4 text-xl">
+                                <i class="fa-solid fa-stairs"></i>
+                            </div>
+                            <h4 class="font-bold text-navy-900 mb-2 underline decoration-success/30 decoration-4 underline-offset-4">재현성 (Replicability)</h4>
+                            <p class="text-xs text-slate-500 leading-relaxed font-medium">우수 사원의 행동 패턴(Winning Pattern)을 추출하여 팀 전체에 이식 및 복제</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <span>Next-Gen Sales Force Strategy Portfolio</span>
+            <span class="font-mono font-bold tracking-widest text-navy-800">JH_STRATEGIC_PAGE_01</span>
+        </footer>
+    </section>
+
+    <!-- Page 2: CRM Structure + Key Metrics Connection -->
+    <section class="slide-card page-break">
+        <div class="flex-1 flex flex-col p-8 overflow-hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <div class="header-accent bg-success"></div>
+                    <h1 class="text-4xl font-extrabold text-navy-900 tracking-tight mb-2">02. CRM 구조 및 핵심 지표 연결도</h1>
+                    <p class="text-lg text-slate-500 font-medium italic">"입력 데이터가 분석 엔진을 통해 성과 선행 지표로 변환되는 과정"</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs font-black text-success tracking-widest uppercase">System Architecture & Logic</span>
+                    <div class="text-sm font-bold text-slate-400 mt-1 font-mono">Behavior-Driven CRM v2.1</div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-8 flex-1">
+                <!-- Architecture Diagram -->
+                <div class="relative bg-slate-50 rounded-3xl p-8 border border-slate-200">
+                    <div class="absolute top-4 right-6 text-[8px] font-black text-slate-400 uppercase tracking-widest">3-Layer Data Flow Architecture</div>
+                    <div class="flex items-center justify-between gap-6">
+                        <!-- Layer 1: Behavior -->
+                        <div class="flex-1 flex flex-col gap-3">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-navy-900 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black">1</span>
+                                <h4 class="text-sm font-black text-navy-900">Behavior Layer (Input)</h4>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="node text-[10px] font-bold p-2">Visit / Call Log</div>
+                                <div class="node text-[10px] font-bold p-2 text-blue-600 bg-blue-50 border-blue-200">PT / Demo / Needs</div>
+                                <div class="node text-[10px] font-bold p-2">Contract Logs</div>
+                                <div class="node text-[10px] font-bold p-2">Feedback VOC</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center text-slate-300"><i class="fa-solid fa-chevron-right text-2xl"></i></div>
+
+                        <!-- Layer 2: Analysis -->
+                        <div class="flex-1 flex flex-col gap-3">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black">2</span>
+                                <h4 class="text-sm font-black text-blue-600">Analytics Engine (Process)</h4>
+                            </div>
+                            <div class="bg-navy-900 rounded-2xl p-4 text-white shadow-xl relative">
+                                <div class="absolute top-2 right-2 flex gap-1">
+                                    <div class="w-1 h-1 rounded-full bg-blue-500 animate-pulse"></div>
+                                    <div class="w-1 h-1 rounded-full bg-blue-500 animate-pulse delay-150"></div>
+                                </div>
+                                <div class="text-[9px] font-mono text-blue-400 mb-2">Pearson Correlation Analysis</div>
+                                <div class="space-y-2">
+                                    <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-blue-500 w-[82%]"></div></div>
+                                    <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 w-[65%]"></div></div>
+                                </div>
+                                <p class="text-[9px] text-slate-400 mt-2 italic leading-tight">"행동 가중치 및 감쇠 알고리즘 적용"</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center text-slate-300"><i class="fa-solid fa-chevron-right text-2xl"></i></div>
+
+                        <!-- Layer 3: Outcome -->
+                        <div class="flex-1 flex flex-col gap-3">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-success text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black">3</span>
+                                <h4 class="text-sm font-black text-success">Outcome Layer (KPI)</h4>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="node-active border-2 border-success/30 p-2 text-center rounded-xl">
+                                    <div class="text-[9px] font-black text-success mb-1">HIR</div>
+                                    <div class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter">High Impact Rate</div>
+                                </div>
+                                <div class="node-active border-2 border-success/30 p-2 text-center rounded-xl">
+                                    <div class="text-[9px] font-black text-success mb-1">RTR</div>
+                                    <div class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter">Relation Temp</div>
+                                </div>
+                                <div class="node-active border-2 border-success/30 p-2 text-center rounded-xl">
+                                    <div class="text-[9px] font-black text-success mb-1">BCR</div>
+                                    <div class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter">Consistency</div>
+                                </div>
+                                <div class="node-active border-2 border-success/30 p-2 text-center rounded-xl">
+                                    <div class="text-[9px] font-black text-success mb-1">PHR</div>
+                                    <div class="text-[8px] text-slate-500 font-bold uppercase tracking-tighter">Pipe Health</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Connectors & Formula -->
+                <div class="grid grid-cols-2 gap-8 flex-1">
+                    <!-- Left: Connective Reason -->
+                    <div class="p-6 bg-white border border-slate-200 rounded-2xl relative">
+                        <h4 class="text-sm font-black text-navy-900 mb-4 border-b pb-2">Why this matters? (인과관계 검증)</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+                                <span class="text-xs font-bold text-slate-600">HIR (High Impact Rate)</span>
+                                <span class="text-xs font-black text-blue-600">Corr: 0.82</span>
+                                <p class="text-[10px] w-1/2 text-slate-500">단순 방문보다 PT/시연이 성과 전환율 1.8배 높음</p>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+                                <span class="text-xs font-bold text-slate-600">RTR (Relation Temp)</span>
+                                <span class="text-xs font-black text-indigo-600">Corr: 0.65</span>
+                                <p class="text-[10px] w-1/2 text-slate-500">방치 계정 감쇠 로직 적용, 이탈 2주 전 경고 알람</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: FGR Logic -->
+                    <div class="p-6 bg-navy-900 border border-navy-800 rounded-2xl text-white">
+                        <h4 class="text-sm font-black text-blue-400 mb-4 border-b border-white/10 pb-2 flex justify-between">
+                            <span>보정된 성과 지표 (Target Metric)</span>
+                            <span class="text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded font-black uppercase">Field Growth Rate</span>
+                        </h4>
+                        <div class="bg-white/5 p-4 rounded-xl border border-white/10 mb-4">
+                            <div class="text-xs font-mono text-center mb-2">FGR = (처방량 성장 × 0.6) + (매출 성장 × 0.4)</div>
+                            <p class="text-[10px] text-slate-400 font-light leading-relaxed">
+                                외부 변수(약가 인하 등)를 배제하기 위해 <strong>물량(Quantity)</strong>에 가중치를 두어 실질적인 시장 장악력과 영업 활동의 기여도를 정밀하게 측정합니다.
+                            </p>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-[9px] bg-slate-800 px-2 py-1 rounded">상급종합 x1.5</span>
+                            <span class="text-[9px] bg-slate-800 px-2 py-1 rounded">종합병원 x1.2</span>
+                            <span class="text-[9px] bg-slate-800 px-2 py-1 rounded">일반의원 x1.0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <span>Next-Gen Sales Force Strategy Portfolio</span>
+            <span class="font-mono font-bold tracking-widest text-navy-800">JH_STRATEGIC_PAGE_02</span>
+        </footer>
+    </section>
+
+    <!-- Page 3: Manager's View (Excel/Dashboard) -->
+    <section class="slide-card">
+        <div class="flex-1 flex flex-col p-10 overflow-hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <div class="header-accent bg-blue-600"></div>
+                    <h1 class="text-4xl font-extrabold text-navy-900 tracking-tight mb-2">03. 관리자 의사결정 대시보드 및 리포트</h1>
+                    <p class="text-lg text-slate-500 font-medium italic">"데이터를 기반으로 현장을 코칭하고 전략적 액션 아이템을 도출하는 뷰"</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs font-black text-blue-600 tracking-widest uppercase">Admin Decision Tool & UI/UX</span>
+                    <div class="text-sm font-bold text-slate-400 mt-1 uppercase">Actionable Insight View</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-8 flex-1 min-h-0">
+                <!-- Left: Dashboard Mockup -->
+                <div class="col-span-8 flex flex-col gap-4 bg-slate-100 rounded-3xl p-6 border border-slate-200">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest">Advanced Team Performance Radar</h3>
+                        <div class="flex gap-2">
+                            <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex gap-6">
+                                <div>
+                                    <div class="text-[9px] text-slate-400 uppercase font-bold">Total Sales Force</div>
+                                    <div class="text-2xl font-black text-navy-900">124% <span class="text-xs text-success"><i class="fa-solid fa-arrow-trend-up"></i> Over</span></div>
+                                </div>
+                                <div class="border-l border-slate-200 pl-6">
+                                    <div class="text-[9px] text-slate-400 uppercase font-bold">Avg HIR (Quality)</div>
+                                    <div class="text-2xl font-black text-blue-600">88.5</div>
+                                </div>
+                            </div>
+                            <div class="px-4 py-2 bg-slate-900 text-white rounded-xl text-[10px] font-bold">Monthly Strategy: Focus on PT</div>
+                        </div>
+
+                        <div class="flex-1 flex gap-8">
+                            <!-- Scatter Plot Placeholder -->
+                            <div class="w-1/2 border-l-2 border-b-2 border-slate-200 relative mb-4">
+                                <div class="absolute -left-6 top-1/2 -rotate-90 text-[8px] font-bold text-slate-400 uppercase">Retention Score (RTR)</div>
+                                <div class="absolute bottom-[-18px] left-1/2 -translate-x-1/2 text-[8px] font-bold text-slate-400 uppercase">Action Quality (HIR)</div>
+                                
+                                <!-- Background Quad -->
+                                <div class="absolute inset-0 grid grid-cols-2 grid-rows-2 opacity-5">
+                                    <div class="bg-red-500"></div><div class="bg-blue-500"></div>
+                                    <div class="bg-slate-500"></div><div class="bg-yellow-500"></div>
+                                </div>
+
+                                <!-- Dots -->
+                                <div class="absolute top-[20%] right-[15%] w-3 h-3 bg-blue-600 rounded-full shadow-lg ring ring-white"></div>
+                                <div class="absolute top-[40%] right-[40%] w-2 h-2 bg-blue-400 rounded-full"></div>
+                                <div class="absolute bottom-[20%] left-[20%] w-3 h-3 bg-red-500 rounded-full shadow-lg ring ring-white animate-pulse"></div>
+                                <div class="absolute bottom-[40%] left-[30%] w-2 h-2 bg-slate-400 rounded-full"></div>
+
+                                <!-- Tooltip Callout -->
+                                <div class="absolute bottom-[10%] left-[35%] bg-blue-900 text-white p-3 rounded-xl shadow-2xl z-10 w-48 scale-90">
+                                    <div class="text-[9px] font-black border-b border-white/20 pb-1 mb-2">🚨 Coaching Signal</div>
+                                    <p class="text-[8px] font-medium leading-relaxed">"김대리는 활동량은 많으나 유효행동(HIR)이 낮습니다. 제품 디테일링 교육이 선행되어야 합니다."</p>
+                                </div>
+                            </div>
+
+                            <!-- Metrics Breakdown -->
+                            <div class="w-1/2 flex flex-col gap-3">
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                    <h4 class="text-[9px] font-black text-navy-900 uppercase mb-3">Critical Risk Status</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between text-[10px]">
+                                            <span class="font-bold">연세세브란스 (RTR Warning)</span>
+                                            <span class="text-red-500 font-black">21 Days Idle</span>
+                                        </div>
+                                        <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden"><div class="h-full bg-red-500 w-[90%]"></div></div>
+                                    </div>
+                                    <div class="space-y-2 mt-4">
+                                        <div class="flex items-center justify-between text-[10px]">
+                                            <span class="font-bold">Team Consistency (BCR)</span>
+                                            <span class="text-success font-black">Stable</span>
+                                        </div>
+                                        <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden"><div class="h-full bg-success w-[85%]"></div></div>
+                                    </div>
+                                </div>
+                                <div class="bg-blue-600 p-4 rounded-xl text-white shadow-lg">
+                                    <h4 class="text-[9px] font-black uppercase mb-1 opacity-80 italic">Top Performer Routine</h4>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <span class="text-[8px] bg-white/20 px-2 py-0.5 rounded">Access</span>
+                                        <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                                        <span class="text-[8px] bg-white/20 px-2 py-0.5 rounded">Presentation</span>
+                                        <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                                        <span class="text-[8px] bg-white px-1 py-0.5 rounded text-blue-600 font-black">Demo</span>
+                                    </div>
+                                    <p class="text-[8px] mt-2 opacity-70">"성공 사원은 시연(Demo) 전 니즈환기 발문이 평균 4회 더 많았습니다."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Values & Interface Philosophy -->
+                <div class="col-span-4 flex flex-col gap-6">
+                    <div class="bg-navy-900 text-white p-6 rounded-3xl flex-1 flex flex-col">
+                        <h3 class="text-lg font-black mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-blue-500"></i>
+                            UX Hierarchy
+                        </h3>
+                        <div class="space-y-4 flex-1">
+                            <div class="border-l-4 border-blue-500 pl-4 bg-white/5 p-3 rounded-r-xl">
+                                <h4 class="text-[10px] font-black text-blue-400 uppercase">H1. Status</h4>
+                                <p class="text-[9px] text-slate-400">전체 KPI 및 성과 도달도 요약 (What happened?)</p>
+                            </div>
+                            <div class="border-l-4 border-indigo-500 pl-4 bg-white/5 p-3 rounded-r-xl">
+                                <h4 class="text-[10px] font-black text-indigo-400 uppercase">H2. Optimization</h4>
+                                <p class="text-[9px] text-slate-400">사원별/계정별 갭 분석 및 경고 신호 (Why it happened?)</p>
+                            </div>
+                            <div class="border-l-4 border-success pl-4 bg-white/5 p-3 rounded-r-xl">
+                                <h4 class="text-[10px] font-black text-success uppercase">H3. Lead Action</h4>
+                                <p class="text-[9px] text-slate-400">데이터 기반 코칭 아이템 및 투두 리스트 (How to act?)</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-white/10 rounded-2xl border border-white/10 text-center">
+                            <p class="text-[10px] italic text-slate-300">"CRM은 일을 등록하는 곳이 아니라,<br><span class="text-blue-400 font-bold">생각을 대신 해주는</span> 도구여야 합니다."</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 p-6 rounded-3xl">
+                        <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Output Excellence</h4>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-white rounded-2xl border border-slate-200 flex items-center justify-center text-blue-600 shadow-sm text-xl"><i class="fa-solid fa-file-pdf"></i></div>
+                            <div>
+                                <div class="text-[11px] font-black text-navy-900">Monthly Insight Report</div>
+                                <div class="text-[9px] text-slate-500">매월 자동 생성되는 상세 진단 보고서</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <span>Next-Gen Sales Force Strategy Portfolio</span>
+            <span class="font-mono font-bold tracking-widest text-navy-800">JH_STRATEGIC_PAGE_03</span>
+        </footer>
+    </section>
+
+</body>
+</html>

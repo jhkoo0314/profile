@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구재현 | Sales & Sales-Tech Specialist</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+    :root {
+        --primary-color: #2563eb;
+        --text-color: #1f2937;
+        --bg-color: #ffffff;
+        --secondary-bg: #f3f4f6;
+        --border-color: #e5e7eb;
+    }
+
+    body {
+        font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        word-break: keep-all;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 20px;
+        background: #fff;
+    }
+
+    /* Header */
+    header {
+        display: grid;
+        grid-template-columns: 1fr 120px;
+        gap: 30px;
+        margin-bottom: 40px;
+        align-items: start;
+    }
+
+    .header-content {
+        text-align: left;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0 0 5px 0;
+        color: #111;
+        letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+        font-size: 1.25rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .quote {
+        background-color: var(--secondary-bg);
+        padding: 12px 18px;
+        border-radius: 6px;
+        font-style: italic;
+        color: #4b5563;
+        display: block;
+        margin: 15px 0;
+        font-weight: 500;
+        border-left: 4px solid var(--primary-color);
+        font-size: 0.95rem;
+    }
+
+    .profile-photo {
+        width: 120px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+    }
+
+    /* Contact Info */
+    .contact-info {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 20px;
+        font-size: 0.9rem;
+        padding: 10px 0;
+        margin-top: 5px;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .contact-item strong {
+        margin-right: 6px;
+    }
+
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Sections */
+    section {
+        margin-bottom: 50px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        border-bottom: 2px solid #111;
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+        color: #111;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        color: #1f2937;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    h3::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 24px;
+        background-color: var(--primary-color);
+        margin-right: 10px;
+        border-radius: 2px;
+    }
+
+    h4 {
+        font-size: 1.05rem;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: #374151;
+    }
+
+    /* Lists */
+    ul {
+        padding-left: 20px;
+        margin: 10px 0;
+    }
+
+    li {
+        margin-bottom: 8px;
+    }
+
+    li strong {
+        color: #111;
+        font-weight: 600;
+    }
+
+    /* Highlighted text within lists */
+    .highlight-text {
+        background-color: #eff6ff;
+        padding: 2px 4px;
+        border-radius: 4px;
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    /* Footer for print/screen */
+    .footer-note {
+        text-align: center;
+        margin-top: 60px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #111;
+        padding: 20px;
+        background: var(--secondary-bg);
+        border-radius: 8px;
+    }
+    
+    code {
+        background: #f1f1f1;
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-family: monospace;
+        color: #c7254e;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .container { padding: 30px 20px; }
+        header { 
+            grid-template-columns: 1fr; 
+            text-align: center;
+            gap: 20px;
+        }
+        .header-content { text-align: center; order: 2; }
+        .profile-photo { margin: 0 auto; order: 1; }
+        .contact-info { justify-content: center; }
+        h1 { font-size: 2rem; }
+    }
+
+    /* Print Optimization */
+    @media print {
+        body {
+            background-color: #fff;
+            -webkit-print-color-adjust: exact;
+        }
+        .container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+        }
+        section {
+            page-break-inside: avoid;
+            margin-bottom: 30px;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        .footer-note {
+            margin-top: 30px;
+            page-break-inside: avoid;
+        }
+        @page {
+            margin: 2cm;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <div class="header-content">
+            <h1>구 재 현</h1>
+            <div class="subtitle">Sales & Planning - Tech Specialist</div>
+            
+            <div class="contact-info">
+                <div class="contact-item"><strong>Phone:</strong> 010-7337-1253</div>
+                <div class="contact-item"><strong>Email:</strong> <a href="mailto:jhyun07@naver.com">jhyun07@naver.com</a></div>
+                <div class="contact-item"><strong>Project Demo:</strong> <a href="http://www.bidix.co.kr" target="_blank">www.bidix.co.kr</a></div>
+            </div>
+
+            <div class="quote">
+                “14년의 현장 경험을 성과 모델로 설계하는 영업, 기획 전문가”
+            </div>
+        </div>
+        <img src="public/구재현사진.jpg" alt="구재현 프로필 사진" class="profile-photo">
+    </header>
+
+    <section>
+        <h2>1. 핵심 역량 요약 (Executive Summary)</h2>
+
+        <h3>[Strategic Sales Planning: 데이터 기반 성과 설계]</h3>
+        <ul>
+            <li><strong>Behavioral Analytics:</strong> 영업 행동의 질적 평가(HIR) 및 성과 간 상관관계 분석(Pearson Correlation)을 통한 핵심 성공 요인(Winning Pattern) 도출.</li>
+            <li><strong>Predictive Forecasting:</strong> 관계 온도(RTR) 및 감쇠 로직(Time Decay)을 활용한 고객 이탈 위험 예측 및 선행 지표 중심의 실적 Forecasting 체계 구축.</li>
+            <li><strong>Process Standardization:</strong> 영업 전 과정을 8단계 표준 행동으로 구조화하여 성과의 재현 가능성을 높이는 SFE(Sales Force Effectiveness) 프레임워크 기획.</li>
+        </ul>
+
+        <h3>[Field Mastery: 14년의 현장 장악력]</h3>
+        <ul>
+            <li><strong>Full Coverage:</strong> 의원(Clinic)부터 상급종합병원(University Hospital)까지 제약 영업의 전 채널(Channel) 경험.</li>
+            <li><strong>Portfolio Management:</strong> 백신, 혈액제제, 전문의약품(ETC) 등 GC녹십자 전 제품군 취급 경험 및 제품별 맞춤형 세일즈 전략 구사.</li>
+            <li><strong>Strategic Leadership:</strong> 우수사원 표창 및 사내 MBA(핵심 인재 육성 과정) 수료로 기획력과 관리자로서의 리더십 검증 완료.</li>
+        </ul>
+    </section>
+
+    <section style="page-break-before: always;">
+        <h2>2. 경력기술서 (Experience)</h2>
+
+        <h3>[Phase 1. Digital Transformation R&D] <span style="font-size:0.8em; font-weight:normal; color:#666;">(2022.03 ~ 현재)</span></h3>
+        <p><strong>주요 활동: Sales Tech 연구 및 플랫폼 개발 (개인 프로젝트)</strong></p>
+        <ul>
+            <li><strong>영업 현장의 비효율을 해결하기 위한 데이터 분석 및 시뮬레이션 플랫폼 독자 개발</strong></li>
+            <li><strong>BIDIX (부동산 권리분석 및 수익 시뮬레이션 플랫폼):</strong> 복잡한 법적/재무적 변수를 알고리즘화하여 리스크를 필터링하고 수익을 예측하는 교육용 시뮬레이터 개발.
+                <ul>
+                    <li><em>→ 영업의 P&L 관리 및 신입 사원 Role-Play 교육 시뮬레이터로 기술 전용(Pivot) 가능.</em></li>
+                </ul>
+            </li>
+            <li><strong>Behavior-Driven CRM 전략 수립 및 시스템 설계:</strong> 영업 결과(매출)와 과정(행동)의 인과관계를 분석하는 SFE 로직(HIR, RTR, BCR, PHR) 설계 및 데이터 모델링.
+                <ul>
+                    <li><em>독자적 KPI 설계: 성과에 직결되는 '유효 행동'의 비중(HIR), 고객 관계 이탈 위험(RTR), 활동 규칙성(BCR) 등 선행 지표 체계 구축.</em></li>
+                    <li><em>코칭 시스템 기획: 관리자가 데이터 기반으로 팀원의 취약점을 즉각 식별하고 피드백할 수 있는 Coaching Cockpit 시나리오 설계.</em></li>
+                    <li><em>검증 프로세스 수립: 데이터 정합성 검증 및 매출 상관분석을 통한 알고리즘 신뢰도 확보 프로세스 기획.</em></li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>[Phase 2. GC녹십자 (Green Cross)] <span style="font-size:0.8em; font-weight:normal; color:#666;">(2007.11 ~ 2021.12)</span></h3>
+        <p><strong>주요 역할: 종합병원 Key Account Management 및 의원 영업, 팀원 코칭</strong></p>
+
+        <h4>1. 주요 종합병원 및 대학병원 KAM (2014 ~ 2021)</h4>
+        <ul>
+            <li><strong>담당 지역:</strong> 인천, 부천, 김포 전역</li>
+            <li><strong>주요 거래처:</strong> 인하대병원, 인천길병원, 인천/국제/부천성모병원, 순천향대부천병원, 계양세종병원, 한림병원, 김포우리병원, 뉴고려병원 등 지역 거점 병원 전담.</li>
+            <li><strong>성과 및 활동:</strong>
+                <ul>
+                    <li><strong>DC(약사위원회) 통과 및 랜딩 주도:</strong> 대학병원 신규 코드 생성 및 처방 증대를 위한 다학제적(약제팀, 심사과, 의료진) 접근 전략 수행.</li>
+                    <li><strong>전 제품 라인업 운용:</strong> 백신(독점/경쟁), 혈액제제(특수/응급), ETC(만성질환) 등 제품별 상이한 영업 사이클을 통합 관리하며 포트폴리오 최적화.</li>
+                    <li><strong>Risk Management:</strong> 대형 병원의 입찰(Bidding) 이슈 및 원내 재고 관리 등 SCM 관점의 영업 관리 수행.</li>
+                </ul>
+            </li>
+        </ul>
+
+    </section>
+
+    <section>
+        <h4>2. 의원(Clinic) 영업 및 신규 시장 개척 (2007 ~ 2013)</h4>
+        <ul>
+            <li><strong>담당 지역:</strong>
+                <ul>
+                    <li><strong>2010~2013:</strong> 인천 서구, 김포, 강화 (도농 복합 지역 특성에 맞춘 지역 밀착형 영업)</li>
+                    <li><strong>2007~2010:</strong> 서울 중구, 서대문구, 구로구 (경쟁이 치열한 서울 도심 지역에서의 신규 거래처 확보)</li>
+                </ul>
+            </li>
+            <li><strong>성과:</strong> 신규 개원 병원 타겟팅 및 유대 강화를 통해 지역 내 M/S 1위 달성.</li>
+        </ul>
+
+        <h4>3. 조직 기여 및 수상 내역</h4>
+        <ul>
+            <li><strong>주요 품목 실적:</strong> 인천길병원 베라스트(Beraprost Na), 핀테(CCB), 신바로(천연물) 매출 기여</li>
+            <li><strong>사내 GCMBA 교육 대상자 선발:</strong> 조직 예비 관리자로서의 역량과 잠재력을 인정받아 핵심 인재 육성 코스 수료.</li>
+            <li><strong>우수 사원 표창 (1회):</strong> 목표 대비 초과 달성 및 조직 기여도 인정.</li>
+            <li><strong>여행 인센티브 수상 (2회):</strong> 연간 최우수 성과자 포상.</li>
+        </ul>
+    </section>
+
+    <section style="page-break-before: always;">
+        <h2>3. 자기소개서 (Self-Introduction)</h2>
+        <p>GC녹십자에서 14년, 저는 서울 도심의 의원부터 인천의 대학병원까지 발로 뛰며 영업의 A to Z를 마스터했습니다. 
+            백신, 혈액제제, ETC 전 제품을 다루며 우수사원 표창을 받고, 사내 MBA에 선발되는 등 <strong>"일 잘하는 영업사원"</strong>으로서 최고의 시간을 보냈습니다.</p>
+        
+        <p>대학병원에서는 DC 통과, 신규 코드 생성, 처방 확대를 위해 약제팀·심사과·의료진을 동시에 설득해야 했고, 의원 영업에서는 원장님의 성향과 지역 특성에 맞춰 관계를 설계해야 했습니다. 
+            이 과정에서 저는 <strong>“결국 성과는 관계와 행동의 누적 결과”</strong> 라는 사실을 체득했습니다.</p>
+        
+        <p>이러한 성과를 바탕으로 우수사원 표창을 받았고, 회사가 선발한 사내 MBA 과정에도 참여하며 관리자로서의 기본기를 다질 수 있었습니다. 
+            그러나 이 과정에서 한 가지 근본적인 질문을 품게 되었습니다.</p>
+
+        <p><strong>“왜 영업 성과는 여전히 개인의 감과 경험에만 의존하는가?”<br> “왜 조직은 ‘열심히 한 과정’을 설명하지 못하고 결과만 평가하는가?”</strong></p>
+
+        <p>GC녹십자에서 14년, 저는 필드에서 누구보다 치열하게 살았습니다. 
+            하지만 2020년, 예기치 못하게 아이를 먼저 하늘나라로 보내게 된 개인적인 아픔을 겪었습니다. 
+            당시의 저에게는 삶의 무너진 부분을 추스르고 가족을 지켜낼 물리적, 심리적인 시간이 절실히 필요했습니다. 
+            14년간 쉼 없이 달려온 현장을 잠시 떠나야만 했던 것은, 한 아이의 아버지로서 감당해야 할 애도의 과정이자 삶을 되돌아보는 시간이었습니다.</p>
+
+        <p>하지만 그 멈춤의 시간은 단순히 슬픔에 머무는 시간이 아니었습니다. 
+            그 고통의 시간 속에서도 마음을 추스르고 가정을 다시 일으켜야 한다는 마음 뿐이었습니다. <strong>"내가 가장 잘하는 영업이라는 일을 더 가치 있고 지속 가능하게 만드는 방법은 무엇인가"</strong>라는 본질적인 질문을 다시 던지게 했습니다.</p>
+
+        <p>현장의 '경험' 만으로는 설명할 수 없었던 영업의 과정을 '시스템'화 해보고 싶었습니다. 
+            지난 4년은 저에게 가장 아픈 시기였지만, 동시에 영업현장(Sales Field)의 경험과 기술 역량(Tech), 
+            그리고 기획력(Planning)까지 갖추게 되었고 
+            'Sales - Planning & Tech 전문가'로 거듭나는 가장 치열한 재건의 시간이기도 했습니다.</p>
+    </section>
+
+    <section>
+        <h2>4. 포부 및 기여 방식 (Aspiration)</h2>
+        <ul>
+            <li><strong>성과 원인의 데이터 규명(Insight):</strong> 결과 뒤에 숨겨진 <strong>핵심 선행 지표(HIR, RTR 등)</strong>를 통해 성과의 원인을 명확히 분석하고 관리하겠습니다.</li>
+            <li><strong>조직 역량의 상향 평준화(Standardization):</strong> 고성과자의 성공 방정식(Winning Pattern)을 추출하여 조직 전체의 실행력을 높이겠습니다.</li>
+            <li><strong>전략적 실적 예측(Forecasting):</strong> 분석 기술을 활용하여 불확실성을 최소화하고, 정확도 높은 영업 실적 예측 모델을 운영하겠습니다.</li>
+            <li><strong>기획과 현장의 완벽한 결합(Bridge):</strong> 14년의 필드 경험을 바탕으로, 이론에 그치지 않고 현장에서 즉시 작동하는 실전적 영업 전략을 수립하겠습니다.</li>
+        </ul>
+    </section>
+
+    <div class="tag-container" style="margin-top: 30px; display: flex; flex-wrap: wrap; gap: 8px;">
+        <span style="background: #1f2937; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">SFE (Sales Force Effectiveness)</span>
+        <span style="background: #1f2937; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">Sales Planning</span>
+        <span style="background: #1f2937; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">Revenue Driver Analysis</span>
+        <span style="background: #1f2937; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">Behavioral Analytics</span>
+        <span style="background: #1f2937; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">Strategic Roadmap</span>
+    </div>
+
+    <div class="footer-note">
+        “숫자로 영업의 성과를 설계하고 관리하는 전략적 파트너가 되겠습니다."
+    </div>
+
+</div>
+
+</body>
+</html>

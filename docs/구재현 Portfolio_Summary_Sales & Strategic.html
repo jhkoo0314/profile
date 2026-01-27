@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>전략 기획 포트폴리오 | 구재현</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+KR:wght@350;500;700;900&display=swap');
+    
+    :root {
+      --navy: #0F172A;
+      --teal: #0891B2;
+      --slate: #475569;
+      --light-bg: #F8FAFC;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      background-color: #f1f5f9;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      margin: 10mm auto;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* PDF 인쇄 시 설정 */
+    @media print {
+      body { background: none; }
+      .page {
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+      }
+    }
+
+    header {
+      border-bottom: 4px solid var(--navy);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .header-left h1 {
+      font-size: 32px;
+      font-weight: 900;
+      margin: 0;
+      color: var(--navy);
+      letter-spacing: -1px;
+    }
+
+    .header-left p {
+      font-size: 16px;
+      color: var(--teal);
+      font-weight: 700;
+      margin: 5px 0 0 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .header-right { text-align: right; font-size: 12px; color: var(--slate); }
+
+    .summary-box {
+      background: var(--light-bg);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 35px;
+      border-left: 6px solid var(--teal);
+    }
+
+    .summary-box p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.8;
+    }
+
+    h2.project-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 20px 0 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2.project-title::before {
+      content: '';
+      width: 12px;
+      height: 24px;
+      background: var(--teal);
+      display: inline-block;
+      border-radius: 2px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 5px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    li {
+      font-size: 13.5px;
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    strong { color: var(--navy); }
+
+    .highlight-card {
+      background: #fdfcfb;
+      border: 1px solid #e2e8f0;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .footer-info {
+      position: absolute;
+      bottom: 20mm;
+      left: 20mm;
+      right: 20mm;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--slate);
+    }
+
+    .stat-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: #f1f5f9;
+      color: var(--navy);
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 11px;
+      margin-right: 5px;
+    }
+
+    .impact-box {
+      background: var(--navy);
+      color: white;
+      padding: 25px 15px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-around;
+      margin-top: 25px;
+      position: relative;
+    }
+
+    .impact-item { 
+      text-align: center; 
+      flex: 1;
+      position: relative;
+    }
+
+    /* 아이템 사이 구분선 - 글자와 겹치지 않게 높이 조정 */
+    .impact-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .impact-item .val { 
+      font-size: 22px; 
+      font-weight: 900; 
+      color: var(--teal); 
+      display: block; 
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .impact-item .lbl { 
+      font-size: 11px; 
+      font-weight: 600; 
+      opacity: 0.9; 
+      display: block;
+      line-height: 1.4;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: Intro & Project 1 (CRM) -->
+  <div class="page">
+    <header>
+      <div class="header-left">
+        <h1>구 재 현 (Jaehyun Koo)</h1>
+        <p>Strategic Sales Planner & Performance Insight</p>
+      </div>
+      <div class="header-right">
+        Strategic Portfolio 2026
+      </div>
+    </header>
+
+    <div class="summary-box">
+      <p>
+        <strong>"영업현장(Field)의 노련함과 기술(Tech), 그리고 기획력(Strategy)까지 갖춘 인재입니다."</strong><br>
+        14년 제약 영업 현장의 경험을 데이터로 체계화(Systematize)하고, 
+        영업뿐만 아니라 프로젝트를 통해 기획력을 입증하고 실행함으로써 행동하는 <strong>'영업 전문가'</strong> 임을 보여줬습니다.
+      </p>
+    </div>
+
+    <h2 class="project-title">Project 01. Behavior-Driven CRM v2.1</h2>
+    
+    <div class="content-grid">
+      <div>
+        <h3>Core Concept: 행동 데이터의 자산화</h3>
+        <ul>
+          <li><strong>Quality Metrics:</strong> 방문 횟수(Quantity) 중심의 관리를 8단계 핵심 영업 행동의 질적 평가(Quality) 체계로 전환</li>
+          <li><strong>3-Layer Engine:</strong> 행동(Behavior) → 분석(Analytics) → 성과(Outcome)를 연결하는 데이터 파이프라인 설계</li>
+          <li><strong>SFE Modeling:</strong> 고성과자의 승리 공식(Winning Pattern)을 추출하여 조직 구성원의 상향 평준화를 위한 행동 모델링</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Leading Indicators (선행 지표)</h3>
+        <ul>
+          <li><strong>HIR (Impact):</strong> 성과 직결 행동 비중 측정</li>
+          <li><strong>RTR (Relationship):</strong> Time Decay 로직 기반 고객 관계 온도 시각화 및 이탈 위험 예측</li>
+          <li><strong>BCR (Consistency):</strong> 활동 편중 방지를 위한 규칙성 평가</li>
+          <li><strong>PI (Index):</strong> 병원 규모별 난이도 보정 지수</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-card" style="border-left: 4px solid var(--teal);">
+      <h3>Strategic Impact: 기획의 가치</h3>
+      <p style="font-size: 13px; margin: 0;">
+        매출이라는 후행 지표 이전에 성공 확률을 예측할 수 있는 대시보드(Coaching Cockpit)를 구축하여, 
+        관리자가 정확한 숫자를 가지고 구체적인 행동 교정을 지시할 수 있는 체계를 완성했습니다.
+      </p>
+    </div>
+
+    <div class="impact-box">
+      <div class="impact-item"><span class="val">Visibility</span><span class="lbl">영업 블랙박스 제거</span></div>
+      <div class="impact-item"><span class="val">Standard</span><span class="lbl">성공 패턴 복제</span></div>
+      <div class="impact-item"><span class="val">Forecasting</span><span class="lbl">미래 성과 예측</span></div>
+    </div>
+
+  </div>
+
+  <!-- PAGE 2: Project 2 (BIDIX) -->
+  <div class="page">
+    <header>
+      <div class="header-left">
+        <h1>Strategic BIDIX Framework</h1>
+        <p>Revenue Operating Framework for Real Estate</p>
+      </div>
+      <div class="header-right">Case Study: BIDIX</div>
+    </header>
+
+    <div class="summary-box" style="background: #f0f9ff; border-left-color: var(--navy);">
+      <p>
+        <strong>"BIDIX는 부동산 권리 분석을 어떻게 하면 쉽게 할 수 있을까하는 문제인식에서 시작했습니다."</strong><br>
+        무수한 변수와 법적 리스크가 산재한 부동산 경매 도메인을 하나의 유기적인 전략 맵으로 설계했으며, 
+        주관적 판단을 배제한 객관적인 알고리즘으로 만들어 무결성을 증명한 프로젝트입니다.
+      </p>
+    </div>
+
+    <h2 class="project-title">Project 02. Strategic Planning & System Building</h2>
+
+    <div class="content-grid">
+      <div>
+        <h3>Decision Pipeline: 판단의 표준화</h3>
+        <ul>
+          <li><strong>Business Modeling</strong> <Br>18종의 복잡한 권리 관계와 시장 변수를 분석 프레임워크로 체계화하여 리스크 구조 장악</li>
+          <li><strong>Strategy Operating Framework</strong> <br>[데이터 추출 → 전략 대입 → 성과 산출]의 3단계 표준 프로세스 정립</li>
+          <li><strong>Automated Compliance</strong> <Br>실시간 법령 참조를 통해 정책 위반 리스크를 원천 차단하는 지능형 운영 환경 구축</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Core Engine: 데이터 자산화 및 판단 모델</h3>
+        <ul>
+          <li><strong>Court Data Normalization</strong> <br>법원의 비정형 공시 데이터를 수집하고, 분석 가능한 표준 데이터셋(Standard DB)으로 정규화</li>
+          <li><strong>Legal Judgment Model</strong> <br>경매 권리 분석 로직을 단일 원칙으로 구현하여 판단의 일관성 및 정밀도 확보</li>
+          <li><strong>Logic Reliability</strong> <br>수천 개의 시뮬레이션을 통해 설계된 비즈니스 규칙의 무결성과 실전 작동 여부 검증</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-card" style="background: #f8fafc;">
+      <h3>Model Reliability: 전략의 무결성 증명</h3>
+      <p style="font-size: 13px; margin: 0;">
+        BIDIX 프로젝트는 시뮬레이션을 통해 설계된 비즈니스 모델이 현장에서 작동함을 검증했으며, 
+        이론적인 기획에서 멈추지 않고 실제 시스템으로 구현할 수 있는 실행력을 보여주는 프로젝트입니다.
+      </p>
+    </div>
+
+    <div class="impact-box" style="background: black;">
+      <div class="impact-item"><span class="val">90%</span><span class="lbl">Work Efficiency</span></div>
+      <div class="impact-item"><span class="val">Zero</span><span class="lbl">Compliance Risk</span></div>
+      <div class="impact-item"><span class="val">2.5x</span><span class="lbl">Scalability</span></div>
+    </div>
+
+  </div>
+
+  <!-- PAGE 3: Competencies & Why Me? -->
+  <div class="page">
+    <header style="margin-bottom: 20px;">
+      <div class="header-left">
+        <h1>Strategic Competencies</h1>
+        <p>Why Me? : Field × Tech × Strategy</p>
+      </div>
+      <div class="header-right">Core Identity</div>
+    </header>
+
+    <div class="content-grid" style="grid-template-columns: 1fr; margin-bottom: 20px;">
+      <div class="highlight-card" style="padding: 20px; border-top: 4px solid #e2e8f0;">
+        <h2 style="margin-top: 0; font-size: 20px; border: none; padding: 0; color: var(--navy);">핵심 전략 역량 (Core Expertise)</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+          <div>
+            <strong>1. RevOps & SFE 설계</strong>
+            <p style="font-size: 12px; color: var(--slate); margin: 2px 0;">영업 효율 극대화를 위한 조직적 프로세스 설계 및 성과 <br>관리 지표 수립</p>
+          </div>
+          <div>
+            <strong>2. 데이터 기반 의사결정 체계</strong>
+            <p style="font-size: 12px; color: var(--slate); margin: 2px 0;">정성적 데이터를 계량화하여 판단의 근거를 만드는<br> 알고리즘 기획</p>
+          </div>
+          <div>
+            <strong>3. 비즈니스 모델링 (SOF)</strong>
+            <p style="font-size: 12px; color: var(--slate); margin: 2px 0;">아이디어 수준의 전략을 실행 가능한 비즈니스 모델로 구체화하고, 비지니스의 전략적 가치 사슬을 쳬계적으로 설계.</p>
+          </div>
+          <div>
+            <strong>4. 현장 중심의 UX 기획</strong>
+            <p style="font-size: 12px; color: var(--slate); margin: 2px 0;">실제 영업 사원과 관리자가 즉시 사용 가능한 실전형<br> 인터페이스 설계</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <h2 class="project-title">현장의 경험과 기획의 정교함으로 승부합니다.</h2>
+      <div style="display: flex; gap: 30px; align-items: center;">
+        <div style="flex: 1;">
+          <p style="font-size: 13.5px; line-height: 1.7; margin: 0;">
+            저는 14년간 GC녹십자 등 제약 영업의 최전선에서 시장을 개척하며<br> 성공하는 영업을 몸소 체험했습니다. 
+            <br>단순히 아이디어만 내는 기획자가 아니라 현장과 소통하며 이를 정량적인 숫자로 변환하고, 
+            그 숫자를 다시 실질적인 매출 성장 엔진으로 구현해낼 수 있는 실행력을 갖춘 <strong>'영업 전문가'</strong> 입니다.
+          </p>
+        </div>
+        <div style="width: 45mm; height: 45mm; background: var(--light-bg); border-radius: 15px; border: 2px dashed #e2e8f0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 15px; flex-shrink: 0;">
+          <p style="font-size: 11px; font-weight: 700; color: var(--slate); margin: 0;">
+            Revenue Drivers<br>×<br>Performance Insight<br><br>
+            <span style="color: var(--teal);">KOO JAEHYUN</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 30px; background: var(--navy); padding: 25px; border-radius: 15px; color: white;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <span style="font-size: 10px; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: 2px;">Email</span>
+          <p style="font-size: 16px; font-weight: 700; margin: 3px 0;">jhyun07@naver.com</p>
+        </div>
+        <div>
+          <span style="font-size: 10px; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: 2px;">Phone</span>
+          <p style="font-size: 16px; font-weight: 700; margin: 3px 0;">010-7337-1253</p>
+        </div>
+        <div style="grid-column: span 2;">
+          <span style="font-size: 10px; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: 2px;">Project Demo</span>
+          <p style="font-size: 16px; font-weight: 700; margin: 3px 0;">www.bidix.co.kr</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
