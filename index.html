@@ -159,6 +159,134 @@
             section { padding: 60px 0; }
         }
     </style>
+    <style>
+        /* --- Mobile Optimization (Max-width: 768px) --- */
+        @media (max-width: 768px) {
+            /* 1. Layout & Containers */
+            .container { padding: 0 1.5rem; }
+            section { padding: 80px 0; }
+            
+            /* 2. Navigation */
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-content > div:nth-child(2) {
+                gap: 1rem !important;
+                font-size: 0.8rem !important;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            /* 3. Hero Section */
+            #hero h1 { 
+                font-size: 2.5rem !important; 
+                margin-bottom: 20px !important;
+            }
+            #hero p { font-size: 1rem !important; }
+            
+            /* 4. Competency Section (Stack Grid) */
+            .competency-grid {
+                display: flex !important;
+                flex-direction: column;
+                gap: 1.5rem !important;
+            }
+            .comp-card {
+                padding: 2rem 1.5rem !important;
+                gap: 1.5rem !important;
+                min-height: auto !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+            }
+            
+            /* Fix Overlap: Target Icon Box (60x60px) and make it static */
+            .comp-card > div[style*="width: 60px"] {
+                position: static !important;
+                margin-bottom: 1rem;
+                margin-top: 0.5rem;
+            }
+
+            /* Adjust Big Numbers (Background) */
+            .comp-card > div[style*="font-size: 18rem"],
+            .comp-card > div[style*="font-size: 12rem"] {
+                font-size: 4rem !important;
+                top: 1rem !important;
+                right: 1rem !important;
+                opacity: 0.05 !important;
+                z-index: 0;
+            }
+
+            /* Typography & Line Breaks */
+            .comp-info h3, 
+            .comp-card h3 { 
+                font-size: 1.6rem !important; 
+                line-height: 1.3 !important;
+                word-break: keep-all; /* Prevent bad word breaks */
+            }
+            /* Hide forced breaks if they look bad, or keep them? 
+               Usually keep-all handles it better with natural wrapping. 
+               Let's hide the <br> tags in titles for mobile to let flex flow handle it.
+            */
+            .comp-card h3 br { display: none; }
+            
+            .comp-stats { 
+                border-left: none !important; 
+                padding-left: 0 !important; 
+                border-top: 1px solid rgba(255,255,255,0.1);
+                padding-top: 1.5rem;
+                width: 100%;
+                gap: 20px !important;
+            }
+            .comp-stats > div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+
+            /* 5. Project Sections */
+            .split-layout {
+                flex-direction: column !important;
+                gap: 3rem !important;
+            }
+            .project-content h2 { font-size: 2.2rem !important; }
+            
+            /* Metrics: Grid 2x2 or stack */
+            .metric-box {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .metric-box .metric {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                padding: 0 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                padding-bottom: 0.8rem;
+                margin-bottom: 0.8rem;
+            }
+            .metric-box .metric:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+            .metric-val { font-size: 1.4rem !important; }
+
+            /* 6. Buttons */
+            .btn {
+                width: 100%;
+                text-align: center;
+                margin-top: 15px !important;
+                padding: 15px 20px !important;
+            }
+            div[data-aos] > a.btn { margin-top: 10px !important; }
+            
+            /* 7. Footer */
+            footer { margin-top: 2rem !important; }
+        }
+    </style>
     <!-- Importing Three.js & GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
