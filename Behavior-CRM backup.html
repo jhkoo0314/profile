@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behavior-Driven CRM v2.1 - Core Logic Specification</title>
+    <style>
+        :root {
+            --primary: #0f172a;       /* Dark Navy */
+            --secondary: #334155;     /* Slate */
+            --accent: #2563eb;        /* Blue */
+            --accent-bg: #f1f5f9;     /* Light Grey */
+            --border: #e2e8f0;
+            --code-bg: #1e293b;
+            --code-text: #e2e8f0;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "Menlo", "Monaco", "Consolas", monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--secondary);
+            background-color: #f8fafc;
+            line-height: 1.6;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 280px;
+            height: 100vh;
+            background: #fff;
+            border-right: 1px solid var(--border);
+            padding: 30px 20px;
+            position: fixed;
+            overflow-y: auto;
+        }
+
+        nav h3 { font-size: 0.85rem; text-transform: uppercase; color: #94a3b8; margin-bottom: 15px; letter-spacing: 1px; font-weight: 700; }
+        nav ul { list-style: none; }
+        nav li { margin-bottom: 5px; }
+        nav a { 
+            text-decoration: none; 
+            color: var(--secondary); 
+            font-size: 0.9rem; 
+            display: block; 
+            padding: 10px 12px; 
+            border-radius: 6px; 
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        nav a:hover { background: var(--accent-bg); color: var(--primary); }
+        nav a.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; border-left-color: var(--accent); }
+
+        /* Main Content */
+        main {
+            margin-left: 280px;
+            padding: 60px 80px;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; font-weight: 800; }
+        .doc-meta { color: #64748b; font-size: 0.9rem; margin-bottom: 50px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        
+        h2 { font-size: 1.8rem; color: var(--primary); margin-top: 70px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--border); display: flex; align-items: center; }
+        h2 .tag { font-size: 0.9rem; background: var(--accent); color: white; padding: 4px 10px; border-radius: 20px; margin-left: 15px; font-weight: normal; vertical-align: middle; }
+        
+        h3 { font-size: 1.3rem; color: var(--primary); margin-top: 40px; margin-bottom: 15px; font-weight: 700; }
+
+        p { margin-bottom: 16px; text-align: justify; font-size: 1rem; }
+
+        /* Technical Components */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-size: 0.95rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .spec-table th, .spec-table td { padding: 15px 20px; border-bottom: 1px solid var(--border); text-align: left; }
+        .spec-table th { background: #f1f5f9; font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.85rem; }
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        .formula-box {
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            border-left: 6px solid var(--accent);
+            padding: 25px;
+            border-radius: 6px;
+            margin: 25px 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .formula { font-family: var(--font-mono); font-weight: bold; font-size: 1.2rem; color: var(--primary); margin-bottom: 15px; }
+        .variable { font-size: 0.95rem; color: #475569; margin-left: 0; display: block; margin-bottom: 8px; padding-left: 15px; border-left: 2px solid #e2e8f0; }
+
+        .code-block {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 25px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            margin: 20px 0;
+            overflow-x: auto;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+        }
+        .comment { color: #94a3b8; font-style: italic; }
+        .keyword { color: #c084fc; font-weight: bold; }
+        .function { color: #60a5fa; }
+        .number { color: #facc15; }
+        .string { color: #a3e635; }
+
+        .rationale {
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #92400e;
+            margin-top: 10px;
+        }
+        .rationale strong { display: block; margin-bottom: 5px; color: #b45309; }
+
+        /* Scroll Smooth */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <h3>Metric Specifications</h3>
+    <ul>
+        <li><a href="#intro">1. Overview</a></li>
+        <li><a href="#hir">2. HIR (유효 행동 비율)</a></li>
+        <li><a href="#rtr">3. RTR (관계 온도)</a></li>
+        <li><a href="#bcr">4. BCR (행동 일관성)</a></li>
+        <li><a href="#phr">5. PHR (파이프라인 건전성)</a></li>
+        <li><a href="#fgr">6. Field Growth Rate</a></li>
+        <li><a href="#pi">7. Prescription Index</a></li>
+    </ul>
+</nav>
+
+<main>
+    <section id="intro">
+        <h1>Core Logic Specification</h1>
+        <div class="doc-meta">
+            Project: Behavior-Driven CRM v2.1 &nbsp;|&nbsp; 
+            Focus: Business Logic & Calculation Formulas
+        </div>
+        <p>본 문서는 <strong>Behavior-Driven CRM</strong>을 구성하는 6대 핵심 지표의 산출 로직을 기술합니다. 각 지표는 단순한 통계가 아닌, <strong>영업 현장의 비효율을 제거하고 성과를 공정하게 평가</strong>하기 위해 설계되었습니다.</p>
+    </section>
+
+    <!-- 1. HIR -->
+    <section id="hir">
+        <h2>2. HIR (High-Impact Rate) <span class="tag">Efficiency</span></h2>
+        <p>단순히 '몇 번 방문했나(Count)'가 아니라, <strong>'매출에 기여하는 유효한 행동을 했나(Impact)'</strong>를 측정하는 지표입니다.</p>
+
+        <div class="formula-box">
+            <div class="formula">HIR = Σ ( 행동가중치 × 질적점수 × 영향력계수 ) / 총활동수 × 100</div>
+            <span class="variable"><strong>• 행동가중치:</strong> 방문(3.0) > 설명회(2.5) > 전화(1.0) 등 난이도 반영</span>
+            <span class="variable"><strong>• 질적점수:</strong> GPS 인증, 체류시간, 자료 활용 여부에 따른 보정 (0.8 ~ 1.2)</span>
+            <span class="variable"><strong>• 영향력계수:</strong> 과거 데이터 분석 결과, 해당 제품의 매출 상승과 상관관계가 높은 행동일수록 가산점 부여</span>
+        </div>
+
+        <div class="rationale">
+            <strong>💡 Logic Rationale (설계 의도)</strong>
+            영업사원이 실적을 채우기 위해 의미 없는 '안부 문자'나 '단순 방문'만 반복하는 <strong>허수 영업(Abuse)</strong>을 방지하고, 회사가 전략적으로 중요하게 생각하는 행동(예: 신약 설명회)을 유도하기 위함입니다.
+        </div>
+    </section>
+
+    <!-- 2. RTR -->
+    <section id="rtr">
+        <h2>3. RTR (Relationship Temperature Rate) <span class="tag">Health</span></h2>
+        <p>고객과의 관계가 현재 얼마나 뜨거운지(Hot) 혹은 식었는지(Cold)를 <strong>온도(Temperature)</strong>로 나타냅니다.</p>
+
+        <div class="formula-box">
+            <div class="formula">RTR = Σ ( 감정점수 × 시간감쇠계수 )</div>
+            <span class="variable"><strong>• 감정점수(Sentiment):</strong> 활동 기록 내 키워드 분석 (긍정 +10 ~ +20 / 부정 -10 ~ -30)</span>
+            <span class="variable"><strong>• 시간감쇠(Time Decay):</strong> 최근 활동일수록 100% 반영, 오래될수록 영향력 감소</span>
+        </div>
+
+        <div class="code-block">
+<span class="comment">// 시간 경과에 따른 가중치 감소 로직 (Time Decay)</span>
+<span class="keyword">function</span> <span class="function">calculateTimeDecay</span>(daysPassed) {
+    <span class="keyword">if</span> (daysPassed <= <span class="number">7</span>) <span class="keyword">return</span> <span class="number">1.0</span>;  <span class="comment">// 1주일 이내: 생생함 (100%)</span>
+    <span class="keyword">if</span> (daysPassed <= <span class="number">14</span>) <span class="keyword">return</span> <span class="number">0.8</span>; <span class="comment">// 2주일 이내: 약간 식음 (80%)</span>
+    <span class="keyword">if</span> (daysPassed <= <span class="number">30</span>) <span class="keyword">return</span> <span class="number">0.5</span>; <span class="comment">// 1달 이내: 흐릿함 (50%)</span>
+    <span class="keyword">return</span> <span class="number">0.1</span>;                     <span class="comment">// 1달 경과: 관계 리셋 (10%)</span>
+}
+        </div>
+
+        <div class="rationale">
+            <strong>💡 Logic Rationale (설계 의도)</strong>
+            과거에 아무리 친했어도 최근에 방문하지 않았다면 관계는 식습니다. 이를 수치화하여 <strong>고객 이탈(Churn)</strong>이나 경쟁사 진입 징후를 조기에 포착합니다.
+        </div>
+    </section>
+
+    <!-- 3. BCR -->
+    <section id="bcr">
+        <h2>4. BCR (Behavior Consistency Rate) <span class="tag">Routine</span></h2>
+        <p>영업 활동이 얼마나 <strong>꾸준하고 규칙적</strong>으로 이루어지는지 평가하여, '월말 몰라치기' 영업을 방지합니다.</p>
+
+        <div class="formula-box">
+            <div class="formula">BCR = (총량점수 × 0.4) + (규칙성점수 × 0.6)</div>
+            <span class="variable"><strong>• 총량점수:</strong> 목표 콜 수 달성률</span>
+            <span class="variable"><strong>• 규칙성점수:</strong> 방문 간격의 <strong>표준편차(Standard Deviation)</strong> 역수</span>
+        </div>
+
+        <div class="rationale">
+            <strong>💡 Logic Rationale (설계 의도)</strong>
+            활동량(Quantity)만 평가하면 월말에 몰아서 방문하는 부작용이 생깁니다. <strong>표준편차</strong>를 도입하여 매일 꾸준히 활동하는 영업사원이 더 높은 점수를 받도록 설계했습니다. 이는 재고 관리 효율화와도 직결됩니다.
+        </div>
+    </section>
+
+    <!-- 4. PHR -->
+    <section id="phr">
+        <h2>5. PHR (Proactive Health Rate) <span class="tag">Pipeline</span></h2>
+        <p>모든 영업 미팅이 <strong>'다음 약속(Next Step)'</strong>으로 이어지는지 확인하여, 파이프라인의 건전성을 측정합니다.</p>
+
+        <div class="formula-box">
+            <div class="formula">PHR = ( 유효한 Next Action 수 / 총 활동 수 ) × 100</div>
+        </div>
+
+        <div class="code-block">
+<span class="keyword">function</span> <span class="function">validateNextAction</span>(actionDate, note) {
+    <span class="comment">// 1. 날짜가 미래인가?</span>
+    <span class="keyword">if</span> (actionDate <= <span class="keyword">new</span> Date()) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// 이미 지난 날짜는 무효</span>
+    
+    <span class="comment">// 2. 구체적인 계획이 있는가? (단순 인사는 제외)</span>
+    <span class="keyword">if</span> (note.length < <span class="number">5</span> || isAbstract(note)) <span class="keyword">return</span> <span class="number">0</span>;
+    
+    <span class="keyword">return</span> <span class="number">100</span>; <span class="comment">// 유효한 파이프라인으로 인정</span>
+}
+        </div>
+
+        <div class="rationale">
+            <strong>💡 Logic Rationale (설계 의도)</strong>
+            "다음에 밥 한번 먹자"는 영업이 아닙니다. 구체적인 날짜와 용건이 있는 약속만을 유효 데이터로 인정하여, 기약 없는 미팅(Dead Lead)을 최소화합니다.
+        </div>
+    </section>
+
+    <!-- 5. Field Growth Rate -->
+    <section id="fgr">
+        <h2>6. Field Growth Rate (필드 성장률) <span class="tag">Market Share</span></h2>
+        <p>단순 매출액 증가가 아닌, <strong>실질적인 시장 장악력(처방 수량)</strong>의 성장 추이를 측정합니다.</p>
+
+        <div class="formula-box">
+            <div class="formula">Growth Rate = (처방량 성장률 × 0.6) + (매출액 성장률 × 0.4)</div>
+        </div>
+
+        <div class="code-block">
+<span class="comment">// 성장률 가중 평균 계산 로직</span>
+<span class="keyword">let</span> quantityGrowth = calcGrowth(currentMetrics.totalQuantity, comparisonMetrics.totalQuantity);
+<span class="keyword">let</span> revenueGrowth = calcGrowth(currentMetrics.totalRevenue, comparisonMetrics.totalRevenue);
+
+<span class="comment">// 처방량(Q)에 60%, 매출액(P)에 40% 가중치 부여</span>
+<span class="keyword">const</span> fieldGrowthRate = (quantityGrowth * <span class="number">0.6</span>) + (revenueGrowth * <span class="number">0.4</span>);
+        </div>
+
+        <div class="rationale">
+            <strong>💡 Logic Rationale (설계 의도)</strong>
+            약가 인하 등 외부 요인으로 매출액(Price)은 변동될 수 있습니다. 하지만 <strong>처방 수량(Quantity)</strong>은 영업사원의 노력이 직접 반영된 결과입니다. 따라서 <strong>처방량(Q)에 더 높은 가중치(60%)</strong>를 두어 실질적인 시장 지배력을 평가합니다.
+        </div>
+    </section>
+
+    <!-- 6. Prescription Index -->
+    <section id="pi">
+        <h2>7. Prescription Index (처방 기반 성과지수) <span class="tag">Fairness</span></h2>
+        <p>병원 규모와 영업 난이도를 고려하여 <strong>성과를 공정하게 보정(Normalization)</strong>한 지표입니다.</p>
+
+        <div class="formula-box">
+            <div class="formula">Index = (가중 처방량 × 0.7) + (성장률 점수 × 0.3)</div>
+        </div>
+
+        <div class="code-block">
+<span class="comment">// 병원 타입별 가중치 적용 (난이도 보정)</span>
+<span class="keyword">const</span> accountWeight = 
+    account.type === <span class="string">'TERTIARY'</span> ? <span class="number">1.5</span> :  <span class="comment">// 상급종합병원 (난이도 최상)</span>
+    account.type === <span class="string">'GENERAL'</span>  ? <span class="number">1.2</span> :  <span class="comment">// 종합병원</span>
+    <span class="number">1.0</span>;                                 <span class="comment">// 의원/약국 (기본)</span>
+
+<span class="comment">// 최종 가중치 계산</span>
+<span class="keyword">const</span> finalWeight = accountWeight * priceWeight;
+<span class="keyword">const</span> weightedQuantity = prescription.quantity * finalWeight;
+        </div>
+
+        <div class="rationale">
+            <strong>💡 Logic Rationale (설계 의도)</strong>
+            동네 의원에서의 100건 처방과 대학병원에서의 100건 처방은 투입되는 노력과 난이도가 다릅니다. <strong>상급종합병원에 1.5배의 가중치</strong>를 부여함으로써, 어려운 영업을 성공시킨 담당자를 더 높게 평가하는 <strong>공정한 보상 체계</strong>를 마련했습니다.
+        </div>
+    </section>
+
+</main>
+
+<script>
+    // 네비게이션 활성화 스크립트
+    const navLinks = document.querySelectorAll('nav a');
+    const sections = document.querySelectorAll('section');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= (sectionTop - 150)) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
