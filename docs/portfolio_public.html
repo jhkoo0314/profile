@@ -115,13 +115,50 @@
 
         /* Animation */
         .gs-reveal { opacity: 0; }
+
+        @media print {
+            body, html {
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            #presentation {
+                height: auto !important;
+                width: 100% !important;
+            }
+            .slide {
+                position: relative !important;
+                width: 100% !important;
+                height: 100vh !important; /* Landscape orientation support */
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: flex !important;
+                page-break-after: always;
+                break-after: page;
+                z-index: auto !important;
+                top: auto !important;
+                left: auto !important;
+                padding: 4rem !important;
+            }
+            .gs-reveal {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .footer {
+                display: none !important;
+            }
+            /* Ensure charts show up if possible, though canvas print support varies */
+            canvas {
+                max-width: 100% !important;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div id="presentation">
     <!-- Slide 01: Main -->
-    <section class="slide active" data-step2-selected="1" style="">
+    <section class="slide active" data-step2-selected="1">
         <div class="container gs-reveal">
             <span class="meta">Business Architect Portfolio</span>
             <h1 style="font-size: 60px; font-weight: 800; text-align: left;">현장의 경험을,&nbsp;<span style="letter-spacing: -0.04em;">시스템으로 만드는<br></span><span style="color: var(--accent); letter-spacing: -0.04em;">비즈니스 기획자.</span></h1>

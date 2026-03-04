@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Pro - 실적 분석의 프리미엄 표준</title>
+    <!-- 테마 B를 위한 외부 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Theme B: Enterprise Swiss */
+            --bg-body: #F8FAFC;          /* Cool Gray 50 */
+            --bg-card: #FFFFFF;          /* Pure White */
+            --text-main: #0F172A;        /* Slate 900 */
+            --text-dim: #475569;         /* Slate 600 */
+            --border-color: #CBD5E1;     /* Slate 300 */
+            --accent: #0F766E;           /* Teal 700 - 단일 포인트 컬러 */
+            --accent-light: #CCFBF1;     /* Teal 100 */
+            
+            --font-head: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg-body); 
+            color: var(--text-main); 
+            font-family: var(--font-body);
+            overflow: hidden;
+            line-height: 1.6;
+        }
+
+        #presentation { width: 100vw; height: 100vh; position: relative; }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            padding: 6rem 8rem; /* 넉넉한 숄더 여백 */
+            display: flex; flex-direction: column;
+            justify-content: flex-start; /* Rule 1: 억지 늘리기 금지, 상단부터 그룹화 */
+            visibility: hidden; pointer-events: none;
+            background: var(--bg-body);
+            overflow-y: auto;
+        }
+
+        .slide.active { visibility: visible; pointer-events: auto; }
+
+        /* 테마 B: 엄격한 면과 선 (그림자, 라운드 배제) */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0; /* 라운드 금지 */
+            padding: 3rem;
+            box-shadow: none; /* 그림자 배제 */
+        }
+
+        /* 헤드라인 스타일 (단정하고 볼드한 타이포그래피) */
+        h1 { font-family: var(--font-head); font-weight: 700; font-size: 4.5rem; letter-spacing: -0.02em; line-height: 1.3; color: var(--text-main); margin-bottom: 1.5rem; }
+        h1 span { color: var(--accent); }
+        h2 { font-family: var(--font-head); font-weight: 700; font-size: 2.5rem; margin-bottom: 2.5rem; color: var(--text-main); border-bottom: 2px solid var(--text-main); display: inline-block; padding-bottom: 0.8rem; line-height: 1.3; }
+
+        .sub-text { font-size: 1.3rem; color: var(--text-dim); max-width: 850px; line-height: 1.8; }
+        .highlight { color: var(--accent); font-weight: 600; background: var(--accent-light); padding: 0 0.2rem; }
+
+        /* 레이아웃 (Enterprise 12-column grid inspiration) */
+        .grid-2 { 
+            display: grid; 
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem; 
+            align-items: start;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .grid-col-left { grid-column: span 5; }
+        .grid-col-right { grid-column: span 7; }
+        .grid-full { grid-column: span 12; }
+        
+        /* 차트 컨테이너 제한 */
+        .chart-container {
+            width: 100%;
+            height: auto; /* Rule 1: 컨텐츠에 맞게 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            background: #fff;
+        }
+        
+        canvas {
+            max-width: 100% !important;
+            max-height: 350px !important; /* 오버플로우 방지 */
+        }
+        .stagger-item { opacity: 0; transform: translateY(20px); }
+
+        /* 하단 컨트롤 (미니멀 디자인) */
+        .controls {
+            position: fixed; bottom: 3rem; right: 4rem;
+            display: flex; gap: 1.5rem; align-items: center; z-index: 1000;
+        }
+        .btn {
+            width: 50px; height: 50px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0; color: var(--text-main); cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .btn:hover { background: var(--text-main); color: var(--bg-card); border-color: var(--text-main); }
+        .progress { font-family: var(--font-head); font-weight: 500; font-size: 1.1rem; color: var(--text-dim); letter-spacing: 0.1em; }
+
+        /* 파이프라인 (도형 중심) */
+        .journey-map {
+            display: flex; justify-content: space-between; align-items: stretch; margin-top: 3rem;
+        }
+        .journey-node {
+            flex: 1; margin: 0 1rem; text-align: left;
+            border-top: 3px solid var(--border-color);
+            padding-top: 1.5rem; position: relative;
+        }
+        .journey-node:first-child { margin-left: 0; border-top-color: var(--accent); }
+        .node-icon {
+            margin-bottom: 1rem;
+        }
+        .node-icon i { color: var(--text-main); width: 32px; height: 32px; }
+        
+        .kpi-chip {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.4rem 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 2.5rem; /* 간격 확대 */
+        }
+
+        /* 테이블/목록 (Consulting Style) */
+        .swiss-list { list-style: none; margin-top: 1.5rem; border-top: 1px solid var(--border-color); }
+        .swiss-list li { 
+            display: flex; align-items: center; padding: 1rem 0; 
+            border-bottom: 1px solid var(--border-color); 
+            color: var(--text-main); 
+        }
+        .swiss-list i { color: var(--accent); margin-right: 1rem; width: 18px; }
+    </style>
+</head>
+<body>
+    <div id="presentation">
+        <!-- 슬라이드 1: 표지 -->
+        <section class="slide" id="slide1" style="justify-content: center; align-items: center; text-align: center;">
+            <div class="stagger-item">
+                <div class="kpi-chip">STRATEGIC PERFORMANCE ARCHITECTURE</div>
+                <h1 style="margin-top: 1.5rem; font-size: 4rem;">PDF (Prescription Data Flow)<br><span>성과 분석의 새로운 아키텍처</span></h1>
+                <p class="sub-text" style="margin: 2rem auto 0; max-width: 950px;">
+                    데이터의 흐름(Flow)을 통해 영업 현장의 노력을 정량적 실적으로 치환합니다.<br>
+                    비용 70% 절감과 100% 투명한 KPI 도출을 위한 차세대 데이터 파이프라인.
+                </p>
+                <div style="margin-top: 4rem; display: flex; gap: 4rem; justify-content: center;">
+                    <div>
+                        <p style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase;">Edition</p>
+                        <p style="font-weight: 500;">Enterprise 2.0</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase;">Doc Type</p>
+                        <p style="font-weight: 500;">Executive Blueprint</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 슬라이드 2: 현실적인 격차 -->
+        <section class="slide" id="slide2">
+            <div class="grid-2">
+                <div class="grid-full">
+                    <h2 class="stagger-item">Current State: 투자의 비효율</h2>
+                </div>
+                <div class="grid-col-left stagger-item">
+                    <p class="sub-text" style="color: var(--text-main); margin-bottom: 3rem; font-weight: 500;">
+                        연간 수억 원의 비용이 정작 우리 내부가 아닌 <strong class="highlight">외부 데이터 구매</strong>에 소비되고 있으며, 이는 실적 귀속의 불투명성이라는 근본 문제를 해결하지 못합니다.
+                    </p>
+                    <div class="card" style="border-left: 4px solid var(--accent); height: auto;">
+                        <p style="font-size: 0.9rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.5rem;">Annual External Data Cost</p>
+                        <h3 style="font-size: 3rem; font-family: var(--font-head); color: var(--text-main); font-weight: 700;">KRW 850M+</h3>
+                    </div>
+                </div>
+                <div class="grid-col-right card stagger-item chart-container">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 슬라이드 3: 솔루션 비전 -->
+        <section class="slide" id="slide3" style="justify-content: center; align-items: center; text-align: center;">
+            <div class="stagger-item" style="max-width: 1000px;">
+                <!-- 네임텍 대신 상단 강조 라벨로 변경 -->
+                <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem;">
+                    Strategic Vision / 핵심 전략 방향
+                </div>
+                
+                <h2 style="font-size: 5rem; border: none; margin-bottom: 2rem; line-height: 1.1; display: block; width: 100%;">
+                    Data <span style="color: var(--accent);">Self-Reliance</span>
+                </h2>
+                
+                <div style="width: 60px; height: 3px; background: var(--accent); margin: 2rem auto;"></div>
+                
+                <div style="padding-top: 1rem; display: inline-block;">
+                    <p class="sub-text" style="font-size: 1.6rem; color: var(--text-main); max-width: 900px;">
+                        PDF 모델은 기존의 벤더 의존형 데이터 구조를 탈피하여,<br>
+                        자사 도매 출하 데이터 기반의 <strong>독자적 실적 검증 체계</strong>를 확립합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 슬라이드 4: 여정 (Pipeline) -->
+        <section class="slide" id="slide4">
+            <div style="max-width: 1200px; width: 100%; margin: 0 auto;">
+                <h2 class="stagger-item">Value Chain: 실적 도출 프로세스</h2>
+                <div class="journey-map" style="margin-top: 3rem;">
+                    <div class="journey-node stagger-item">
+                        <div class="node-icon"><i data-lucide="database"></i></div>
+                        <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent);">Phase 1. Sourcing</h4>
+                        <p style="font-size: 0.95rem; font-weight: 500;">전국 도매망 출하 데이터 취합</p>
+                        <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem;">내부 인프라를 통한 원천 데이터 확보 및 정제.</p>
+                    </div>
+                    <div class="journey-node stagger-item">
+                        <div class="node-icon"><i data-lucide="map"></i></div>
+                        <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Phase 2. Mapping</h4>
+                        <p style="font-size: 0.95rem; font-weight: 500;">현장 조사 기반의 정밀 연결</p>
+                        <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem;">문전/인근 약국 매핑 알고리즘 적용.</p>
+                    </div>
+                    <div class="journey-node stagger-item">
+                        <div class="node-icon"><i data-lucide="search"></i></div>
+                        <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Phase 3. Analytics</h4>
+                        <p style="font-size: 0.95rem; font-weight: 500;">실적의 인과관계 규명</p>
+                        <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem;">노력 지표와 최종 처방 간의 상관성 분석.</p>
+                    </div>
+                    <div class="journey-node stagger-item">
+                        <div class="node-icon"><i data-lucide="bar-chart-2"></i></div>
+                        <h4 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Phase 4. Reporting</h4>
+                        <p style="font-size: 0.95rem; font-weight: 500;">데이터 기반 KPI 확정</p>
+                        <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem;">투명한 룰 기반의 보상 지표 산출.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 슬라이드 5: 정밀 식별 기술 -->
+        <section class="slide" id="slide5">
+            <div class="grid-2">
+                <div style="grid-column: 1 / -1;">
+                    <h2 class="stagger-item">Technical Advantage: 고유 식별 시스템</h2>
+                </div>
+                <div class="stagger-item">
+                    <h4 style="font-size: 1.4rem; margin-bottom: 1rem; color: var(--text-main);">Entity Resolution Logic</h4>
+                    <p class="sub-text">
+                        다양한 포맷의 거래처명, 주소를 단일 식별자(Master ID)로 병합하여, 
+                        중복 산정을 차단하고 <span class="highlight">순수 매출 성과</span>만을 추출하는 코어 모듈입니다.
+                    </p>
+                    <ul class="swiss-list">
+                        <li><i data-lucide="check-square"></i> 주소 문자열 정규화 및 형태소 분석</li>
+                        <li><i data-lucide="check-square"></i> 사업자/요양기관 번호 교차 검증</li>
+                        <li><i data-lucide="check-square"></i> 미포착 거래처의 수동/자동 라우팅 처리</li>
+                    </ul>
+                </div>
+                <div class="card stagger-item" style="background: var(--text-main); color: white;">
+                    <p style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1.5rem;">System Log Output</p>
+                    <div style="font-family: monospace; font-size: 0.9rem; line-height: 1.8;">
+                        <span style="color: var(--border-color);">[10:42:01]</span> Input: "서울아산약국(송파)"<br>
+                        <span style="color: var(--border-color);">[10:42:02]</span> Match found: 98.4%<br>
+                        <span style="color: var(--border-color);">[10:42:02]</span> Assigning Master_ID: <span style="color: var(--accent-light);">UID_88301B</span><br>
+                        <span style="color: var(--border-color);">[10:42:03]</span> Validation: <span style="color: var(--accent-light);">PASSED</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 슬라이드 6: 공정한 정산 로직 -->
+        <section class="slide" id="slide6">
+            <div class="grid-2">
+                <div style="grid-column: 1 / -1;">
+                    <h2 class="stagger-item">Operation: 객관적 쉐어(Share) 배분</h2>
+                </div>
+                <div class="stagger-item card chart-container" style="padding: 2rem;">
+                    <canvas id="shareChart"></canvas>
+                </div>
+                <div class="stagger-item">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Rule-based Allocation</h3>
+                    <p class="sub-text" style="margin-bottom: 2rem;">
+                        휴먼 에러와 자의적 판단을 배제하기 위해, 사전 합의된 정책을 수학적 알고리즘으로 치환하여 시스템에 내재화했습니다.
+                    </p>
+                    <div style="border-left: 2px solid var(--border-color); padding-left: 1.5rem;">
+                        <p style="font-weight: 600; margin-bottom: 0.5rem;">01. 가중치 모델 (Weighted Model)</p>
+                        <p style="font-size: 0.95rem; color: var(--text-dim); margin-bottom: 1.5rem;">종병 인근/의원 특성을 반영한 비율 자동 계산.</p>
+                        
+                        <p style="font-weight: 600; margin-bottom: 0.5rem;">02. 정합성 스위치 (Integrity Switch)</p>
+                        <p style="font-size: 0.95rem; color: var(--text-dim);">로직 적용 전후의 Total Value가 100% 일치함을 보장.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 슬라이드 7: 유연한 운영 -->
+        <section class="slide" id="slide7">
+            <div class="grid-2">
+                <div style="grid-column: 1 / -1;">
+                    <h2 class="stagger-item">Agility: 관리자 시뮬레이션 환경</h2>
+                </div>
+                <div class="stagger-item">
+                    <p class="sub-text" style="color: var(--text-main); font-weight: 500; font-size: 1.4rem;">
+                        코드 수정 배포 과정 없이, UI상에서 즉각적으로 배분 변수를 시뮬레이션하고 <span class="highlight">최종 KPI 영향을 사전 검증</span>합니다.
+                    </p>
+                </div>
+                <div class="card stagger-item">
+                    <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between;">
+                        <span style="font-size: 0.85rem; font-weight: 600;">Simulation Parameters</span>
+                        <i data-lucide="sliders" style="width: 18px; color: var(--accent);"></i>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.9rem;">종병 인근 약국 쉐어 비중</span>
+                            <span style="font-size: 0.9rem; font-weight: 600;">60%</span>
+                        </div>
+                        <div style="width: 100%; height: 6px; background: var(--border-color);">
+                            <div style="width: 60%; height: 100%; background: var(--text-main);"></div>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-body); padding: 1.5rem;">
+                        <p style="font-size: 0.85rem; color: var(--text-dim);">예측 결과 (Forecast)</p>
+                        <p style="font-size: 1.8rem; font-weight: 700; font-family: var(--font-head); color: var(--accent);">324.5M KRW</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 슬라이드 8: 경제적 성과 -->
+        <section class="slide" id="slide8">
+            <div style="max-width: 1200px; width: 100%; margin: 0 auto;">
+                <h2 class="stagger-item">Executive Summary: 도입 성과 지표</h2>
+                <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                    <div class="card stagger-item" style="flex: 1; border-top: 4px solid var(--text-main);">
+                        <p style="font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Financial Impact</p>
+                        <h3 style="font-size: 4.5rem; font-family: var(--font-head); margin: 1rem 0; line-height: 1; color: var(--text-main);">70%</h3>
+                        <p style="font-weight: 500;">불필요 연간 예산 절감</p>
+                    </div>
+                    <div class="card stagger-item" style="flex: 1; border-top: 4px solid var(--accent);">
+                        <p style="font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Operational Speed</p>
+                        <h3 style="font-size: 4.5rem; font-family: var(--font-head); margin: 1rem 0; line-height: 1; color: var(--accent);">15x</h3>
+                        <p style="font-weight: 500;">데이터 산출 사이클 단축</p>
+                    </div>
+                    <div class="card stagger-item" style="flex: 1; border-top: 4px solid var(--border-color);">
+                        <p style="font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Data Reliability</p>
+                        <h3 style="font-size: 4.5rem; font-family: var(--font-head); margin: 1rem 0; line-height: 1; color: var(--text-main);">100%</h3>
+                        <p style="font-weight: 500;">로직 기반 원천 추적 확보</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 슬라이드 9: 감사 -->
+        <section class="slide" id="slide9" style="justify-content: center; align-items: center; text-align: center;">
+            <div class="stagger-item" style="max-width: 800px;">
+                <h1 style="font-size: 4.5rem; margin-bottom: 2rem;">End of Document.</h1>
+                <p class="sub-text" style="margin: 0 auto;">PDF 구축을 통해 단순 데이터 관리를 넘어,<br>영업 본연의 전략에 집중할 수 있는 <span style="color: var(--text-main); font-weight: 600;">근본적 비즈니스 인프라</span>를 제안합니다.</p>
+                
+                <div style="margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border-color); display: inline-block;">
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">© 2026 Strategy & Operations / SFE Specialist.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 하단 컨트롤 바 -->
+    <div class="controls">
+        <div class="progress"><span id="currIdx">01</span> / 09</div>
+        <button class="btn" onclick="prev()"><i data-lucide="arrow-left"></i></button>
+        <button class="btn" onclick="next()"><i data-lucide="arrow-right"></i></button>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let currentIdx = 0;
+        const slides = document.querySelectorAll('.slide');
+        let isAnimating = false;
+
+        function showSlide(idx) {
+            if (isAnimating || idx < 0 || idx >= slides.length) return;
+            isAnimating = true;
+
+            try {
+                // Rule 4: 결벽적 레이어 정리 (Total Cleanup)
+                slides.forEach(s => {
+                    s.classList.remove('active');
+                    gsap.set(s, { visibility: 'hidden', 'pointer-events': 'none' });
+                });
+
+                const target = slides[idx];
+                if (!target) return; // Fail-Safe
+
+                target.classList.add('active');
+                gsap.set(target, { visibility: 'visible', 'pointer-events': 'auto' });
+
+                // 요소 Stagger (간결한 슬라이드인(Slide-in) 효과)
+                gsap.fromTo(target.querySelectorAll('.stagger-item'), 
+                    { opacity: 0, y: 15 },
+                    { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: "power2.out" }
+                );
+
+                currentIdx = idx;
+                const numStr = (currentIdx + 1).toString().padStart(2, '0');
+                document.getElementById('currIdx').innerText = numStr;
+                
+            } finally {
+                // Rule 4: 상태 제어 강제 해제
+                setTimeout(() => { isAnimating = false; }, 500);
+            }
+        }
+
+        function next() { showSlide(currentIdx + 1); }
+        function prev() { showSlide(currentIdx - 1); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') next();
+            if (e.key === 'ArrowLeft') prev();
+        });
+
+        // 차트 설정 (Theme B)
+        function initCharts() {
+            const ctx1 = document.getElementById('costChart')?.getContext('2d');
+            if (ctx1) {
+                new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: ['기존 벤더 데이터', 'PDF Pro'],
+                        datasets: [{
+                            data: [100, 30],
+                            backgroundColor: ['#0F172A', '#0F766E'],
+                            borderWidth: 0,
+                            barThickness: 60
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: { 
+                            y: { display: false },
+                            x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 13 }, color: '#475569' } }
+                        }
+                    }
+                });
+            }
+
+            const ctx2 = document.getElementById('shareChart')?.getContext('2d');
+            if (ctx2) {
+                new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['구역 A', '구역 B', '구역 C'],
+                        datasets: [{
+                            data: [55, 30, 15],
+                            backgroundColor: ['#0F172A', '#475569', '#CBD5E1'],
+                            borderWidth: 1,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        cutout: '75%',
+                        plugins: { 
+                            legend: { 
+                                position: 'right', 
+                                labels: { font: { family: 'Inter', size: 13 }, color: '#0F172A', padding: 20 } 
+                            } 
+                        }
+                    }
+                });
+            }
+        }
+
+        window.onload = () => {
+            initCharts();
+            showSlide(0);
+        };
+    </script>
+</body>
+</html>
