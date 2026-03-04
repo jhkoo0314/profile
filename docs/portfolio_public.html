@@ -217,6 +217,7 @@
                         <ul class="swiss-list" style="margin-top:0;">
                             <li><strong>Behavior - CRM&nbsp;</strong> <span>영업 행동 유도 및 데이터 자산화의 기반 시스템.</span></li>
                             <li><strong>SFE Sandbox</strong> <span>실적분석 대시보드 및 리포팅 자동화 파이프라인.</span></li>
+                            <li><strong>PDF (Prescription Data Flow)</strong> <span>도매 데이터 기반의 독자적 성과 분석 아키텍처 및 비용 최적화.</span></li>
                             <li><strong>HTML Builder</strong> <span>비즈니스 자료를 분석하고 발표가능한 자료를 만드는 초고속 자동 생산 엔진.</span></li>
                             <li><strong>BIDIX</strong> <span>부동산 경매 시뮬레이션 엔진 및 권리 분석 플랫폼.</span></li>
                             <li><strong>BIDIX Crawler</strong> <span>방대한 법원 경매 데이터의 실시간 공급 및 정보수집 자동화.</span></li>
@@ -347,10 +348,76 @@
         </div>
     </section>
 
-    <!-- Slide 08: HTML Builder 1 -->
+    <!-- Slide 08: PDF 1 -->
     <section class="slide" data-step2-selected="1">
         <div class="container">
-            <span class="meta">Project 03. HTML Builder</span>
+            <span class="meta">Project 03. PDF (Prescription Data Flow)</span>
+            <h2>데이터 권리 확보: 독자적 성과 분석 아키텍처.</h2>
+            <div class="grid-12">
+                <div class="col-12 gs-reveal">
+                    <h3>"외부 데이터 의존에서 데이터 자립으로."</h3>
+                    <p class="subtitle" style="font-size:1.1rem; margin-bottom:1rem;">연간 수억 원의 외부 데이터 비용을 절감하고, 자사 데이터를 기반으로 100% 투명한 실적 귀속 체계를 구축합니다.</p>
+                </div>
+                <div class="col-6 gs-reveal">
+                    <div class="data-block accent">
+                        <h4>Strategic Value</h4>
+                        <ul class="swiss-list">
+                            <li><i data-lucide="trending-down"></i><strong>비용 절감</strong> <span>불필요한 연간 데이터 구매 예산 70% <br/>절감</span></li>
+                            <li><i data-lucide="shield-check"></i><strong>데이터 주권</strong> <span>벤더 의존을 탈피한 독자적 실적 검증 <br/>체계 확립</span></li>
+                            <li><i data-lucide="check-circle"></i><strong>무결성 보장</strong> <span>수학적 알고리즘 기반의 100% 투명한 <br/>성과 배분</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6 gs-reveal">
+                    <div class="data-block">
+                        <div class="chart-wrapper" style="height:250px; margin-top:0;">
+                            <canvas id="chartPDFCost"></canvas>
+                        </div>
+                        <p class="text-muted" style="font-size:0.85rem; margin-top:1rem; text-align:center;">도입 전후 연간 데이터 유지 비용 비교 (KRW)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 09: PDF 2 -->
+    <section class="slide" data-step2-selected="1">
+        <div class="container">
+            <span class="meta">Project 03. PDF (Prescription Data Flow)</span>
+            <h2>정밀 식별 기술 및 성과 배분 로직.</h2>
+            <div class="grid-12 gs-reveal">
+                <div class="col-7">
+                    <div class="data-block">
+                        <i data-lucide="code" style="width:24px; color:var(--accent); margin-bottom:1rem;"></i>
+                        <h3>Entity Resolution & Allocation</h3>
+                        <p class="text-muted" style="margin-bottom:1.5rem;">흩어진 거래처 정보를 단일 Master ID로 병합하고, 정책 기반의 가중치를 자동 계산합니다.</p>
+                        <ul class="swiss-list">
+                            <li><strong>정밀 식별</strong> <span>주소 정규화 및 사업자 번호 교차 검증을 통한 중복 제거</span></li>
+                            <li><strong>가중치 모델</strong> <span>종병 인근/의원 특성을 반영한 자동 쉐어 배분 알고리즘</span></li>
+                            <li><strong>시뮬레이션</strong> <span>웹 상에서 즉각적인 배분 변수 조정 및 KPI 사전 검증</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="data-block accent" style="background: var(--bg-sub);">
+                        <h3>Expected Impact</h3>
+                        <div style="margin-top:2rem;">
+                            <h4 style="color:var(--text-main); font-size: 2.5rem;">15x</h4>
+                            <p class="text-muted">데이터 산출 사이클 단축</p>
+                            <div style="margin-top:2rem;"></div>
+                            <h4 style="color:var(--accent); font-size: 2.5rem;">100%</h4>
+                            <p class="text-muted">로직 기반 원천데이터 추적성 확보</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: HTML Builder 1 -->
+    <section class="slide" data-step2-selected="1">
+        <div class="container">
+            <span class="meta">Project 04. HTML Builder</span>
             <h2>보고서 생산성 효율화: 최신 기술 활용</h2><div class="grid-12">
                 <div class="col-12 gs-reveal">
                     <h3>"전략 수립 본연의 시간에 90% 집중."</h3>
@@ -385,10 +452,10 @@
         </div>
     </section>
 
-    <!-- Slide 09: HTML Builder 2 -->
+    <!-- Slide 11: HTML Builder 2 -->
     <section class="slide" data-step2-selected="1">
         <div class="container">
-            <span class="meta">Project 03. HTML Builder</span>
+            <span class="meta">Project 04. HTML Builder</span>
             <h2>고품질 딜리버러블의 즉각적 자산화.</h2>
             <div class="grid-12 gs-reveal">
                 <div class="col-4">
@@ -413,10 +480,10 @@
         </div>
     </section>
 
-    <!-- Slide 10: BIDIX 1 -->
+    <!-- Slide 12: BIDIX 1 -->
     <section class="slide" data-step2-selected="1">
         <div class="container">
-            <span class="meta">Project 04. BIDIX Platform</span>
+            <span class="meta">Project 05. BIDIX Platform</span>
             <h2>부동산 경매 시뮬레이션 엔진 구축.</h2><div class="grid-12">
                 <div class="col-6 gs-reveal">
                     <div class="data-block accent">
@@ -444,10 +511,10 @@
         </div>
     </section>
 
-    <!-- Slide 11: BIDIX 2 -->
+    <!-- Slide 13: BIDIX 2 -->
     <section class="slide" data-step2-selected="1">
         <div class="container">
-            <span class="meta">Project 04. BIDIX Platform</span>
+            <span class="meta">Project 05. BIDIX Platform</span>
             <h2>1인 체제 완결성: 기획에서 배포까지.</h2>
             <div class="grid-12 gs-reveal">
                 <div class="col-12">
@@ -478,11 +545,10 @@
         </div>
     </section>
 
-    <!-- Slide 12: BIDIX Crawler 1 -->
-    <!-- Slide 12: BIDIX Crawler 1 -->
+    <!-- Slide 14: BIDIX Crawler 1 -->
     <section class="slide">
         <div class="container">
-            <span class="meta">Project 05. BIDIX Crawler</span>
+            <span class="meta">Project 06. BIDIX Crawler</span>
             <h2>정보 공급망 자동화: 데이터 파이프라인.</h2>
             <div class="grid-12">
                 <div class="col-12 gs-reveal">
@@ -510,10 +576,10 @@
         </div>
     </section>
 
-    <!-- Slide 13: BIDIX Crawler 2 -->
+    <!-- Slide 15: BIDIX Crawler 2 -->
     <section class="slide" data-step2-selected="1">
         <div class="container">
-            <span class="meta">Project 05. BIDIX Crawler</span>
+            <span class="meta">Project 06. BIDIX Crawler</span>
             <h2>정보 자산의 연속성 및 안정성 정책.</h2>
             <div class="grid-12 gs-reveal">
                 <div class="col-6">
@@ -537,7 +603,7 @@
         </div>
     </section>
 
-    <!-- Slide 14: Synergy -->
+    <!-- Slide 16: Synergy -->
     <section class="slide" data-step2-selected="1">
         <div class="container">
             <span class="meta">Business Impact</span>
@@ -562,7 +628,7 @@
         </div>
     </section>
 
-    <!-- Slide 15: Capabilities -->
+    <!-- Slide 17: Capabilities -->
     <section class="slide" data-step2-selected="1">
         <div class="container">
             <span class="meta">Core Competencies</span>
@@ -587,7 +653,7 @@
         </div>
     </section>
 
-    <!-- Slide 16: Vision -->
+    <!-- Slide 18: Vision -->
     <section class="slide" data-step2-selected="1">
         <div class="container">
             <span class="meta">Future Vision</span>
@@ -604,7 +670,7 @@
         </div>
     </section>
 
-    <!-- Slide 17: Closing -->
+    <!-- Slide 19: Closing -->
     <section class="slide" data-step2-selected="1">
         <div class="container gs-reveal" style="text-align:center;">
             <span class="meta">Presentation Finished</span>
@@ -621,7 +687,7 @@
 <!-- Footer -->
 <div class="footer">
     <div class="page-info">
-        <div class="page-num" id="pageIndicator">01 / 17</div>
+        <div class="page-num" id="pageIndicator">01 / 19</div>
         <div class="project-tag" id="projectTag">Identity</div>
     </div>
     <div class="nav-btns">
@@ -644,6 +710,7 @@
     const tags = [
         "Identity", "Value", "Architecture", 
         "CRM.01", "CRM.02", "SFE.01", "SFE.02", 
+        "PDF.01", "PDF.02",
         "Builder.01", "Builder.02", "BIDIX.01", "BIDIX.02", 
         "Crawler.01", "Crawler.02", "Impact", "Skills", "Vision", "Closing"
     ];
@@ -740,6 +807,26 @@
                 datasets: [{ data: [45, 30, 25], backgroundColor: ['#020617', '#059669', '#E2E8F0'] }] 
             },
             options: { ...commonOptions, cutout: '70%', plugins: { legend: { display:true, position:'bottom' } } }
+        });
+
+        // PDF Cost Chart
+        new Chart(document.getElementById('chartPDFCost'), {
+            type: 'bar',
+            data: { 
+                labels: ['기존 벤더 데이터', 'PDF Pro'], 
+                datasets: [{ 
+                    data: [850, 255], 
+                    backgroundColor: ['#E2E8F0', '#059669'],
+                    barThickness: 60
+                }] 
+            },
+            options: { 
+                ...commonOptions,
+                scales: { 
+                    y: { display: true, beginAtZero: true, title: { display: true, text: 'Mil KRW' } },
+                    x: { grid: { display: false } }
+                }
+            }
         });
     }
 
