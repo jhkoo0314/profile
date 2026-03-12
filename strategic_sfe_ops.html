@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFE OPS: Strategic Actionable Architect</title>
+    
+    <!-- SEO & Metadata -->
+    <meta name="description" content="제약 영업 14년의 현장 경험을 시스템으로 구조화한 실행형 기획자의 SFE OPS 포트폴리오. CRM, 데이터 플로우, 공간 최적화 등 실질적 운영 체계를 직접 설계하고 빌드합니다.">
+    
+    <!-- Resources -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --bg-deep: #050510;
+            --bg-dark: #0A0A15;
+            --bg-card: rgba(20, 20, 35, 0.6);
+            --accent: #4F46E5;
+            --accent-glow: rgba(79, 70, 229, 0.4);
+            --text-main: #F8FAFC;
+            --text-sub: #94A3B8;
+            --text-dim: #64748B;
+            
+            /* Module Colors */
+            --c-crm: #EC4899;
+            --c-sandbox: #10B981;
+            --c-territory: #3B82F6;
+            --c-flow: #F59E0B;
+            --c-builder: #8B5CF6;
+            
+            --font-main: 'Outfit', 'Pretendard', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Utils */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; }
+        .mono { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em; }
+        .highlight { color: var(--accent); }
+        h1, h2, h3 { font-weight: 900; line-height: 1.1; word-break: keep-all; }
+        p { word-break: keep-all; }
+
+        /* Background Elements */
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(255,255,255,0.03) 1px, transparent 0);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+        .bg-glow {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            filter: blur(100px); opacity: 0.1; z-index: -1;
+        }
+
+        /* Section Layout */
+        section { padding: 10rem 0; min-height: 100vh; display: flex; align-items: center; }
+
+        /* 1. HERO */
+        .hero { position: relative; overflow: hidden; justify-content: flex-start; }
+        .hero-content { max-width: 800px; z-index: 10; }
+        .hero-label { 
+            display: inline-flex; align-items: center; gap: 0.8rem;
+            padding: 0.5rem 1rem; background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 100px;
+            margin-bottom: 2rem; font-weight: 700; color: var(--accent);
+        }
+        .hero h1 { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 2rem; }
+        .hero .desc { font-size: 1.5rem; color: var(--text-sub); max-width: 600px; font-weight: 300; }
+        
+        .hero-visual {
+            position: absolute; right: -5%; top: 50%; transform: translateY(-50%);
+            width: 50vw; height: 50vw; opacity: 0.4; pointer-events: none;
+        }
+
+        /* 2. PERSPECTIVE */
+        .perspective { background: var(--bg-dark); }
+        .perspective-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .perspective-text h2 { font-size: 3rem; margin-bottom: 2rem; }
+        .perspective-text p { font-size: 1.25rem; color: var(--text-sub); margin-bottom: 1.5rem; }
+        
+        .timeline { border-left: 2px solid rgba(255,255,255,0.1); padding-left: 2rem; display: flex; flex-direction: column; gap: 3rem; }
+        .timeline-item { position: relative; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -2.4rem; top: 0.5rem;
+            width: 12px; height: 12px; border-radius: 50%; background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+        .timeline-year { font-weight: 900; color: var(--text-dim); margin-bottom: 0.5rem; }
+        .timeline-desc { font-weight: 500; font-size: 1.1rem; }
+
+        /* 3. SFE OPS ARCHITECTURE */
+        .architecture { position: relative; overflow: hidden; background: var(--bg-deep); }
+        .arch-header { text-align: center; margin-bottom: 6rem; }
+        .arch-header h2 { font-size: 3.5rem; margin-bottom: 1.5rem; }
+        
+        .system-map {
+            position: relative; width: 100%; height: 750px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: visible;
+        }
+        .map-core {
+            position: absolute; z-index: 50; width: 160px; height: 160px;
+            background: var(--bg-dark); border: 2px solid var(--accent);
+            border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 0 50px var(--accent-glow), inset 0 0 20px rgba(79, 70, 229, 0.2);
+            transform: rotate(45deg);
+        }
+        .map-core-content { transform: rotate(-45deg); text-align: center; }
+        .map-core-content i { color: var(--accent); margin-bottom: 0.5rem; }
+        .map-core-content span { font-weight: 900; color: white; letter-spacing: 0.1rem; font-size: 1.2rem; }
+
+        .map-node {
+            position: absolute; width: 240px; padding: 1.8rem;
+            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 1.5rem;
+            backdrop-filter: blur(15px); z-index: 10; transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transform: translate(-50%, -50%);
+        }
+        .map-node:hover { transform: translate(-50%, -60%); border-color: var(--node-color); box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px var(--node-color); z-index: 60; }
+        .map-node i { color: var(--node-color); margin-bottom: 1rem; width: 24px; height: 24px; }
+        .map-node h3 { font-size: 1.25rem; margin-bottom: 0.6rem; color: white; }
+        .map-node p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.5; }
+
+        /* Precise Node Positions (Relative to 50% 50% center) */
+        .node-crm { top: 12%; left: 25%; --node-color: var(--c-crm); }
+        .node-sandbox { top: 12%; left: 75%; --node-color: var(--c-sandbox); }
+        .node-territory { top: 85%; left: 15%; --node-color: var(--c-territory); }
+        .node-flow { top: 85%; left: 85%; --node-color: var(--c-flow); }
+        .node-builder { top: 48%; left: 15%; --node-color: var(--c-builder); }
+
+        .system-lines { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        .path-line { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 1.5; }
+        .path-active { 
+            fill: none; stroke: var(--path-color, var(--accent)); 
+            stroke-width: 2; opacity: 0.4; 
+            stroke-dasharray: 8, 12; 
+            animation: dash 30s linear infinite; 
+        }
+        @keyframes dash { to { stroke-dashoffset: -1000; } }
+
+        /* 4. OPERATING LOOP */
+        .loop-section { background: var(--bg-dark); position: relative; }
+        .loop-container { position: relative; }
+        .loop-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; margin-top: 4rem; z-index: 2; position: relative; }
+        .loop-connector {
+            position: absolute; top: 50%; left: 10%; width: 80%; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.2), transparent);
+            z-index: 1; transform: translateY(-50%);
+        }
+        .loop-step {
+            text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+            padding: 2.5rem 1rem; border-radius: 1.5rem; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+            position: relative;
+        }
+        .loop-step:hover { background: rgba(255,255,255,0.05); }
+        .step-num { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); font-weight: 700; }
+        .step-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--bg-deep); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); font-size: 1.5rem; }
+        .loop-step h4 { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1rem; }
+
+        /* 5. MODULE DETAILS */
+        .module-detail { padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .module-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; margin-bottom: 10rem; }
+        .module-row:nth-child(even) { direction: rtl; }
+        .module-row:nth-child(even) .module-text { direction: ltr; }
+        .module-text .tag { color: var(--m-color); font-weight: 900; margin-bottom: 1rem; display: block; }
+        .module-text h3 { font-size: 3rem; margin-bottom: 2rem; }
+        .module-text p { font-size: 1.2rem; color: var(--text-sub); }
+        
+        .module-visual {
+            height: 400px; background: var(--bg-card); border-radius: 2rem;
+            position: relative; display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05); overflow: hidden;
+        }
+
+        /* 6. EXTENDED PORTFOLIO */
+        .extended { background: var(--bg-dark); }
+        .ext-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 4rem; }
+        .ext-card {
+            padding: 3rem; border-radius: 2rem; background: var(--bg-deep);
+            border: 1px solid rgba(255,255,255,0.05); transition: var(--transition);
+        }
+        .ext-card:hover { border-color: var(--accent); transform: scale(1.02); }
+        .ext-card h3 { font-size: 2rem; margin-bottom: 1rem; }
+        .ext-card p { color: var(--text-sub); }
+
+        /* 7. CLOSING */
+        .closing { text-align: center; }
+        .closing h2 { font-size: 4rem; margin-bottom: 4rem; }
+        .role-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; max-width: 800px; margin: 0 auto; }
+        .role-tag {
+            padding: 1rem 2rem; background: var(--bg-dark); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px; font-weight: 700; font-size: 1.1rem; transition: var(--transition);
+        }
+        .role-tag:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+        footer { padding: 4rem 0; background: var(--bg-deep); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: var(--text-dim); }
+
+        @media (max-width: 1024px) {
+            .perspective-grid, .module-row { grid-template-columns: 1fr; gap: 3rem; }
+            .system-map { height: 1000px; flex-direction: column; gap: 2rem; }
+            .map-node { position: static; width: 100%; transform: none !important; }
+            .system-lines { display: none; }
+            .loop-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <!-- Navigation -->
+    <nav style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 2rem;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="mono" style="font-weight: 900; font-size: 1.2rem;">SFE.OPS_V2</div>
+            <div style="display: flex; gap: 2rem;">
+                <a href="#architecture" style="color: var(--text-main); text-decoration: none; font-weight: 500;">SYSTEM</a>
+                <a href="#loop" style="color: var(--text-main); text-decoration: none; font-weight: 500;">LOOP</a>
+                <a href="#modules" style="color: var(--text-main); text-decoration: none; font-weight: 500;">MODULES</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-label">
+                    <i data-lucide="shield-check"></i>
+                    <span class="mono">ACTIONABLE STRATEGIST</span>
+                </div>
+                <h1>단순한 기획을 넘어<br><span class="highlight">운영 시스템</span>을 빌드합니다.</h1>
+                <p class="desc">제약 영업 14년의 도메인 지식을 바탕으로,<br>문서가 아닌 "실제 작동하는 체계"를 설계하고 직접 구현하는 실행형 기획자입니다.</p>
+            </div>
+            
+            <div class="hero-visual">
+                <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="var(--accent)" stroke-width="0.5" opacity="0.2" />
+                    <circle cx="50" cy="50" r="35" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.1" />
+                    <path d="M 50 5 L 50 95 M 5 50 L 95 50" stroke="var(--accent)" stroke-width="0.2" opacity="0.3" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. PERSPECTIVE -->
+    <section class="perspective">
+        <div class="container perspective-grid">
+            <div class="perspective-text">
+                <span class="mono" style="color: var(--accent); margin-bottom: 1rem; display: block;">PHILOSOPHY</span>
+                <h2>왜 시스템인가?</h2>
+                <p>현장의 문제는 감이 아니라 구조로 해결해야 합니다. 14년의 필드 영업 경험은 나에게 '진짜 문제'가 무엇인지 알려주었습니다.</p>
+                <p>문제가 정의되면, 나는 그것을 데이터 플로우와 운영 로직으로 해석합니다. 그리고 직접 빌드하여 현장에서 즉시 작동하도록 만듭니다.</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">FIELD EXPERIENCE</div>
+                    <div class="timeline-desc">14년의 제약 영업 현장 전문성 확보</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">PROBLEM SOLVING</div>
+                    <div class="timeline-desc">현장의 파편화된 데이터를 구조적 한계로 인식</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">SYSTEM DESIGN</div>
+                    <div class="timeline-desc">SFE OPS 통합 운영 체계 설계</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">DIRECT BUILD</div>
+                    <div class="timeline-desc">프로토타입을 넘어 실제 사용 가능한 엔진 빌드</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SFE OPS ARCHITECTURE -->
+    <section id="architecture" class="architecture">
+        <div class="container">
+            <div class="arch-header">
+                <span class="mono" style="color: var(--accent); margin-bottom: 1rem; display: block;">CORE SYSTEM</span>
+                <h2>SFE OPS Architecture</h2>
+                <p style="color: var(--text-sub); font-size: 1.2rem;">5개의 핵심 모듈이 유기적으로 연결된 단 하나의 운영체계</p>
+            </div>
+
+            <div class="system-map">
+                <svg class="system-lines" viewBox="0 0 1200 750">
+                    <!-- Base Lines (Static) -->
+                    <path class="path-line" d="M 300 90 L 600 375" />
+                    <path class="path-line" d="M 900 90 L 600 375" />
+                    <path class="path-line" d="M 180 637 L 600 375" />
+                    <path class="path-line" d="M 1020 637 L 600 375" />
+                    <path class="path-line" d="M 180 360 L 600 375" />
+                    
+                    <!-- Active Flux Lines -->
+                    <path class="path-active" style="--path-color: var(--c-crm);" d="M 300 90 L 600 375" />
+                    <path class="path-active" style="--path-color: var(--c-sandbox);" d="M 900 90 L 600 375" />
+                    <path class="path-active" style="--path-color: var(--c-territory);" d="M 180 637 L 600 375" />
+                    <path class="path-active" style="--path-color: var(--c-flow);" d="M 1020 637 L 600 375" />
+                    <path class="path-active" style="--path-color: var(--c-builder);" d="M 180 360 L 600 375" />
+                </svg>
+
+                <div class="map-core">
+                    <div class="map-core-content">
+                        <i data-lucide="cpu" style="width: 40px; height: 40px;"></i><br>
+                        <span>SFE OPS</span>
+                    </div>
+                </div>
+
+                <!-- 5 Modules as Nodes -->
+                <div class="map-node node-crm">
+                    <i data-lucide="brain"></i>
+                    <h3>Behavior CRM</h3>
+                    <p>행동 선행 지표 중심의 정량적 분석 및 코칭 체계</p>
+                </div>
+
+                <div class="map-node node-sandbox">
+                    <i data-lucide="flask-conical"></i>
+                    <h3>SFE Sandbox</h3>
+                    <p>데이터 연동 및 시각화 통합 분석 엔진</p>
+                </div>
+
+                <div class="map-node node-builder">
+                    <i data-lucide="hammer"></i>
+                    <h3>HTML Builder</h3>
+                    <p>전략 기획 문서 자동 생성 및 빌드 자동화</p>
+                </div>
+
+                <div class="map-node node-territory">
+                    <i data-lucide="map"></i>
+                    <h3>Territory Optimizer</h3>
+                    <p>공간 자원 배분 및 영업 동선 최적화</p>
+                </div>
+
+                <div class="map-node node-flow">
+                    <i data-lucide="activity"></i>
+                    <h3>Data Flow</h3>
+                    <p>처방 경로 및 실적 배분 초정밀 추적 시스템</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OPERATING LOOP -->
+    <section id="loop" class="loop-section">
+        <div class="container loop-container">
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <span class="mono" style="color: var(--accent);">WORKFLOW</span>
+                <h2 style="font-size: 3rem; margin-top: 1rem;">Operating Loop</h2>
+                <p style="color: var(--text-sub); margin-top: 1rem;">시스템은 순환하며 스스로 강화됩니다.</p>
+            </div>
+
+            <div class="loop-connector"></div>
+            <div class="loop-grid">
+                <div class="loop-step">
+                    <span class="step-num">STEP 01</span>
+                    <div class="step-icon"><i data-lucide="user-check"></i></div>
+                    <h4>행동 (Action)</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">현장 활동 기록</p>
+                </div>
+                <div class="loop-step">
+                    <span class="step-num">STEP 02</span>
+                    <div class="step-icon"><i data-lucide="pie-chart"></i></div>
+                    <h4>분석 (Analysis)</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">성과 상관관계 도출</p>
+                </div>
+                <div class="loop-step">
+                    <span class="step-num">STEP 03</span>
+                    <div class="step-icon"><i data-lucide="git-branch"></i></div>
+                    <h4>배분 (Allocation)</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">자원 최적화 재배치</p>
+                </div>
+                <div class="loop-step">
+                    <span class="step-num">STEP 04</span>
+                    <div class="step-icon"><i data-lucide="check-circle-2"></i></div>
+                    <h4>검증 (Verification)</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">데이터 무결성 확인</p>
+                </div>
+                <div class="loop-step">
+                    <span class="step-num">STEP 05</span>
+                    <div class="step-icon"><i data-lucide="zap"></i></div>
+                    <h4>실행 (Execution)</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-dim);">자동화된 전략 배포</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MODULE DETAILS -->
+    <section id="modules">
+        <div class="container">
+            <div class="module-row" style="--m-color: var(--c-crm);">
+                <div class="module-text">
+                    <span class="tag">MODULE 01. BEHAVIOR CRM</span>
+                    <h3>행동이 성과를 만든다</h3>
+                    <p>통제 불가능한 매출(후행지표) 대신, 어떻게 움직여야 성과가 나는지(선행지표)를 관리합니다. 영업 사원의 세일즈 행동을 정량화하여 과학적 코칭의 근거를 마련합니다.</p>
+                </div>
+                <div class="module-visual">
+                    <div style="width: 80%; height: 60%; background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), transparent); border: 2px solid var(--c-crm); border-radius: 1rem; display: flex; align-items: center; justify-content: center; position: relative;">
+                        <i data-lucide="bar-chart-big" style="width: 60px; height: 60px; color: var(--c-crm);"></i>
+                        <div style="position: absolute; bottom: 1rem; width: 90%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+                            <div style="width: 70%; height: 100%; background: var(--c-crm); box-shadow: 0 0 10px var(--c-crm);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-row" style="--m-color: var(--c-sandbox);">
+                <div class="module-text">
+                    <span class="tag">MODULE 02. SFE SANDBOX</span>
+                    <h3>전략의 실험실</h3>
+                    <p>파편화된 현장 데이터와 외부 처방 데이터를 하나의 인터페이스로 통합합니다. 기획자는 가설을 세우고 에뮬레이션을 통해 가장 효과적인 시나리오를 시각적으로 확인합니다.</p>
+                </div>
+                <div class="module-visual">
+                    <div style="width: 70%; height: 70%; position: relative;">
+                        <div style="position: absolute; width:100%; height: 100%; border: 1px dashed var(--c-sandbox); border-radius: 50%; animation: dash 20s linear infinite;"></div>
+                        <div style="position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: var(--c-sandbox); border-radius: 8px;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="module-row" style="--m-color: var(--c-territory);">
+                <div class="module-text">
+                    <span class="tag">MODULE 03. TERRITORY OPTIMIZER</span>
+                    <h3>공간 지능의 최적화</h3>
+                    <p>물리적 거리뿐만 아니라 처방 잠재력과 접근성을 동시에 고려한 배분 알고리즘입니다. 영업 사원의 피로도를 낮추고 거점 집중도를 높여 자원 효율을 극대화합니다.</p>
+                </div>
+                <div class="module-visual">
+                    <i data-lucide="map-pin" style="width: 100px; height: 100px; color: var(--c-territory); opacity: 0.5;"></i>
+                    <svg style="position: absolute; width:100%; height:100%;">
+                        <circle cx="50%" cy="50%" r="80" fill="none" stroke="var(--c-territory)" stroke-width="1" stroke-dasharray="10" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="module-row" style="--m-color: var(--c-flow);">
+                <div class="module-text">
+                    <span class="tag">MODULE 04. DATA FLOW</span>
+                    <h3>처방 경로의 투명성</h3>
+                    <p>도매에서 약국으로 이어지는 유통 흐름을 추적하여 실적 배분의 오차를 최소화합니다. 현업 영업직이 가장 민감하게 생각하는 '내 실적'의 근거를 데이터로 증명합니다.</p>
+                </div>
+                <div class="module-visual">
+                    <div style="display: flex; gap: 2rem; align-items: center;">
+                        <div style="width: 40px; height: 40px; border: 1px solid var(--c-flow); border-radius: 50%;"></div>
+                        <i data-lucide="arrow-right" style="color: var(--c-flow);"></i>
+                        <div style="width: 60px; height: 60px; background: var(--c-flow); border-radius: 12px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-row" style="--m-color: var(--c-builder);">
+                <div class="module-text">
+                    <span class="tag">MODULE 05. HTML BUILDER</span>
+                    <h3>빌드 자동화</h3>
+                    <p>단순 반복적인 보고서 작성을 자동화합니다. 기획자는 로직 설계에만 집중하고, 결과물은 웹 기반 프로토타입으로 즉시 생성되어 협업의 속도를 가속합니다.</p>
+                </div>
+                <div class="module-visual">
+                    <i data-lucide="code-2" style="width: 80px; height: 80px; color: var(--c-builder);"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. EXTENDED PORTFOLIO -->
+    <section class="extended">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <span class="mono" style="color: var(--accent);">EXPANSION</span>
+                <h2>Scalability</h2>
+                <p style="color: var(--text-sub); margin-top: 1rem;">SFE를 넘어 비즈니스 전반의 문제를 해결합니다.</p>
+            </div>
+            
+            <div class="ext-grid">
+                <div class="ext-card">
+                    <i data-lucide="shopping-bag" style="color: #EC4899; margin-bottom: 2rem;"></i>
+                    <div class="mono" style="color: #EC4899; font-size: 0.7rem; margin-bottom: 1rem;">PLATFORM PROJECT</div>
+                    <h3>BIDIX</h3>
+                    <p>1인 빌더로서 기획부터 배포까지 완료한 커머스 플랫폼 사례. 기술적 구현 능력을 증명합니다.</p>
+                </div>
+                <div class="ext-card">
+                    <i data-lucide="search" style="color: #06B6D4; margin-bottom: 2rem;"></i>
+                    <div class="mono" style="color: #06B6D4; font-size: 0.7rem; margin-bottom: 1rem;">DATA MINING</div>
+                    <h3>Smart Crawler</h3>
+                    <p>외부 비정형 데이터를 자산화하는 자동화 크롤러 시스템. 데이터 확보의 확장성을 보여줍니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CLOSING -->
+    <section class="closing">
+        <div class="container">
+            <span class="mono" style="color: var(--accent); display: block; margin-bottom: 2rem;">READY TO SCALE</span>
+            <h2>나는 이런 역할에 최적화된<br>기획자입니다.</h2>
+            
+            <div class="role-tags">
+                <div class="role-tag">SFE 전략 기획</div>
+                <div class="role-tag">영업 기획 및 운영 설계</div>
+                <div class="role-tag">CRM 구조 설계</div>
+                <div class="role-tag">비즈니스 데이터 관리</div>
+                <div class="role-tag">실행형 프로토타이핑</div>
+                <div class="role-tag">IT-비즈니스 브릿지</div>
+            </div>
+
+            <div style="margin-top: 6rem;">
+                <p style="color: var(--text-sub); font-size: 1.5rem; max-width: 700px; margin: 0 auto;">현업의 언어를 이해하고, 그것을 시스템의 언어로 번역하며, 결과물을 직접 빌드합니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="mono">&copy; 2026 STRATEGIC SFE OPS ARCHITECT GU JAEHYUN. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Lucide Icons
+        lucide.createIcons();
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Reveal
+        gsap.from(".hero h1", { opacity: 0, y: 50, duration: 1.2, ease: "expo.out" });
+        gsap.from(".hero .desc", { opacity: 0, y: 30, duration: 1.2, delay: 0.3, ease: "expo.out" });
+        gsap.from(".hero-label", { opacity: 0, x: -30, duration: 1, delay: 0.5, ease: "expo.out" });
+
+        // Scroll Reveals
+        const revealConfig = {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power2.out"
+        };
+
+        gsap.from(".perspective", { scrollTrigger: { trigger: ".perspective", start: "top 85%" }, ...revealConfig });
+        gsap.from(".architecture", { scrollTrigger: { trigger: ".architecture", start: "top 85%" }, ...revealConfig });
+        gsap.from(".module-row", { scrollTrigger: { trigger: ".module-row", start: "top 85%" }, opacity: 0, scale: 0.95, duration: 1, stagger: 0.3 });
+        gsap.from(".extended", { scrollTrigger: { trigger: ".extended", start: "top 85%" }, ...revealConfig });
+        gsap.from(".closing", { scrollTrigger: { trigger: ".closing", start: "top 85%" }, ...revealConfig });
+
+        // Loop Steps staggered
+        gsap.from(".loop-step", {
+            scrollTrigger: {
+                trigger: ".loop-grid",
+                start: "top 90%",
+            },
+            opacity: 0,
+            y: 30,
+            stagger: 0.1,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+
+        // Extended Cards
+        gsap.from(".ext-card", {
+            scrollTrigger: {
+                trigger: ".ext-grid",
+                start: "top 90%",
+            },
+            opacity: 0,
+            y: 40,
+            stagger: 0.2,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+
+        // Architecture Lines
+        gsap.from(".path-line", {
+            scrollTrigger: {
+                trigger: ".system-map",
+                start: "top 70%",
+            },
+            strokeDashoffset: 100,
+            opacity: 0,
+            duration: 2,
+            ease: "power1.inOut"
+        });
+
+    </script>
+</body>
+</html>

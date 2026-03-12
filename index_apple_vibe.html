@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUEJ.ARCH | The Logic of Excellence</title>
+    <!-- Fonts: Apple System Style -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg: #000000;
+            --text-main: #f5f5f7;
+            --text-sub: #86868b;
+            --accent: #2997ff;
+            --card-bg: #161617;
+            --glass: rgba(22, 22, 23, 0.8);
+            --font-apple: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-apple);
+            overflow-x: hidden;
+            word-break: keep-all;
+            line-height: 1.5;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 52px; z-index: 1000;
+            background: var(--glass); backdrop-filter: saturate(180%) blur(20px);
+            display: flex; justify-content: center; align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav-content { width: 100%; max-width: 1000px; display: flex; justify-content: space-between; padding: 0 20px; font-size: 12px; font-weight: 400; color: var(--text-main); }
+        .nav-logo { font-weight: 700; font-size: 14px; }
+
+        /* --- Hero Section --- */
+        .hero { 
+            padding: 15vh 20px 10vh; text-align: center; background: #000;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .hero-title { font-size: clamp(3.5rem, 9vw, 6.5rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 20px; }
+        .hero-sub { font-size: 1.5rem; color: var(--accent); font-weight: 600; margin-bottom: 40px; }
+        .hero-desc { max-width: 800px; font-size: 1.4rem; color: var(--text-sub); font-weight: 400; line-height: 1.6; }
+
+        /* --- Vertical Editorial Layout --- */
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .section-intro { padding: 100px 0 50px; text-align: left; }
+        .section-intro .label { color: var(--accent); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 15px; display: block; }
+        .section-intro h2 { font-size: 3.5rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 30px; }
+
+        /* --- Feature Cards (Clean Vertical) --- */
+        .feature-item { 
+            background: var(--card-bg); border-radius: 32px; 
+            margin-bottom: 40px; padding: 80px;
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px;
+            align-items: center; transition: transform 0.3s;
+        }
+        .feature-item:hover { transform: scale(1.01); }
+        .feature-content h3 { font-size: 2.8rem; font-weight: 700; margin-bottom: 25px; letter-spacing: -0.02em; }
+        .feature-content p { font-size: 1.25rem; color: var(--text-sub); line-height: 1.6; font-weight: 400; margin-bottom: 30px; }
+        .feature-tag { font-size: 0.85rem; font-weight: 700; color: var(--text-sub); padding: 6px 14px; border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; display: inline-block; }
+
+        .feature-visual { 
+            position: relative; aspect-ratio: 16/10; background: #000; 
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .metric-big { font-size: 4rem; font-weight: 800; color: #fff; letter-spacing: -0.05em; margin-bottom: 5px; }
+        .metric-sub { font-size: 0.9rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* --- BIDIX Bento Section --- */
+        .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px; }
+        .bento-item { background: var(--card-bg); border-radius: 32px; padding: 60px; height: 550px; display: flex; flex-direction: column; }
+        .bento-item.full { grid-column: span 2; height: auto; }
+        .bento-item h3 { font-size: 2.2rem; font-weight: 700; margin-bottom: 20px; }
+        .bento-item p { font-size: 1.2rem; color: var(--text-sub); line-height: 1.6; }
+        .bento-item .visual { margin-top: auto; height: 250px; background: #000; border-radius: 20px; display: flex; align-items: center; justify-content: center; }
+
+        /* --- Footer --- */
+        footer { padding: 15vh 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 100px; }
+        .footer-title { font-size: 4rem; font-weight: 700; margin-bottom: 40px; }
+        .btn-connect { font-size: 1.4rem; color: var(--accent); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-connect:hover { text-decoration: underline; }
+
+        /* --- Animations --- */
+        .reveal { opacity: 0; transform: translateY(30px); }
+
+        /* --- Mobile --- */
+        @media (max-width: 900px) {
+            .feature-item { grid-template-columns: 1fr; padding: 40px; gap: 40px; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-item { height: auto; padding: 40px; }
+            .hero-title { font-size: 3.2rem; }
+            .section-intro h2 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-content">
+            <div class="nav-logo">GUEJ.ARCH Pro</div>
+            <div class="nav-links" style="display: flex; gap: 25px; opacity: 0.8;">
+                <span>SFE OS</span>
+                <span>BIDIX</span>
+                <span>Connect</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1 class="hero-title reveal">Powerful Logic.<br>Simply Vertical.</h1>
+        <p class="hero-sub reveal">The SFE Operating System Overview</p>
+        <p class="hero-desc reveal">진정한 가독성은 명확한 설계에서 나옵니다.<br>14년의 도메인 경험을 집약한 비즈니스 OS의 핵심 레이어를 소개합니다.</p>
+    </section>
+
+    <!-- SFE Core Section -->
+    <div class="container">
+        <div class="section-intro reveal">
+            <span class="label">SFE OPS CORE</span>
+            <h2>하나의 흐름으로 완성되는<br>업무 운영의 정수.</h2>
+        </div>
+
+        <!-- P1: CRM -->
+        <div class="feature-item reveal">
+            <div class="feature-content">
+                <span class="feature-tag">Module 01</span>
+                <h3>Behavior CRM.<br><span style="color: #fff;">성과를 설계하다.</span></h3>
+                <p>통제 불가능한 결과에 의존하지 않습니다. 성공을 보장하는 8가지 행동 지표를 설계하여 성장을 필연적인 결과로 치환합니다.</p>
+                <div class="status-tag" style="color: var(--accent); font-weight: 700; font-size: 0.9rem;">
+                    <i data-lucide="check-circle-2" style="display: inline-block; vertical-align: middle; margin-right: 5px;"></i> Logic Verified
+                </div>
+            </div>
+            <div class="feature-visual">
+                <p class="metric-big">+42%</p>
+                <p class="metric-sub">HIR GROWTH RATE</p>
+            </div>
+        </div>
+
+        <!-- P2: Sandbox -->
+        <div class="feature-item reveal">
+            <div class="feature-visual" style="order: -1;">
+                <p class="metric-big">80%</p>
+                <p class="metric-sub">DECISION SPEEDUP</p>
+            </div>
+            <div class="feature-content">
+                <span class="feature-tag">Module 02</span>
+                <h3>SFE Sandbox.<br><span style="color: #fff;">기획의 언어로 통합.</span></h3>
+                <p>파편화된 현장의 데이터를 전략적 인사이트로 통합하는 분석 허브. 모든 의사결정의 근거를 데이터로 무결하게 정합합니다.</p>
+            </div>
+        </div>
+
+        <!-- P3: Optimizer -->
+        <div class="feature-item reveal">
+            <div class="feature-content">
+                <span class="feature-tag">Module 03</span>
+                <h3>Optimizer.<br><span style="color: #fff;">공간의 재배치.</span></h3>
+                <p>영업 현장의 공간적 한계를 지능형 맵 엔진으로 극복합니다. 동선 최적화를 통해 리소스 낭비를 최소화하고 거점 효율을 높입니다.</p>
+            </div>
+            <div class="feature-visual">
+                <i data-lucide="map" size="80" color="var(--accent)" stroke-width="1"></i>
+            </div>
+        </div>
+
+        <!-- P4: Flow -->
+        <div class="feature-item reveal">
+            <div class="feature-visual" style="order: -1;">
+                <i data-lucide="activity" size="80" color="#ff375f" stroke-width="1"></i>
+            </div>
+            <div class="feature-content">
+                <span class="feature-tag">Module 04</span>
+                <h3>Precision Flow.<br><span style="color: #fff;">데이터의 실핏줄.</span></h3>
+                <p>도매에서 약국, 병원으로 이어지는 처방 데이터의 미세한 흐름을 추적합니다. 실적 배분의 정확성을 보장하는 기술적 파이프라인.</p>
+            </div>
+        </div>
+
+        <!-- P5: Builder -->
+        <div class="feature-item reveal">
+            <div class="feature-content">
+                <span class="feature-tag">Module 05</span>
+                <h3>HTML Builder.<br><span style="color: #fff;">자동화를 통한 몰입.</span></h3>
+                <p>기획자가 제작이 아닌 '전략'에만 집중할 수 있도록 보고 업무의 80%를 자동화합니다. 인사이트의 가치를 높이는 기획 도구.</p>
+            </div>
+            <div class="feature-visual">
+                <i data-lucide="wand-2" size="80" color="#8B5CF6" stroke-width="1"></i>
+            </div>
+        </div>
+
+        <!-- BIDIX Section -->
+        <div class="section-intro reveal" style="margin-top: 150px;">
+            <span class="label" style="color: #ff375f;">Strategic Expansion</span>
+            <h2>BIDIX CORE:<br>시스템으로 정복하는 비즈니스.</h2>
+        </div>
+
+        <div class="bento-grid">
+            <div class="bento-item reveal">
+                <h3>BIDIX Platform</h3>
+                <p>18종의 복합 변수를 알고리즘화한 독자적 SOF 프레임워크. 비전문 도메인을 시스템 공학으로 해결하는 1인 아키텍처의 정수입니다.</p>
+                <div class="visual">
+                    <i data-lucide="shield-check" size="64" color="#ff375f"></i>
+                </div>
+            </div>
+            <div class="bento-item reveal">
+                <h3>BIDIX Crawler</h3>
+                <p>데이터 주권을 확보하는 원천 기술. 24/7 실시간 마이닝 파이프라인을 통해 외부 환경 변화에 선제적으로 대응합니다.</p>
+                <div class="visual">
+                    <i data-lucide="layers" size="64" color="#ff375f"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final CTA -->
+    <footer>
+        <div class="container">
+            <h2 class="footer-title reveal">Logic into Growth.</h2>
+            <p class="hero-desc reveal" style="margin: 0 auto 50px;">불확실한 현장의 로직을 무결한 시스템 아키텍처로 완성합니다.</p>
+            <a href="mailto:koojaehyun@example.com" class="btn-connect reveal">
+                Get in Touch <i data-lucide="arrow-right"></i>
+            </a>
+            <p style="margin-top: 120px; color: var(--text-sub); font-size: 13px;">© 2026 GU JAEHYUN PRO. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Reveal Animations ---
+        document.querySelectorAll('.reveal').forEach((el) => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 88%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+        });
+
+        // --- Subtle Parallax and Tilt for Cards ---
+        document.querySelectorAll('.feature-item').forEach(item => {
+            gsap.to(item.querySelector('.feature-visual'), {
+                scrollTrigger: {
+                    trigger: item,
+                    scrub: 1,
+                    start: "top bottom",
+                    end: "bottom top"
+                },
+                y: -30
+            });
+        });
+    </script>
+</body>
+</html>

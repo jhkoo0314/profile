@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GU JAEHYUN | VERCEL STYLE PORTFOLIO</title>
+    <!-- Inter Font: The gold standard for Vercel aesthetics -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #000000;
+            --text-main: #FFFFFF;
+            --text-sub: #888888;
+            --border: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(255, 255, 255, 0.3);
+            --accent: #FFFFFF;
+            --font-inter: 'Inter', 'Pretendard', sans-serif;
+            --card-bg: #0A0A0A;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-inter);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* --- Global Background Effects --- */
+        .spotlight {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: sticky; top: 0; width: 100%; border-bottom: 1px solid var(--border);
+            padding: 16px 40px; background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(5px);
+            z-index: 100; display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { font-weight: 800; letter-spacing: -0.05em; font-size: 1.2rem; cursor: pointer; }
+        .nav-links { display: flex; gap: 24px; font-size: 0.85rem; color: var(--text-sub); font-weight: 500; }
+        .nav-links span:hover { color: #FFF; cursor: pointer; }
+
+        /* --- Main Layout --- */
+        .container { max-width: 1000px; margin: 0 auto; padding: 120px 20px; position: relative; z-index: 1; }
+
+        /* --- Hero Section --- */
+        .hero { text-align: center; margin-bottom: 120px; }
+        .hero-tag {
+            display: inline-block; padding: 4px 12px; background: #111;
+            border: 1px solid #333; border-radius: 100px; font-size: 0.75rem;
+            color: var(--text-sub); margin-bottom: 24px; font-weight: 500;
+        }
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 900; letter-spacing: -0.06em;
+            line-height: 0.95; margin-bottom: 24px;
+        }
+        .hero p {
+            max-width: 600px; margin: 0 auto; color: var(--text-sub); 
+            font-size: 1.25rem; font-weight: 300; letter-spacing: -0.02em;
+        }
+
+        /* --- Bento Grid / Cards --- */
+        .grid {
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px;
+            background: var(--border); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden;
+        }
+        .card {
+            background: var(--bg); padding: 40px; position: relative;
+            transition: background 0.2s ease; display: flex; flex-direction: column;
+        }
+        .card:hover { background: #080808; }
+        .card-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.03em; }
+        .card-desc { color: var(--text-sub); font-size: 0.95rem; font-weight: 400; line-height: 1.5; }
+
+        /* Grid Sizes */
+        .col-4 { grid-column: span 4; }
+        .col-3 { grid-column: span 3; }
+        .col-2 { grid-column: span 2; }
+        .row-2 { grid-row: span 2; }
+
+        /* Icon Container */
+        .icon {
+            width: 40px; height: 40px; border: 1px solid #333; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+            background: #000;
+        }
+
+        /* CTA Button */
+        .cta-btn {
+            display: inline-block; padding: 12px 32px; background: #FFF; color: #000;
+            border-radius: 6px; font-weight: 600; text-decoration: none; margin-top: 40px;
+            transition: 0.2s; border: 1px solid transparent;
+        }
+        .cta-btn:hover { background: #000; color: #FFF; border-color: #333; }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--border); padding: 60px 20px; text-align: center;
+            color: var(--text-sub); font-size: 0.8rem;
+        }
+
+        /* --- Border Light Effect --- */
+        .border-glow {
+            position: absolute; inset: 0; pointer-events: none;
+            border-radius: inherit; box-shadow: inset 0 0 0 1px transparent;
+            transition: box-shadow 0.2s;
+        }
+        .card:hover .border-glow { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4); }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .col-4, .col-3, .col-2 { grid-column: span 1; }
+            .hero h1 { font-size: 3rem; }
+            .container { padding: 80px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="spotlight"></div>
+
+    <nav>
+        <div class="nav-logo">
+            <svg width="24" height="24" viewBox="0 0 76 65" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px; vertical-align: middle;">
+                <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="white"/>
+            </svg>
+            GU JAEHYUN
+        </div>
+        <div class="nav-links">
+            <span>Showcase</span>
+            <span>Documentation</span>
+            <span>Systems</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-tag">SFE & CRM Strategy Master</div>
+            <h1>Business <br>Architecture.</h1>
+            <p>14년간의 필드 데이터와 테크니컬 기획력을 결합하여,<br>기업의 성장을 가속화하는 무결한 아키텍처를 구축합니다.</p>
+            <a href="#" class="cta-btn">Start the Journey</a>
+        </section>
+
+        <!-- Bento Grid -->
+        <div class="grid">
+            
+            <!-- Highlight 01 -->
+            <div class="card col-4">
+                <div class="border-glow"></div>
+                <div class="icon"><i data-lucide="zap" size="20"></i></div>
+                <h2 class="card-title">SFE Sandbox Engine</h2>
+                <p class="card-desc">실시간 파이프라인 기술을 활용한 성과 분석 엔진. 수동 보고를 자동화하여 의사결정 속도를 기존 대비 80% 이상 혁신했습니다.</p>
+            </div>
+
+            <!-- Highlight 02 -->
+            <div class="card col-2">
+                <div class="border-glow"></div>
+                <div class="icon"><i data-lucide="bar-chart-large" size="20"></i></div>
+                <h2 class="card-title">Data Mastery</h2>
+                <p class="card-desc">14년 현장 데이터를 기반으로 한 정밀 예측 모델.</p>
+            </div>
+
+            <!-- Highlight 03 -->
+            <div class="card col-3">
+                <div class="border-glow"></div>
+                <div class="icon"><i data-lucide="users" size="20"></i></div>
+                <h2 class="card-title">Behavior CRM</h2>
+                <p class="card-desc">성공적인 행동 지표(Action KPI)를 정의하고 이를 전사적 성공 패턴으로 복제하는 기획 프레임워크.</p>
+            </div>
+
+            <!-- Highlight 04 -->
+            <div class="card col-3">
+                <div class="border-glow"></div>
+                <div class="icon"><i data-lucide="file-code" size="20"></i></div>
+                <h2 class="card-title">HTML Report Builder</h2>
+                <p class="card-desc">복잡한 데이터를 수직 레이아웃의 웹 슬라이드로 변환하여 보고 리소스를 90% 이상 절감한 자동화 도구.</p>
+            </div>
+
+            <!-- Full Width Stats -->
+            <div class="card col-6" style="padding: 60px; text-align: center; border-top: 1px solid var(--border);">
+                 <div class="border-glow"></div>
+                 <div style="display: flex; justify-content: space-around; width: 100%;">
+                     <div>
+                         <p style="font-size: 3.5rem; font-weight: 900; letter-spacing: -0.05em;">14Y</p>
+                         <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Industry Experience</p>
+                     </div>
+                     <div style="width: 1px; background: var(--border);"></div>
+                     <div>
+                         <p style="font-size: 3.5rem; font-weight: 900; letter-spacing: -0.05em;">20+</p>
+                         <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Global Projects</p>
+                     </div>
+                     <div style="width: 1px; background: var(--border);"></div>
+                     <div>
+                         <p style="font-size: 3.5rem; font-weight: 900; letter-spacing: -0.05em;">92%</p>
+                         <p style="color: var(--text-sub); font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Decision Accuracy</p>
+                     </div>
+                 </div>
+            </div>
+
+        </div>
+
+        <section style="margin-top: 120px; text-align: center;">
+            <p style="color: var(--text-sub); margin-bottom: 24px;">Connect with the Architect</p>
+            <h2 style="font-size: 2.5rem; font-weight: 800; letter-spacing: -0.04em;">koojaehyun@example.com</h2>
+        </section>
+    </main>
+
+    <footer>
+        <div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 40px; color: #FFF; font-weight: 600;">
+            <i data-lucide="github"></i>
+            <i data-lucide="linkedin"></i>
+            <i data-lucide="twitter"></i>
+        </div>
+        &copy; 2026 GU JAEHYUN. DEVELOPED UNDER SYSTEM ARCHITECTURE PRINCIPLES.
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

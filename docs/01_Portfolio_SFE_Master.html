@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFE OPS STRATEGIST: GU JAEHYUN PORTFOLIO</title>
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-deep: #0D0D0F;
+            --bg-card: #1A1A1E;
+            --text-main: #FFFFFF;
+            --text-sub: #94A3B8;
+            --accent-default: #3B82F6;
+            
+            /* Project Colors */
+            --c-crm: #EF4444;      /* CRM */
+            --c-sandbox: #10B981;  /* Sandbox */
+            --c-territory: #3B82F6;/* Territory */
+            --c-flow: #F59E0B;     /* Flow */
+            --c-builder: #8B5CF6;  /* Builder */
+            --c-bidix: #EC4899;    /* BIDIX */
+            
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --font-main: 'Outfit', 'Pretendard', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* ---------------------------------
+           Master Slide Engine
+        --------------------------------- */
+        .viewport {
+            width: 100vw; height: 100vh;
+            position: relative; overflow: hidden;
+        }
+
+        .slide {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transform: translateY(20px);
+            transition: opacity 0.8s var(--ease), transform 1s var(--ease);
+            padding: 2rem;
+        }
+        .slide.active {
+            opacity: 1; pointer-events: auto; transform: translateY(0);
+        }
+
+        .container {
+            width: 100%; max-width: 1300px;
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem;
+            align-items: center;
+        }
+
+        /* Nav Dock */
+        .nav-dock {
+            position: fixed; left: 3rem; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 0.8rem; z-index: 1000;
+        }
+        .nav-item {
+            width: 4px; height: 40px; background: rgba(255,255,255,0.1);
+            border-radius: 2px; cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .nav-item::after {
+            content: attr(data-label); position: absolute; left: 20px; top: 50%; 
+            transform: translateY(-50%); color: var(--text-sub); font-size: 0.7rem;
+            white-space: nowrap; opacity: 0; transition: 0.3s; font-weight: 700;
+        }
+        .nav-item:hover::after, .nav-item.active::after { opacity: 1; }
+        .nav-item.active { background: var(--accent-active, var(--accent-default)); height: 60px; }
+
+        /* Typography */
+        .tag {
+            font-size: 0.8rem; font-weight: 800; color: var(--accent-active, var(--accent-default));
+            text-transform: uppercase; letter-spacing: 0.2rem; margin-bottom: 2rem;
+            display: flex; align-items: center; gap: 0.6rem;
+        }
+        h2 { font-size: 4rem; font-weight: 900; line-height: 1.1; margin-bottom: 2.5rem; word-break: keep-all; }
+        .desc { font-size: 1.5rem; color: var(--text-sub); line-height: 1.6; word-break: keep-all; font-weight: 300; }
+        .highlight { color: var(--accent-active, var(--accent-default)); }
+
+        /* Project Visuals */
+        .visual-stage {
+            background: var(--bg-card); border-radius: 40px; aspect-ratio: 16/10;
+            display: flex; align-items: center; justify-content: center; position: relative;
+            overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+
+        /* Specific Components */
+        .grid-map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 80%; }
+        .node { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 20px; transition: 0.3s; text-align: center; }
+        .node:hover { border-color: var(--accent-active); background: rgba(255,255,255,0.05); }
+
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s var(--ease); }
+        .active .reveal { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+
+        /* Bottom Control */
+        .bottom-hud {
+            position: fixed; bottom: 3rem; right: 4rem; display: flex; align-items: center; gap: 2rem; z-index: 1000;
+        }
+        .btn-action {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white;
+            padding: 1.2rem 2.5rem; border-radius: 100px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 1rem; transition: 0.3s;
+        }
+        .btn-action:hover { background: var(--accent-active, var(--accent-default)); border-color: transparent; scale: 1.05; }
+
+        .synergy-engine {
+            position: relative; width: 450px; height: 450px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .engine-core {
+            width: 90px; height: 90px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--accent-default); border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 0.5rem; font-weight: 900; color: var(--accent-default);
+            text-align: center; box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+            z-index: 10;
+        }
+        .orbit-ring {
+            position: absolute; border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 50%; width: 340px; height: 340px;
+            animation: rotate 40s linear infinite;
+        }
+
+        .orbit-node {
+            position: absolute; width: 65px; height: 65px;
+            background: var(--bg-card); border: 1.5px solid rgba(255,255,255,0.1);
+            border-radius: 18px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 0.2rem;
+            z-index: 5;
+            top: 50%; left: 50%;
+        }
+
+        .orbit-node i { width: 18px !important; height: 18px !important; }
+        .orbit-node span { font-size: 0.6rem; font-weight: 800; }
+        
+        /* Balanced 5-Node Distribution */
+        .node-p1 { transform: translate(-50%, -50%) rotate(0deg) translate(170px) rotate(0deg); border-color: var(--c-crm); color: var(--c-crm); animation: counter-rotate-p1 40s linear infinite; }
+        .node-p2 { transform: translate(-50%, -50%) rotate(72deg) translate(170px) rotate(-72deg); border-color: var(--c-sandbox); color: var(--c-sandbox); animation: counter-rotate-p2 40s linear infinite; }
+        .node-p3 { transform: translate(-50%, -50%) rotate(144deg) translate(170px) rotate(-144deg); border-color: var(--c-territory); color: var(--c-territory); animation: counter-rotate-p3 40s linear infinite; }
+        .node-p4 { transform: translate(-50%, -50%) rotate(216deg) translate(170px) rotate(-216deg); border-color: var(--c-flow); color: var(--c-flow); animation: counter-rotate-p4 40s linear infinite; }
+        .node-p5 { transform: translate(-50%, -50%) rotate(288deg) translate(170px) rotate(-288deg); border-color: var(--c-builder); color: var(--c-builder); animation: counter-rotate-p5 40s linear infinite; }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        @keyframes counter-rotate-p1 { from { transform: translate(-50%, -50%) rotate(0deg) translate(170px) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(0deg) translate(170px) rotate(-360deg); } }
+        @keyframes counter-rotate-p2 { from { transform: translate(-50%, -50%) rotate(72deg) translate(170px) rotate(-72deg); } to { transform: translate(-50%, -50%) rotate(72deg) translate(170px) rotate(-432deg); } }
+        @keyframes counter-rotate-p3 { from { transform: translate(-50%, -50%) rotate(144deg) translate(170px) rotate(-144deg); } to { transform: translate(-50%, -50%) rotate(144deg) translate(170px) rotate(-504deg); } }
+        @keyframes counter-rotate-p4 { from { transform: translate(-50%, -50%) rotate(216deg) translate(170px) rotate(-216deg); } to { transform: translate(-50%, -50%) rotate(216deg) translate(170px) rotate(-576deg); } }
+        @keyframes counter-rotate-p5 { from { transform: translate(-50%, -50%) rotate(288deg) translate(170px) rotate(-288deg); } to { transform: translate(-50%, -50%) rotate(288deg) translate(170px) rotate(-648deg); } }
+
+        @media (max-width: 1024px) {
+            .container { grid-template-columns: 1fr; gap: 2rem; padding: 2rem; }
+            h2 { font-size: 2.5rem; }
+            .visual-stage { display: none; }
+            .nav-dock { display: none; }
+        }
+    </style>
+</head>
+<body style="--accent-active: var(--accent-default);">
+
+    <div class="nav-dock" id="nav-dock"></div>
+
+    <main class="viewport" id="master-stage">
+        
+        <!-- [01] Intro -->
+        <div class="slide active" id="s01" data-color="var(--accent-default)" style="--accent-active: var(--accent-default);">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal"><i data-lucide="trending-up"></i> SFE OPS STRATEGIST</span>
+                    <h2 class="reveal delay-1" style="font-size: 3.5rem;">차세대 기업운영의 핵심<br><span class="highlight">SFE Operating System.</span></h2>
+                    <p class="desc reveal delay-2">SFE Operating System은 이제 단순 프로젝트를 넘어,
+                                                조직 업무의 운영 효율화를 지향합니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        @keyframes core-pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4)); opacity: 0.8; } 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.6)); opacity: 1; } }
+                        @keyframes scan-line { 0% { top: -10%; } 100% { top: 110%; } }
+                        @keyframes flux-glow { 0% { stroke-dashoffset: 100; opacity: 0.1; } 50% { opacity: 0.8; } 100% { stroke-dashoffset: 0; opacity: 0.1; } }
+                        .module-hub {
+                            position: absolute; width: 60px; height: 60px; border-radius: 12px;
+                            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+                            display: flex; flex-direction: column; align-items: center; justify-content: center;
+                            gap: 4px; transition: 0.4s; z-index: 10;
+                        }
+                        .module-hub span { font-size: 0.5rem; font-weight: 800; color: var(--text-sub); }
+                        .module-hub i { width: 18px; height: 18px; }
+                        .flux-path { fill: none; stroke-width: 1.5; stroke-dasharray: 5, 15; animation: flux-glow 3s infinite linear; }
+                    </style>
+                    <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        
+                        <!-- Master Grid & Scanning -->
+                        <div style="position: absolute; width: 100%; height: 100%; background: linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.5;"></div>
+                        <div style="position: absolute; width:100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-default), transparent); animation: scan-line 4s linear infinite; opacity: 0.3; z-index: 5;"></div>
+
+                        <!-- Central Fusion Core -->
+                        <div style="position: relative; z-index: 20; animation: core-pulse 4s infinite ease-in-out;">
+                            <div style="width: 110px; height: 110px; background: var(--bg-card); border: 2px solid var(--accent-default); transform: rotate(45deg); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 30px rgba(59, 130, 246, 0.3);">
+                                <div style="transform: rotate(-45deg); display: flex; flex-direction: column; align-items: center;">
+                                    <i data-lucide="layout-grid" style="width: 32px; height: 32px; color: var(--accent-default); margin-bottom: 5px;"></i>
+                                    <span style="font-size: 0.65rem; font-weight: 950; color: white; letter-spacing: 0.15rem;">SFE OS</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SVG Flux Paths (7 Connections) -->
+                        <svg viewBox="0 0 600 400" preserveAspectRatio="none" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
+                            <path class="flux-path" d="M 80,80 L 300,200" stroke="var(--c-crm)" />
+                            <path class="flux-path" d="M 520,80 L 300,200" stroke="var(--c-sandbox)" />
+                            <path class="flux-path" d="M 50,200 L 300,200" stroke="var(--c-territory)" />
+                            <path class="flux-path" d="M 550,200 L 300,200" stroke="var(--c-flow)" />
+                            <path class="flux-path" d="M 120,320 L 300,200" stroke="var(--c-builder)" />
+                            <path class="flux-path" d="M 300,50 L 300,200" stroke="#06B6D4" />
+                            <path class="flux-path" d="M 480,320 L 300,200" stroke="var(--c-bidix)" />
+                        </svg>
+
+                        <!-- Peripheral Module Panels -->
+                        <div class="module-hub" style="top: 15%; left: 10%; border-color: var(--c-crm);">
+                            <i data-lucide="brain" style="color: var(--c-crm);"></i>
+                            <span>CRM</span>
+                        </div>
+                        <div class="module-hub" style="top: 15%; right: 10%; border-color: var(--c-sandbox);">
+                            <i data-lucide="flask-conical" style="color: var(--c-sandbox);"></i>
+                            <span>SANDBOX</span>
+                        </div>
+                        <div class="module-hub" style="top: 10%; left: 50%; transform: translateX(-50%); border-color: #06B6D4;">
+                            <i data-lucide="search" style="color: #06B6D4;"></i>
+                            <span>CRAWLER</span>
+                        </div>
+                        <div class="module-hub" style="top: 45%; left: 5%; border-color: var(--c-territory);">
+                            <i data-lucide="map" style="color: var(--c-territory);"></i>
+                            <span>TERRITORY</span>
+                        </div>
+                        <div class="module-hub" style="top: 45%; right: 5%; border-color: var(--c-flow);">
+                            <i data-lucide="pill" style="color: var(--c-flow);"></i>
+                            <span>FLOW</span>
+                        </div>
+                        <div class="module-hub" style="bottom: 15%; left: 15%; border-color: var(--c-builder);">
+                            <i data-lucide="hammer" style="color: var(--c-builder);"></i>
+                            <span>BUILDER</span>
+                        </div>
+                        <div class="module-hub" style="bottom: 15%; right: 15%; border-color: var(--c-bidix);">
+                            <i data-lucide="home" style="color: var(--c-bidix);"></i>
+                            <span>BIDIX</span>
+                        </div>
+
+                        <!-- Bottom HUD Status -->
+                        <div style="position: absolute; bottom: 8%; width: 100%; text-align: center; font-family: 'JetBrains Mono'; font-size: 0.5rem; color: var(--accent-default); opacity: 0.4; letter-spacing: 0.3rem;">
+                            >> 7_CORE_RESOURCES_INTEGRATED_SUCCESSFULLY
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [02] Manifesto -->
+        <div class="slide" id="s02" data-color="var(--accent-default)">
+            <div class="container">
+                <div class="content">
+                    <span class="tag">OUR MISSION</span>
+                    <h2>14년의 필드 경험,<br>시스템을 만들다.</h2>
+                    <p class="desc">가장 뜨거운 현장에서 보낸 14년의 세월은 무엇보다 값진 경험이었습니다.
+                        핵심 도메인을 바탕으로 SFE OPS 시스템을 직접 만들었습니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        @keyframes thrust-flow { 0% { stroke-dashoffset: 40; opacity: 0; } 50% { opacity: 0.5; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+                        @keyframes core-glow { 0%, 100% { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.3)); } 50% { filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.6)); } }
+                        .evolution-base {
+                            position: absolute; bottom: 15%; width: 220px; height: 36px;
+                            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+                            border-radius: 4px; display: flex; align-items: center; justify-content: center;
+                            z-index: 5;
+                        }
+                    </style>
+                    <div style="position: relative; width: 100%; height: 380px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        
+                        <!-- Abstract Thrust SVG -->
+                        <svg viewBox="0 0 400 400" style="position: absolute; width: 100%; height: 100%; z-index: 1; pointer-events: none;">
+                            <!-- Acceleration Lines -->
+                            <g stroke="var(--accent-default)" stroke-width="1.5" stroke-dasharray="1, 15" opacity="0.3">
+                                <line x1="150" y1="300" x2="150" y2="50" style="animation: thrust-flow 2s infinite linear;" />
+                                <line x1="200" y1="300" x2="200" y2="50" style="animation: thrust-flow 1.5s infinite linear;" />
+                                <line x1="250" y1="300" x2="250" y2="50" style="animation: thrust-flow 2.5s infinite linear;" />
+                            </g>
+                            <!-- Converging paths to core -->
+                            <path d="M 100,300 Q 200,250 200,120" stroke="var(--accent-default)" stroke-width="0.5" fill="none" opacity="0.1" />
+                            <path d="M 300,300 Q 200,250 200,120" stroke="var(--accent-default)" stroke-width="0.5" fill="none" opacity="0.1" />
+                        </svg>
+
+                        <!-- System Core (Diamond) -->
+                        <div style="position: absolute; top: 20%; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 15px; animation: core-glow 3s infinite;">
+                            <div style="width: 60px; height: 60px; background: var(--bg-card); border: 2px solid var(--accent-default); transform: rotate(45deg); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 15px rgba(59, 130, 246, 0.2);">
+                                <i data-lucide="terminal" style="width: 28px; height: 28px; color: var(--accent-default); transform: rotate(-45deg);"></i>
+                            </div>
+                            <span style="font-size: 0.75rem; font-weight: 900; color: white; letter-spacing: 0.3rem;">SFE.CORE</span>
+                        </div>
+
+                        <!-- Foundation -->
+                        <div class="evolution-base">
+                            <span style="font-size: 0.6rem; font-weight: 800; color: var(--text-sub); letter-spacing: 0.15rem;">14YR FIELD DOMAIN</span>
+                        </div>
+
+                        <!-- Badge -->
+                        <div style="position: absolute; bottom: 8%; font-family: 'JetBrains Mono'; font-size: 0.45rem; color: var(--accent-default); opacity: 0.4;">
+                            >> ACCELERATING_DOMAIN_THROUGH_TECH
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [03] Ecosystem -->
+        <div class="slide" id="s03" data-color="var(--accent-default)">
+            <div class="container">
+                <div class="content">
+                    <span class="tag">7 PROJECTS</span>
+                    <h2>영업 가치 사슬을 아우르는<br><span class="highlight">통합 포트폴리오</span></h2>
+                    <p class="desc">CRM과 매출,목표와의 상관관계 분석, 외부데이터에 의존하지 않는 처방데이터 직접 검증까지. 제약영업의 전 과정을 관통하는 7가지 핵심 프로젝트를 소개합니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        .ecosystem-container {
+                            width: 100%; height: 100%; padding: 2.5rem;
+                            display: flex; flex-direction: column; justify-content: space-between;
+                            position: relative;
+                        }
+                        .eco-layer {
+                            display: flex; justify-content: center; gap: 1.5rem; position: relative; z-index: 10;
+                        }
+                        .eco-card {
+                            background: rgba(255, 255, 255, 0.03);
+                            border: 1px solid rgba(255, 255, 255, 0.08);
+                            border-bottom: 3px solid var(--card-accent);
+                            border-radius: 16px; padding: 1rem; width: 160px;
+                            display: flex; flex-direction: column; align-items: center; gap: 8px;
+                            transition: all 0.4s var(--ease);
+                        }
+                        .eco-card:hover {
+                            transform: translateY(-8px); background: rgba(255, 255, 255, 0.05);
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                        }
+                        .eco-card i { width: 24px; height: 24px; color: var(--card-accent); }
+                        .eco-card b { font-size: 0.75rem; color: white; letter-spacing: 0.05rem; }
+                        .eco-card span { font-size: 0.55rem; color: var(--text-sub); font-weight: 700; }
+                        
+                        .eco-connector {
+                            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                            z-index: 1; pointer-events: none; opacity: 0.15;
+                        }
+                    </style>
+                    <div class="ecosystem-container">
+                        <!-- Connectors SVG -->
+                        <svg class="eco-connector" viewBox="0 0 600 400">
+                            <path d="M 300,80 L 300,320 M 200,80 L 400,320 M 400,80 L 200,320" 
+                                  stroke="var(--accent-default)" stroke-width="2" fill="none" stroke-dasharray="5,5" />
+                        </svg>
+
+                        <!-- Layer 1: CORE (Operational) -->
+                        <div class="eco-layer">
+                            <div class="eco-card" style="--card-accent: var(--c-crm);">
+                                <i data-lucide="brain"></i>
+                                <b>CRM</b>
+                                <span>BEHAVIOR DATA</span>
+                            </div>
+                            <div class="eco-card" style="--card-accent: var(--c-sandbox);">
+                                <i data-lucide="flask-conical"></i>
+                                <b>SANDBOX</b>
+                                <span>Analytics Engine</span>
+                            </div>
+                        </div>
+
+                        <!-- Layer 2: FLOW (Strategic) -->
+                        <div class="eco-layer">
+                            <div class="eco-card" style="--card-accent: var(--c-territory);">
+                                <i data-lucide="map"></i>
+                                <b>TERRITORY</b>
+                                <span>SPATIAL OPS</span>
+                            </div>
+                            <div class="eco-card" style="--card-accent: var(--c-flow);">
+                                <i data-lucide="pill"></i>
+                                <b>PRESCRIPTION</b>
+                                <span>DIRECT TRACING</span>
+                            </div>
+                        </div>
+
+                        <!-- Layer 3: PLATFORM (Expansion) -->
+                        <div class="eco-layer">
+                            <div class="eco-card" style="--card-accent: var(--c-builder);">
+                                <i data-lucide="hammer"></i>
+                                <b>BUILDER</b>
+                                <span>AUTOMATION</span>
+                            </div>
+                            <div class="eco-card" style="--card-accent: var(--c-bidix);">
+                                <i data-lucide="home"></i>
+                                <b>BIDIX</b>
+                                <span>PLATFORM</span>
+                            </div>
+                            <div class="eco-card" style="--card-accent: #06B6D4;">
+                                <i data-lucide="search"></i>
+                                <b>CRAWLER</b>
+                                <span>DATA MINING</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- [04] P1: CRM -->
+        <div class="slide" id="s04" data-color="var(--c-crm)" style="--accent-active: var(--c-crm);">
+            <div class="container">
+                <div class="content">
+                    <span class="tag"><i data-lucide="users"></i> PROJECT 01</span>
+                    <h2>행동이 성과를 만든다:<br><span class="highlight">Behavior CRM</span></h2>
+                    <p class="desc">통제 불가능한 후행지표가 아닌 "어떻게 행동했기에 성과가 나왔는가"라는 선행지표를 정량적으로 
+                        분석하고 선제적 코칭으로 대응하는 행동 과학 기반 CRM입니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        @keyframes flow-line { to { stroke-dashoffset: -20; } }
+                        @keyframes pulse-dot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } }
+                        .crm-node { position: absolute; transform: translate(-50%, -50%); z-index: 10; display: flex; flex-direction: column; align-items: center; }
+                    </style>
+                    <div style="position: relative; width: 100%; height: 350px; overflow: hidden;">
+                        
+                        <!-- Fixed SVG Layer (Coordinates matching absolute positions) -->
+                        <svg viewBox="0 0 1000 500" preserveAspectRatio="none" style="position: absolute; width: 100%; height: 100%; z-index: 1; pointer-events: none;">
+                            <g fill="none" stroke="var(--c-crm)" stroke-width="2" opacity="0.2">
+                                <!-- Converging: Left (200, y) -> Center (500, 250) -->
+                                <path d="M 200,150 Q 350,150 500,250" />
+                                <path d="M 200,250 L 500,250" />
+                                <path d="M 200,350 Q 350,350 500,250" />
+                                
+                                <!-- Diverging: Center (500, 250) -> Right (800, 250) -->
+                                <path d="M 500,250 L 800,250" stroke-width="4" stroke-dasharray="10,10" style="animation: flow-line 2s linear infinite;" />
+                            </g>
+                        </svg>
+
+                        <!-- Step 1: ACTIVITY (Left - 20%) -->
+                        <div class="crm-node" style="left: 20%; top: 50%;">
+                            <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 20px;">
+                                <div style="width:12px; height:12px; background:var(--c-crm); border-radius:50%; animation: pulse-dot 2s infinite; box-shadow: 0 0 10px var(--c-crm);"></div>
+                                <div style="width:12px; height:12px; background:var(--c-crm); border-radius:50%; animation: pulse-dot 2s infinite 0.5s; box-shadow: 0 0 10px var(--c-crm);"></div>
+                                <div style="width:12px; height:12px; background:var(--c-crm); border-radius:50%; animation: pulse-dot 2s infinite 1s; box-shadow: 0 0 10px var(--c-crm);"></div>
+                            </div>
+                            <span style="font-size: 0.65rem; font-weight: 900; color: var(--text-sub); letter-spacing: 0.2rem; position: absolute; top: 130px;">ACTIVITY</span>
+                        </div>
+
+                        <!-- Step 2: ANALYSIS (Center - 50%) -->
+                        <div class="crm-node" style="left: 50%; top: 50%;">
+                            <div style="position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                                <svg viewBox="0 0 100 100" style="position: absolute; width: 100%; transform: rotate(-90deg);">
+                                    <circle cx="50" cy="50" r="46" fill="var(--bg-card)" stroke="rgba(255,255,255,0.05)" stroke-width="6" />
+                                    <circle cx="50" cy="50" r="46" fill="none" stroke="var(--c-crm)" stroke-width="8" stroke-dasharray="121, 289" />
+                                </svg>
+                                <div style="display: flex; flex-direction: column; align-items: center; z-index: 5;">
+                                    <span style="font-size: 2.2rem; font-weight: 950; color: white; line-height: 1;">42%</span>
+                                    <span style="font-size: 0.6rem; color: var(--c-crm); font-weight: 950; letter-spacing: 0.1rem;">HIR RATE</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: GROWTH (Right - 80%) -->
+                        <div class="crm-node" style="left: 80%; top: 50%;">
+                            <div style="width: 50px; height: 120px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: flex-end; padding: 4px; position: relative;">
+                                <div style="width: 100%; height: 75%; background: linear-gradient(to top, var(--c-crm), #ff4d4d); border-radius: 5px; box-shadow: 0 0 25px rgba(255, 77, 77, 0.5);"></div>
+                                <i data-lucide="trending-up" style="position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; color: white;"></i>
+                            </div>
+                            <span style="font-size: 0.65rem; font-weight: 900; color: var(--text-sub); letter-spacing: 0.2rem; position: absolute; top: 85px;">GROWTH</span>
+                        </div>
+
+                        <!-- Technical Badge -->
+                        <div style="position: absolute; bottom: 8%; width: 100%; text-align: center; font-family: 'JetBrains Mono'; font-size: 0.5rem; color: var(--c-crm); opacity: 0.4; letter-spacing: 0.1rem;">
+                            >> SYSTEM_STABILITY_AND_PRECISION_ALIGNED
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [05] P2: Sandbox -->
+        <div class="slide" id="s05" data-color="var(--c-sandbox)" style="--accent-active: var(--c-sandbox);">
+            <div class="container">
+                <div class="content">
+                    <span class="tag"><i data-lucide="terminal"></i> PROJECT 02</span>
+                    <h2>SFE CORE ENGINE:<br><span class="highlight">SFE Sandbox</span></h2>
+                    <p class="desc">SFE Sandbox는 단순한 도구를 넘어 독립된 모듈이 유기적으로 데이터를 공유하는 통합 기획 엔진입니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative;">
+                        <!-- Connection Web -->
+                        <svg viewBox="0 0 400 400" style="width: 90%; height: 90%; overflow: visible; z-index: 2;">
+                            <defs>
+                                <filter id="glow-sandbox" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="5" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                                <linearGradient id="grad-core" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:var(--c-sandbox);stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Data Pulse Lines -->
+                            <g stroke="var(--c-sandbox)" stroke-width="1.5" opacity="0.2">
+                                <line x1="200" y1="200" x2="100" y2="100" />
+                                <line x1="200" y1="200" x2="300" y2="100" />
+                                <line x1="200" y1="200" x2="300" y2="300" />
+                                <line x1="200" y1="200" x2="100" y2="300" />
+                            </g>
+
+                            <!-- Pulsing Nodes -->
+                            <circle cx="100" cy="100" r="10" fill="var(--bg-card)" stroke="var(--c-sandbox)" stroke-width="2">
+                                <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="300" cy="100" r="10" fill="var(--bg-card)" stroke="var(--c-sandbox)" stroke-width="2">
+                                <animate attributeName="r" values="8;12;8" dur="4s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="300" cy="300" r="10" fill="var(--bg-card)" stroke="var(--c-sandbox)" stroke-width="2">
+                                <animate attributeName="r" values="8;12;8" dur="2.5s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="100" cy="300" r="10" fill="var(--bg-card)" stroke="var(--c-sandbox)" stroke-width="2">
+                                <animate attributeName="r" values="8;12;8" dur="3.5s" repeatCount="indefinite" />
+                            </circle>
+
+                            <!-- Moving Data Bits -->
+                            <circle r="3" fill="var(--c-sandbox)">
+                                <animateMotion dur="2s" repeatCount="indefinite" path="M 200,200 L 100,100" />
+                            </circle>
+                            <circle r="3" fill="var(--c-sandbox)">
+                                <animateMotion dur="1.5s" repeatCount="indefinite" path="M 200,200 L 300,300" />
+                            </circle>
+
+                            <!-- Central Core Engine -->
+                            <g filter="url(#glow-sandbox)">
+                                <rect x="170" y="170" width="60" height="60" rx="12" fill="url(#grad-core)" transform="rotate(45 200 200)">
+                                    <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="20s" repeatCount="indefinite" />
+                                </rect>
+                                <rect x="180" y="180" width="40" height="40" rx="8" fill="var(--bg-deep)" transform="rotate(45 200 200)">
+                                    <animateTransform attributeName="transform" type="rotate" from="360 200 200" to="0 200 200" dur="10s" repeatCount="indefinite" />
+                                </rect>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+
+                        <!-- Floating Tech Tags -->
+                        <div style="position: absolute; bottom: 3rem; right: 3rem; background: rgba(16, 185, 129, 0.1); padding: 0.5rem 1rem; border-radius: 10px; border: 1px solid var(--c-sandbox); font-weight: 900; font-size: 0.8rem; color: var(--c-sandbox);">
+                            GATEWAY ACTIVE
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [06] P3: Territory -->
+        <div class="slide" id="s06" data-color="var(--c-territory)" style="--accent-active: var(--c-territory);">
+            <div class="container">
+                <div class="content">
+                    <span class="tag"><i data-lucide="map"></i> PROJECT 03</span>
+                    <h2>공간 최적화:<br><span class="highlight">Territory Optimizer</span></h2>
+                    <p class="desc">공간적 자원 배분의 최적화를 통해 영업 사원의 동선을 단축하고 거점 집중도를 극대화합니다. 지능형 맵 엔진이 전략적 배치를 지원합니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <div style="width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <!-- Optimization Grid Background -->
+                        <div style="position: absolute; width: 200%; height: 200%; background-image: radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px); background-size: 30px 30px; transform: rotate(15deg); opacity: 0.3;"></div>
+                        
+                        <svg viewBox="0 0 400 300" style="width: 80%; height: 80%; z-index: 2; overflow: visible;">
+                            <defs>
+                                <filter id="glow-territory">
+                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                    <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                </filter>
+                            </defs>
+                            
+                            <!-- Territory Zones (Soft Highlights) -->
+                            <circle cx="120" cy="100" r="70" fill="var(--c-territory)" opacity="0.08" />
+                            <circle cx="280" cy="180" r="90" fill="var(--c-territory)" opacity="0.08" />
+                            
+                            <!-- Network Paths -->
+                            <path d="M 60,60 L 120,100 L 180,70 L 280,180 L 340,150 L 280,240 L 120,100" 
+                                  fill="none" stroke="var(--c-territory)" stroke-width="1.5" 
+                                  stroke-dasharray="5,5" opacity="0.3" />
+                            
+                            <!-- Optimized Main Route -->
+                            <path d="M 60,60 L 120,100 L 280,180 L 340,150" 
+                                  fill="none" stroke="var(--c-territory)" stroke-width="3" 
+                                  filter="url(#glow-territory)" stroke-linecap="round" stroke-linejoin="round">
+                                <animate attributeName="stroke-dasharray" from="0, 1000" to="1000, 0" dur="2s" fill="freeze" />
+                            </path>
+                            
+                            <!-- Strategic Nodes -->
+                            <g fill="var(--bg-card)" stroke="var(--c-territory)" stroke-width="2">
+                                <circle cx="60" cy="60" r="5" />
+                                <circle cx="120" cy="100" r="7" />
+                                <circle cx="180" cy="70" r="5" />
+                                <circle cx="280" cy="180" r="9" />
+                                <circle cx="340" cy="150" r="6" />
+                                <circle cx="280" cy="240" r="5" />
+                            </g>
+                            
+                            <!-- Floating Metric Labels -->
+                            <text x="295" y="175" fill="var(--text-main)" font-size="10" font-weight="900" style="font-family: 'Outfit';">HUB A</text>
+                            <text x="50" y="50" fill="var(--text-sub)" font-size="8" style="font-family: 'Outfit';">START</text>
+                        </svg>
+                        
+                        <!-- HUD Elements -->
+                        <div style="position: absolute; top: 2rem; left: 2rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div style="padding: 0.4rem 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; border-left: 3px solid var(--c-territory);">
+                                <div style="font-size: 0.6rem; color: var(--text-sub);">OPTIMIZED RATIO</div>
+                                <div style="font-size: 1rem; font-weight: 900; color: var(--c-territory);">+32.4%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [07] P4: Flow -->
+        <div class="slide" id="s07" data-color="var(--c-flow)" style="--accent-active: var(--c-flow);">
+            <div class="container">
+                <div class="content">
+                    <span class="tag"><i data-lucide="bar-chart-3"></i> PROJECT 04</span>
+                    <h2>처방의 경로를 추적하다:<br><span class="highlight">Prescription Data Flow</span></h2>
+                    <p class="desc">도매에서 약국, 병원까지 이어지는 처방 데이터의 흐름을 초정밀 추적합니다. 실적배분의 정확성을 높이고 성과 보상의 신뢰도를 확보할 수 있습니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                        <!-- Tech Background -->
+                        <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 70%);"></div>
+                        
+                        <svg viewBox="0 0 400 300" style="width: 90%; height: auto; z-index: 2; overflow: visible;">
+                            <defs>
+                                <filter id="glow-loop-fixed">
+                                    <feGaussianBlur stdDeviation="3" result="glow"/>
+                                    <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+                                </filter>
+                            </defs>
+
+                            <!-- Data Path Loop -->
+                            <path id="loop-trace" d="M 60,100 L 200,100 L 340,100 L 340,220 L 60,220 Z" 
+                                  fill="none" stroke="rgba(245, 158, 11, 0.1)" stroke-width="2" stroke-dasharray="8,4" />
+                            
+                            <!-- Animated Connection -->
+                            <path d="M 60,100 L 200,100 L 340,100 L 340,220 L 60,220 Z" 
+                                  fill="none" stroke="var(--c-flow)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6">
+                                <animate attributeName="stroke-dasharray" from="0, 1000" to="1000, 0" dur="5s" repeatCount="indefinite" />
+                            </path>
+
+                            <!-- Nodes - Row 1 (Top) -->
+                            <!-- Pharmaceutical -->
+                            <g transform="translate(60, 100)">
+                                <circle r="20" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="2" filter="url(#glow-loop-fixed)" />
+                                <text y="-35" text-anchor="middle" fill="var(--text-main)" font-size="9" font-weight="900">PHARMA</text>
+                                <circle r="3" fill="var(--c-flow)">
+                                    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+                                </circle>
+                            </g>
+                            <!-- Wholesale -->
+                            <g transform="translate(200, 100)">
+                                <circle r="15" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="1.5" />
+                                <text y="-35" text-anchor="middle" fill="var(--text-sub)" font-size="8" font-weight="700">WHOLESALE</text>
+                            </g>
+                            <!-- Pharmacy -->
+                            <g transform="translate(340, 100)">
+                                <circle r="15" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="1.5" />
+                                <text y="-35" text-anchor="middle" fill="var(--text-sub)" font-size="8" font-weight="700">PHARMACY</text>
+                            </g>
+
+                            <!-- Nodes - Row 2 (Bottom) -->
+                            <!-- Hospital -->
+                            <g transform="translate(340, 220)">
+                                <circle r="15" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="1.5" />
+                                <text y="35" text-anchor="middle" fill="var(--text-sub)" font-size="8" font-weight="700">HOSPITAL</text>
+                            </g>
+                            <!-- MR (Sales) -->
+                            <g transform="translate(60, 220)">
+                                <circle r="18" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="2" filter="url(#glow-loop-fixed)" />
+                                <text y="35" text-anchor="middle" fill="var(--text-main)" font-size="9" font-weight="900">MR (DATA)</text>
+                                <path d="M -5,0 L -2,3 L 5,-3" fill="none" stroke="var(--c-flow)" stroke-width="2" stroke-linecap="round" />
+                            </g>
+
+                            <!-- Flowing Particles -->
+                            <circle r="4" fill="var(--c-flow)" filter="url(#glow-loop-fixed)">
+                                <animateMotion dur="5s" repeatCount="indefinite">
+                                    <mpath href="#loop-trace"/>
+                                </animateMotion>
+                            </circle>
+                            <circle r="2" fill="white" opacity="0.8">
+                                <animateMotion dur="5s" repeatCount="indefinite" begin="2.5s">
+                                    <mpath href="#loop-trace"/>
+                                </animateMotion>
+                            </circle>
+                        </svg>
+
+                        <!-- HUD -->
+                        <div style="position: absolute; top: 1.5rem; right: 2rem; text-align: right;">
+                            <div style="font-size: 0.5rem; color: var(--text-sub); letter-spacing: 0.1rem;">PRECISION TRACING</div>
+                            <div style="font-size: 1.1rem; font-weight: 900; color: var(--c-flow);">LOOP STABILIZED</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [08] P5: Builder -->
+        <div class="slide" id="s08" data-color="var(--c-builder)" style="--accent-active: var(--c-builder);">
+            <div class="container">
+                <div class="content">
+                    <span class="tag"><i data-lucide="file-text"></i> PROJECT 05</span>
+                    <h2>업무 생산성 극대화:<br><span class="highlight">HTML Builder</span></h2>
+                    <p class="desc">슬라이드 제작의 80%를 자동화하여 오직 기획과 전략에만 몰입할 수 있는 환경을 구축했습니다. 
+                        </p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        @keyframes slide-in-element { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+                        @keyframes block-blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+                        @keyframes magic-glow { 0%, 100% { filter: drop-shadow(0 0 5px var(--c-builder)); } 50% { filter: drop-shadow(0 0 15px var(--c-builder)); } }
+                        
+                        .builder-window {
+                            width: 85%; height: 260px; background: rgba(255,255,255,0.02);
+                            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+                            position: relative; overflow: hidden; padding: 1.5rem;
+                            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+                        }
+                        .builder-canvas {
+                            width: 100%; height: 100%; background: var(--bg-card);
+                            border: 1px solid rgba(255,255,255,0.05); border-radius: 8px;
+                            padding: 1rem; position: relative;
+                        }
+                        .canvas-item {
+                            height: 12px; background: rgba(255,255,255,0.05); border-radius: 4px;
+                            margin-bottom: 8px; animation: slide-in-element 0.6s ease-out forwards;
+                            opacity: 0;
+                        }
+                        .auto-block {
+                            position: absolute; width: 40px; height: 40px;
+                            background: var(--c-builder); opacity: 0.1; border-radius: 6px;
+                            animation: block-blink 2s infinite ease-in-out;
+                        }
+                    </style>
+                    <div class="builder-window">
+                        <!-- Technical HUD -->
+                        <div style="position: absolute; top: 1rem; right: 1.5rem; text-align: right; z-index: 10;">
+                            <div style="font-size: 0.45rem; color: var(--text-sub); letter-spacing: 0.15rem;">AUTO_GENERATOR_V4</div>
+                            <div style="font-size: 1rem; font-weight: 950; color: var(--c-builder);">80% REDUCTION</div>
+                        </div>
+
+                        <div class="builder-canvas">
+                            <!-- Animated Elements -->
+                            <div class="canvas-item" style="width: 40%; background: var(--c-builder); animation-delay: 0.2s;"></div>
+                            <div class="canvas-item" style="width: 80%; animation-delay: 0.4s;"></div>
+                            <div class="canvas-item" style="width: 65%; animation-delay: 0.6s;"></div>
+                            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                                <div style="flex: 1; height: 80px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                    <i data-lucide="image" style="width: 20px; color: var(--text-sub); opacity: 0.3;"></i>
+                                </div>
+                                <div style="flex: 1; height: 80px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                    <i data-lucide="bar-chart-3" style="width: 20px; color: var(--text-sub); opacity: 0.3;"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flying Automation Nodes -->
+                        <div class="auto-block" style="top: 20%; left: 10%;"></div>
+                        <div class="auto-block" style="bottom: 10%; right: 20%; animation-delay: 1s;"></div>
+                        
+                        <!-- Magic Wand Cursor -->
+                        <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                            <i data-lucide="wand-2" style="width: 24px; color: var(--c-builder); animation: magic-glow 2s infinite;"></i>
+                            <span style="font-size: 0.55rem; font-weight: 900; color: var(--text-sub); letter-spacing: 0.1rem;">ONE-CLICK GENERATION</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [09] Synergy Interpretation -->
+        <div class="slide" id="s09" data-color="var(--accent-default)">
+            <div class="container">
+                <div class="content">
+                    <span class="tag">STRATEGIC SYNERGY</span>
+                    <h2>하나로 연결되는<br><span class="highlight">5 MODULES</span></h2>
+                    <p class="desc">모든 프로젝트는 하나로 연결되어 있습니다. 행동하고, 검증하고, 배분하고, 추적하고, 공유하는 하나의 유기적인 선순환 고리입니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <div class="synergy-engine">
+                        <div class="engine-core">
+                            <span>SFE</span>
+                            <span style="letter-spacing: 0.2rem;">CORE</span>
+                        </div>
+                        <div class="orbit-ring">
+                            <div class="orbit-node node-p1">
+                                <i data-lucide="zap"></i>
+                                <span>CRM</span>
+                            </div>
+                            <div class="orbit-node node-p2">
+                                <i data-lucide="codesandbox"></i>
+                                <span>Sandbox</span>
+                            </div>
+                            <div class="orbit-node node-p3">
+                                <i data-lucide="map-pin"></i>
+                                <span>Territory</span>
+                            </div>
+                            <div class="orbit-node node-p4">
+                                <i data-lucide="refresh-cw"></i>
+                                <span>PDF</span>
+                            </div>
+                            <div class="orbit-node node-p5">
+                                <i data-lucide="layout"></i>
+                                <span>Builder</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [10] P6: BIDIX (Mention) -->
+        <div class="slide" id="s10" data-color="var(--c-bidix)" style="--accent-active: var(--c-bidix);">
+            <div class="container">
+                <div class="content">
+                    <span class="tag"><i data-lucide="globe"></i> PROJECT 06</span>
+                    <h2>1인 기획/개발:<br><span class="highlight">BIDIX Platform</span></h2>
+                    <p class="desc">전문 도메인이 아니었음에도 불구하고, 부동산 경매 학습과 수익 시뮬레이션 플랫폼을 기획부터 배포까지 성공적으로 완료했습니다. </p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        @keyframes stack-build { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+                        @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                        .stack-layer {
+                            position: absolute; width: 140px; height: 35px;
+                            background: var(--bg-card); border: 1.5px solid var(--c-bidix);
+                            border-radius: 8px; display: flex; align-items: center; padding: 0 12px; gap: 8px;
+                            backdrop-filter: blur(5px); z-index: 5;
+                            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                        }
+                        .stack-layer i { width: 16px; height: 16px; color: var(--c-bidix); }
+                        .stack-layer span { font-size: 0.6rem; font-weight: 900; color: white; letter-spacing: 0.1rem; }
+                    </style>
+                    <div style="position: relative; width: 100%; height: 350px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        
+                        <!-- Background Radar/Grid -->
+                        <div style="position: absolute; width: 280px; height: 280px; border: 1px dashed rgba(255, 255, 255, 0.05); border-radius: 50%; animation: rotate-slow 30s linear infinite;"></div>
+                        
+                        <!-- SVG Connection Network -->
+                        <svg viewBox="0 0 400 300" style="position: absolute; width: 80%; height: 80%; opacity: 0.15;">
+                            <path d="M 200,50 L 200,250 M 50,150 L 350,150" stroke="var(--c-bidix)" stroke-width="0.5" stroke-dasharray="4,4" />
+                            <circle cx="200" cy="150" r="120" fill="none" stroke="var(--c-bidix)" stroke-width="0.5" />
+                        </svg>
+
+                        <!-- Central Platform Core (Pure Vertical/Horizontal) -->
+                        <div style="width: 80px; height: 80px; background: var(--bg-card); border: 3px solid var(--c-bidix); border-radius: 18px; display: flex; align-items: center; justify-content: center; z-index: 10; box-shadow: 0 0 40px rgba(236, 72, 153, 0.25);">
+                            <i data-lucide="home" style="width: 40px; height: 40px; color: var(--c-bidix);"></i>
+                        </div>
+
+                        <!-- Expertise Layers (Balanced Layout) -->
+                        <div class="stack-layer" style="top: 22%; left: 12%; animation: stack-build 1s ease-out forwards; animation-delay: 0.6s; opacity:0;">
+                            <i data-lucide="rocket"></i>
+                            <span>DEPLOYMENT</span>
+                        </div>
+                        
+                        <div class="stack-layer" style="top: 45%; right: 8%; animation: stack-build 1s ease-out forwards; animation-delay: 0.4s; opacity:0;">
+                            <i data-lucide="code-2"></i>
+                            <span>DEVELOPMENT</span>
+                        </div>
+
+                        <div class="stack-layer" style="bottom: 22%; left: 18%; animation: stack-build 1s ease-out forwards; animation-delay: 0.2s; opacity:0;">
+                            <i data-lucide="pen-tool"></i>
+                            <span>PLANNING</span>
+                        </div>
+
+                        <!-- Status Badge -->
+                        <div style="position: absolute; bottom: 10%; right: 12%; background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 0.4rem 0.8rem; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.45rem; color: #10b981;">
+                            STATUS: FULL_STACK_ORCHESTRATED
+                        </div>
+
+                        <div style="position: absolute; top: 12%; width: 100%; text-align: center; font-family: 'JetBrains Mono'; font-size: 0.45rem; color: var(--text-sub); letter-spacing: 0.2rem; opacity: 0.4;">
+                            // ORCHESTRATED_BY_ONE_ENGINEER
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [11] P7: Crawler (Mention) -->
+        <div class="slide" id="s11" data-color="var(--c-bidix)" style="--accent-active: var(--c-bidix);">
+            <div class="container">
+                <div class="content">
+                    <span class="tag"><i data-lucide="search"></i> PROJECT 07</span>
+                    <h2>정보 수집의 자동화:<br><span class="highlight">BIDIX Crawler</span></h2>
+                    <p class="desc">비싼 데이터에 의존하는 기획에서 벗어나, 조직에 필요한 원천 정보를 직접 발굴하고 가공합니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                        <!-- Scanner Radar -->
+                        <div style="position: absolute; width: 300px; height: 300px; border: 1px solid rgba(236, 72, 153, 0.05); border-radius: 50%;">
+                            <div style="position: absolute; width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent 0deg, rgba(236, 72, 153, 0.1) 90deg, transparent 90deg); border-radius: 50%; animation: rotate 4s linear infinite;"></div>
+                        </div>
+                        
+                        <svg viewBox="0 0 400 300" style="width: 85%; height: auto; z-index: 2; overflow: visible;">
+                            <defs>
+                                <filter id="glow-crawler-fixed" x="-50%" y="-50%" width="200%" height="200%">
+                                    <feGaussianBlur stdDeviation="6" result="glow"/>
+                                    <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+                                </filter>
+                            </defs>
+
+                            <!-- Data Source Points -->
+                            <g opacity="0.6" font-family="'Outfit', sans-serif">
+                                <circle cx="80" cy="80" r="18" fill="var(--bg-card)" stroke="var(--c-bidix)" stroke-width="1" />
+                                <text x="80" y="83" text-anchor="middle" fill="var(--c-bidix)" font-size="7" font-weight="900">WEB</text>
+                                
+                                <circle cx="320" cy="70" r="18" fill="var(--bg-card)" stroke="var(--c-bidix)" stroke-width="1" />
+                                <text x="320" y="73" text-anchor="middle" fill="var(--c-bidix)" font-size="7" font-weight="900">GOV</text>
+                                
+                                <circle cx="300" cy="230" r="18" fill="var(--bg-card)" stroke="var(--c-bidix)" stroke-width="1" />
+                                <text x="300" y="233" text-anchor="middle" fill="var(--c-bidix)" font-size="7" font-weight="900">DB</text>
+                            </g>
+
+                            <!-- Beams to Hub -->
+                            <path id="p-web" d="M 80,80 Q 200,80 200,150" fill="none" stroke="var(--c-bidix)" stroke-width="1" stroke-dasharray="4,4" opacity="0.2" />
+                            <path id="p-gov" d="M 320,70 Q 200,70 200,150" fill="none" stroke="var(--c-bidix)" stroke-width="1" stroke-dasharray="4,4" opacity="0.2" />
+                            <path id="p-db" d="M 300,230 Q 300,150 200,150" fill="none" stroke="var(--c-bidix)" stroke-width="1" stroke-dasharray="4,4" opacity="0.2" />
+
+                            <!-- Central Harvesting Hub -->
+                            <g transform="translate(200, 150)">
+                                <!-- Engine Core -->
+                                <rect x="-30" y="-30" width="60" height="60" rx="15" fill="var(--bg-card)" stroke="var(--c-bidix)" stroke-width="2.5" filter="url(#glow-crawler-fixed)" />
+                                
+                                <!-- CPU Path Icon (Internal) -->
+                                <path d="M -15,-10 h 30 M -15,0 h 30 M -15,10 h 30 M -10,-15 v 5 M 0,-15 v 5 M 10,-15 v 5 M -10,10 v 5 M 0,10 v 5 M 10,10 v 5" 
+                                      stroke="var(--c-bidix)" stroke-width="2" stroke-linecap="round" opacity="0.8" />
+                                <rect x="-10" y="-10" width="20" height="20" rx="4" fill="none" stroke="var(--c-bidix)" stroke-width="2" />
+                                
+                                <circle r="45" fill="none" stroke="var(--c-bidix)" stroke-width="0.5" stroke-dasharray="5,10" opacity="0.4">
+                                    <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite" />
+                                </circle>
+                            </g>
+
+                            <!-- Ingesting Particles -->
+                            <circle r="3.5" fill="var(--c-bidix)" filter="url(#glow-crawler-fixed)">
+                                <animateMotion dur="2s" repeatCount="indefinite">
+                                    <mpath href="#p-web"/>
+                                </animateMotion>
+                            </circle>
+                            <circle r="3.5" fill="var(--c-bidix)" filter="url(#glow-crawler-fixed)">
+                                <animateMotion dur="2.4s" repeatCount="indefinite" begin="0.8s">
+                                    <mpath href="#p-gov"/>
+                                </animateMotion>
+                            </circle>
+                            <circle r="3.5" fill="var(--c-bidix)" filter="url(#glow-crawler-fixed)">
+                                <animateMotion dur="1.8s" repeatCount="indefinite">
+                                    <mpath href="#p-db"/>
+                                </animateMotion>
+                            </circle>
+                        </svg>
+
+                        <!-- HUD Details -->
+                        <div style="position: absolute; bottom: 2rem; left: 2.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--c-bidix); line-height: 1.5;">
+                            <span style="color: white; border-bottom: 1px solid var(--c-bidix); padding-bottom: 2px;">LIVE_CRAWLER_LOG</span><br>
+                            <span style="opacity: 0.6;">[14:31:02]</span> POLLING_WEB_NODES...<br>
+                            <span style="opacity: 0.6;">[14:31:05]</span> DATA_INGESTION: 182kb/s<br>
+                            <span style="opacity: 0.6;">[14:31:08]</span> TRANSFORM: SUCCESS
+                        </div>
+                        
+                        <div style="position: absolute; top: 2.5rem; right: 2.5rem; display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem;">
+                            <div style="font-size: 0.5rem; color: var(--text-sub); letter-spacing: 0.1rem;">HARVESTING RATE</div>
+                            <div style="font-size: 1.4rem; font-weight: 900; color: var(--c-bidix); text-shadow: 0 0 15px rgba(236, 72, 153, 0.4);">948 req/m</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [12] Prototype & Customization -->
+        <div class="slide" id="s12" data-color="var(--accent-default)">
+            <div class="container">
+                <div class="content">
+                    <span class="tag">AGILE PROTOTYPING</span>
+                    <h2>기획에서 실행으로:<br><span class="highlight">Highly Flexible Custom Modules</span></h2>
+                    <p class="desc">아이디어가 즉시 작동하는 프로토타입으로 구현되며, 어떤 비즈니스 요구사항에도 맞춤형으로 진화하고 확장될 수 있습니다.</p>
+                </div>
+                <style>
+                    .proto-stack-layer {
+                        position: absolute; width: 170px; height: 42px;
+                        background: rgba(255, 255, 255, 0.03); 
+                        border: 1.5px solid rgba(255, 255, 255, 0.1);
+                        border-left: 4px solid var(--accent-default);
+                        border-radius: 8px; display: flex; align-items: center; padding: 0 14px; gap: 10px;
+                        backdrop-filter: blur(10px); z-index: 5;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                        transition: transform 0.3s;
+                    }
+                    .proto-stack-layer:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.05); }
+                    .proto-stack-layer i { width: 18px !important; height: 18px !important; color: var(--accent-default); }
+                    .proto-stack-layer span { font-size: 0.65rem; font-weight: 950; color: white; letter-spacing: 0.05rem; }
+                    .proto-hub {
+                        width: 90px; height: 90px; background: var(--bg-card); 
+                        border: 3.5px solid var(--accent-default); border-radius: 20px;
+                        display: flex; flex-direction: column; align-items: center; justify-content: center;
+                        z-index: 10; box-shadow: 0 0 45px rgba(59, 130, 246, 0.35);
+                        outline: 10px solid rgba(59, 130, 246, 0.03);
+                    }
+                </style>
+                <div class="visual-stage">
+                    <div style="position: relative; width: 100%; height: 350px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        
+                        <!-- Background Static Grid -->
+                        <div style="position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(59, 130, 246, 0.06) 1.5px, transparent 1.5px); background-size: 35px 35px; opacity: 0.8;"></div>
+                        
+                        <!-- Static SVG Connection Map -->
+                        <svg viewBox="0 0 400 300" style="position: absolute; width: 85%; height: 85%; opacity: 0.2;">
+                            <path d="M 120,80 L 200,150 M 300,120 L 200,150 M 140,240 L 200,150" stroke="var(--accent-default)" stroke-width="2" stroke-dasharray="4,6" />
+                            <circle cx="200" cy="150" r="90" fill="none" stroke="var(--accent-default)" stroke-width="0.5" stroke-opacity="0.5" />
+                        </svg>
+                        
+                        <!-- Central Prototype Hub -->
+                        <div class="proto-hub">
+                            <i data-lucide="blocks" style="width: 38px; height: 38px; color: var(--accent-default); margin-bottom: 2px;"></i>
+                            <span style="font-size: 0.55rem; font-weight: 950; color: white; letter-spacing: 0.1rem;">AGILE HUB</span>
+                        </div>
+
+                        <!-- Defined Expansion Layers (Static) -->
+                        <div class="proto-stack-layer" style="top: 15%; left: 12%;">
+                            <i data-lucide="zap"></i>
+                            <span>RAPID PROTOTYPING</span>
+                        </div>
+                        
+                        <div class="proto-stack-layer" style="top: 38%; right: 8%;">
+                            <i data-lucide="cpu"></i>
+                            <span>CUSTOM BUSINESS LOGIC</span>
+                        </div>
+
+                        <div class="proto-stack-layer" style="bottom: 18%; left: 15%;">
+                            <i data-lucide="refresh-cw"></i>
+                            <span>AGILE SYSTEM EXTENSION</span>
+                        </div>
+
+                        <!-- Technical Badge (Static) -->
+                        <div style="position: absolute; bottom: 10%; right: 12%; background: rgba(59, 130, 246, 0.1); border: 1px solid var(--accent-default); padding: 0.4rem 1rem; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.45rem; color: var(--accent-default); box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                            // STATUS: SCALE_IN_PROGRESS
+                        </div>
+
+                        <!-- Debug Sidebar (Static) -->
+                        <div style="position: absolute; top: 12%; left: 5%; font-family: 'JetBrains Mono'; font-size: 0.5rem; color: var(--text-sub); opacity: 0.4; line-height: 1.4; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 10px;">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [13] Future Vision -->
+        <div class="slide" id="s13" data-color="var(--accent-default)">
+            <div class="container">
+                <div class="content">
+                    <span class="tag">NEXT GENERATION</span>
+                    <h2>미래를 예측하고 대응하는<br><span class="highlight">SFE의 방향성</span></h2>
+                    <p class="desc">이제 시스템은 과거를 기록하는 단계를 넘어, AI를 활용해 업무생산성을 최대로 끌어올립니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        @keyframes pillar-rise { from { height: 0; opacity: 0; } to { height: var(--h); opacity: 0.6; } }
+                        @keyframes signal-up { 0% { transform: translateY(0) scale(1); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-150px) scale(0.5); opacity: 0; } }
+                        @keyframes horizon-scan { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.3; } }
+                        
+                        .horizon-grid {
+                            position: absolute; width: 200%; height: 200%;
+                            background-image: 
+                                linear-gradient(rgba(59, 130, 246, 0.2) 1px, transparent 1px),
+                                linear-gradient(90deg, rgba(59, 130, 246, 0.2) 1px, transparent 1px);
+                            background-size: 50px 50px;
+                            transform: perspective(600px) rotateX(60deg);
+                            top: -20%; left: -50%; opacity: 0.2;
+                            mask-image: radial-gradient(circle, black, transparent 80%);
+                        }
+                        .data-pillar {
+                            position: absolute; width: 4px; background: linear-gradient(to top, var(--accent-default), transparent);
+                            border-radius: 2px; transform-origin: bottom;
+                            animation: pillar-rise 2s ease-out forwards;
+                        }
+                        .signal-particle {
+                            position: absolute; width: 2px; height: 10px; background: white;
+                            filter: blur(1px); animation: signal-up 3s infinite linear;
+                        }
+                    </style>
+                    <div style="position: relative; width: 100%; height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        
+                        <!-- 3D Ground Grid -->
+                        <div class="horizon-grid"></div>
+
+                        <!-- Data Pillars (Strategic Landscape) -->
+                        <div class="data-pillar" style="--h: 60px; bottom: 35%; left: 30%;"></div>
+                        <div class="data-pillar" style="--h: 100px; bottom: 40%; left: 45%; animation-delay: 0.3s;"></div>
+                        <div class="data-pillar" style="--h: 80px; bottom: 38%; right: 40%; animation-delay: 0.6s;"></div>
+                        <div class="data-pillar" style="--h: 140px; bottom: 45%; right: 25%; animation-delay: 0.9s;"></div>
+
+                        <!-- Intelligence Path (SVG) -->
+                        <svg viewBox="0 0 400 300" style="position: absolute; width: 100%; height: 100%; z-index: 5;">
+                            <defs>
+                                <filter id="glow-future">
+                                    <feGaussianBlur stdDeviation="5" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                            </defs>
+                            
+                            <!-- Future Convergence Web -->
+                            <g stroke="var(--accent-default)" stroke-width="0.5" opacity="0.2">
+                                <line x1="120" y1="220" x2="280" y2="120" />
+                                <line x1="180" y1="240" x2="280" y2="120" />
+                                <line x1="240" y1="230" x2="280" y2="120" />
+                                <line x1="300" y1="200" x2="280" y2="120" />
+                            </g>
+                            
+                            <!-- Main Growth Trajectory -->
+                            <path d="M 50,280 Q 150,250 280,120" fill="none" stroke="var(--accent-default)" stroke-width="2" stroke-dasharray="8,8" opacity="0.6">
+                                <animate attributeName="stroke-dashoffset" from="100" to="0" dur="5s" repeatCount="indefinite" />
+                            </path>
+
+                            <!-- Future Insight Core -->
+                            <g style="filter: url(#glow-future);">
+                                <rect x="270" y="110" width="20" height="20" rx="4" fill="var(--bg-card)" stroke="var(--accent-default)" stroke-width="2" transform="rotate(45, 280, 120)" />
+                                <circle cx="280" cy="120" r="3" fill="white" />
+                            </g>
+                        </svg>
+
+                        <!-- Signal Particles -->
+                        <div class="signal-particle" style="bottom: 30%; left: 35%; animation-delay: 0s;"></div>
+                        <div class="signal-particle" style="bottom: 35%; right: 45%; animation-delay: 1s;"></div>
+                        <div class="signal-particle" style="bottom: 40%; right: 30%; animation-delay: 2s;"></div>
+
+                        <!-- Strategic HUD -->
+                        <div style="position: absolute; top: 10%; right: 10%; font-family: 'JetBrains Mono'; font-size: 0.5rem; color: var(--accent-default); text-align: right; line-height: 1.4;">
+                            <span style="opacity: 0.6;">PROBABILITY_MATRIX:</span> <span style="font-weight: 800;">94.8%</span><br>
+                            <span style="opacity: 0.6;">HORIZON_SCAN:</span> <span style="font-weight: 800;">ACTIVE</span><br>
+                            <span style="opacity: 0.3;">STRATEGIC_DELTA_V: +22.4</span>
+                        </div>
+
+                        <div style="position: absolute; bottom: 20%; left: 5%; font-family: 'JetBrains Mono'; font-size: 0.45rem; color: var(--text-sub); opacity: 0.4;">
+                             >> MAPPING_FUTURE_LANDSCAPE...<br>
+                             >> SYNCING_EXTERNAL_VARIABLES...
+                        </div>
+
+                        <!-- Perspective Label -->
+                        <div style="position: absolute; top: 22%; left: 63%; font-size: 0.6rem; color: white; font-weight: 900; letter-spacing: 0.2rem; opacity: 0.8;">FUTURE_TARGET</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [14] Closing -->
+        <div class="slide" id="s14" data-color="var(--accent-default)">
+            <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: none; height: 100%; margin: 0; padding: 0;">
+                <div class="content" style="max-width: 1000px; text-align: center; display: flex; flex-direction: column; align-items: center; width: 100%; padding: 2rem;">
+                    <span class="tag">Ready to Deployment</span>
+                    <h2 style="font-size: 4.2rem; line-height: 1.15; margin-bottom: 2.5rem; letter-spacing: -0.1rem;">Landing Complete.<br><span class="highlight"></span></h2>
+                    <p class="desc" style="font-size: 1.3rem; max-width: 750px; margin: 0 auto 4rem auto; line-height: 1.9; color: rgba(255,255,255,0.7); font-weight: 300;">기획에만 머물지 않고 작동하는 시스템으로 증명 하겠습니다.</p>
+                    
+                    <div style="width: 100%; max-width: 600px; padding-top: 4rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 1rem;">
+                        <h3 style="font-size: 3.2rem; font-weight: 950; color: white; display: flex; align-items: baseline; justify-content: center; gap: 1.2rem;">
+                            구재현 <span style="font-size: 1.4rem; color: var(--text-sub); font-weight: 300; letter-spacing: 0.15rem; opacity: 0.6;">Gu Jaehyun</span>
+                        </h3>
+                        <p style="color: var(--accent-default); font-family: 'JetBrains Mono'; font-size: 1rem; margin-top: 1rem; letter-spacing: 0.4rem; font-weight: 700; opacity: 0.9;">Strategy & Operations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="bottom-hud">
+        <button class="btn-action" id="btn-prev" style="opacity: 0; pointer-events: none;"><i data-lucide="chevron-left"></i> PREV</button>
+        <button class="btn-action" id="btn-next">EXPLORE NEXT <i data-lucide="chevron-right"></i></button>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('btn-next');
+        const prevBtn = document.getElementById('btn-prev');
+        const navDock = document.getElementById('nav-dock');
+
+        // Nav Labels
+        const labels = [
+            "Intro", "Manifesto", "Ecosystem", "CRM", "Sandbox", 
+            "Territory", "Flow", "Builder", "Synergy", "BIDIX", 
+            "Crawler", "Impact", "Vision", "Profile"
+        ];
+
+        // Initialize Nav
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `nav-item ${i === 0 ? 'active' : ''}`;
+            dot.setAttribute('data-label', labels[i]);
+            dot.onclick = () => goToSlide(i);
+            navDock.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.nav-item');
+
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            const activeSlide = slides[currentSlide];
+            activeSlide.classList.add('active');
+            dots[currentSlide].classList.add('active');
+
+            // Apply Theme Color
+            const themeColor = activeSlide.getAttribute('data-color');
+            document.body.style.setProperty('--accent-active', themeColor);
+
+            // Button label & Visibility
+            if (currentSlide === 0) {
+                prevBtn.style.opacity = "0";
+                prevBtn.style.pointerEvents = "none";
+                nextBtn.innerHTML = `EXPLORE NEXT <i data-lucide="chevron-right"></i>`;
+            } else {
+                prevBtn.style.opacity = "1";
+                prevBtn.style.pointerEvents = "auto";
+                
+                if (currentSlide === slides.length - 1) {
+                    nextBtn.innerHTML = `BACK TO START <i data-lucide="refresh-cw"></i>`;
+                } else {
+                    nextBtn.innerHTML = `VIEW NEXT STEP <i data-lucide="chevron-right"></i>`;
+                }
+            }
+            lucide.createIcons();
+        }
+
+        nextBtn.onclick = () => goToSlide(currentSlide + 1);
+        prevBtn.onclick = () => goToSlide(currentSlide - 1);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') goToSlide(currentSlide + 1);
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'Backspace') goToSlide(currentSlide - 1);
+        });
+
+        // Loop for reveal classes
+        slides.forEach(slide => {
+            slide.querySelectorAll('.reveal').forEach(el => el.classList.add('reveal'));
+        });
+    </script>
+</body>
+</html>
