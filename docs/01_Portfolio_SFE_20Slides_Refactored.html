@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFE OPS STRATEGIST: 20-Slide Portfolio</title>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-deep: #0D0D0F;
+            --bg-card: #1A1A1E;
+            --text-main: #FFFFFF;
+            --text-sub: #94A3B8;
+            --accent-default: #3B82F6;
+            
+            /* Section Colors */
+            --c-blue: #3B82F6;
+            --c-red: #EF4444;
+            --c-green: #10B981;
+            --c-orange: #F59E0B;
+            --c-purple: #8B5CF6;
+            --c-pink: #EC4899;
+            --c-cyan: #06B6D4;
+            
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --font-main: 'Outfit', 'Pretendard', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* ---------------------------------
+           Master Slide Engine
+        --------------------------------- */
+        .viewport {
+            width: 100vw; height: 100vh;
+            position: relative; overflow: hidden;
+        }
+
+        .slide {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transform: translateY(30px);
+            transition: opacity 0.8s var(--ease), transform 1s var(--ease);
+            padding: 4rem;
+        }
+        .slide.active {
+            opacity: 1; pointer-events: auto; transform: translateY(0);
+        }
+
+        .container {
+            width: 100%; max-width: 1300px;
+            display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem;
+            align-items: center;
+        }
+        .container.full { grid-template-columns: 1fr; text-align: center; }
+
+        /* Nav Dock */
+        .nav-dock {
+            position: fixed; left: 2.5rem; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 0.5rem; z-index: 1000;
+        }
+        .nav-item {
+            width: 4px; height: 20px; background: rgba(255,255,255,0.1);
+            border-radius: 2px; cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .nav-item::after {
+            content: attr(data-label); position: absolute; left: 20px; top: 50%; 
+            transform: translateY(-50%); color: var(--text-sub); font-size: 0.65rem;
+            white-space: nowrap; opacity: 0; transition: 0.3s; font-weight: 700;
+            pointer-events: none;
+        }
+        .nav-item:hover::after, .nav-item.active::after { opacity: 1; }
+        .nav-item.active { background: var(--accent-active, var(--accent-default)); height: 35px; }
+
+        /* Typography */
+        .tag {
+            font-size: 0.85rem; font-weight: 800; color: var(--accent-active, var(--accent-default));
+            text-transform: uppercase; letter-spacing: 0.2rem; margin-bottom: 2rem;
+            display: flex; align-items: center; gap: 0.6rem;
+        }
+        h2 { font-size: 3.8rem; font-weight: 950; line-height: 1.1; margin-bottom: 2.5rem; word-break: keep-all; }
+        .desc { font-size: 1.4rem; color: var(--text-sub); line-height: 1.7; word-break: keep-all; font-weight: 300; }
+        .highlight { color: var(--accent-active, var(--accent-default)); }
+
+        /* Project Visuals */
+        .visual-stage {
+            background: var(--bg-card); border-radius: 40px; aspect-ratio: 16/10;
+            display: flex; align-items: center; justify-content: center; position: relative;
+            overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s var(--ease); }
+        .active .reveal { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+        .delay-3 { transition-delay: 0.6s; }
+
+        /* Controls */
+        .bottom-hud {
+            position: fixed; bottom: 3rem; right: 4rem; display: flex; align-items: center; gap: 2rem; z-index: 1000;
+        }
+        .btn-action {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white;
+            padding: 1rem 2rem; border-radius: 100px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 1rem; transition: 0.3s; font-size: 0.9rem;
+        }
+        .btn-action:hover { background: var(--accent-active, var(--accent-default)); border-color: transparent; transform: scale(1.05); }
+
+        /* Specific Visual Elements */
+        .pillar-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem; border-radius: 20px; transition: 0.4s;
+        }
+        .pillar-card:hover { border-color: var(--accent-active); transform: translateY(-5px); }
+
+        .impact-box {
+            background: var(--accent-active); color: white; padding: 1.5rem; border-radius: 16px;
+            font-weight: 800; font-size: 1.1rem; text-align: center;
+        }
+
+        .chart-container { width: 90%; height: 80%; position: relative; }
+
+        /* Section Backgrounds */
+        .bg-grid {
+            position: absolute; inset: 0; 
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 0; transition: 1s;
+        }
+        .active .bg-grid { opacity: 1; }
+
+        @media (max-width: 1024px) {
+            .container { grid-template-columns: 1fr; gap: 2rem; padding: 1rem; }
+            h2 { font-size: 2.5rem; }
+            .visual-stage { aspect-ratio: 16/9; }
+        }
+    </style>
+</head>
+<body style="--accent-active: var(--c-blue);">
+
+    <div class="nav-dock" id="nav-dock"></div>
+
+    <main class="viewport" id="master-stage">
+        
+        <!-- [Slide 01] Hero -->
+        <div class="slide active" id="s01" data-color="var(--c-blue)" data-label="Vision">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal"><i data-lucide="zap"></i> SFE OPS STRATEGIST</span>
+                    <h2 class="reveal delay-1">차세대 기업운영의 핵심<br><span class="highlight">SFE Operating System.</span></h2>
+                    <p class="desc reveal delay-2">SFE Operating System은 단순 프로젝트를 개발하는 것을 넘어, 조직 전체의 운영 효율화를 지향하는 전략적 자산입니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        @keyframes core-pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.6)); } }
+                        @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                    </style>
+                    <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                        <div class="bg-grid"></div>
+                        <!-- Central Core -->
+                        <div style="width: 100px; height: 100px; background: var(--bg-card); border: 4px solid var(--c-blue); border-radius: 20%; transform: rotate(45deg); animation: core-pulse 4s infinite; display: flex; align-items: center; justify-content: center; z-index: 10;">
+                            <i data-lucide="layout-grid" style="transform: rotate(-45deg); width: 40px; height: 40px; color: var(--c-blue);"></i>
+                        </div>
+                        <!-- Orbits -->
+                        <div style="position: absolute; width: 350px; height: 350px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 50%; animation: orbit 20s linear infinite;">
+                            <div style="position: absolute; top: -15px; left: 50%; width: 30px; height: 30px; background: var(--bg-card); border: 2px solid var(--c-red); border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i data-lucide="users" style="width: 14px; color: var(--c-red);"></i></div>
+                            <div style="position: absolute; bottom: -15px; left: 50%; width: 30px; height: 30px; background: var(--bg-card); border: 2px solid var(--c-green); border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i data-lucide="flask-conical" style="width: 14px; color: var(--c-green);"></i></div>
+                            <div style="position: absolute; top: 50%; left: -15px; width: 30px; height: 30px; background: var(--bg-card); border: 2px solid var(--c-orange); border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i data-lucide="map" style="width: 14px; color: var(--c-orange);"></i></div>
+                            <div style="position: absolute; top: 50%; right: -15px; width: 30px; height: 30px; background: var(--bg-card); border: 2px solid var(--c-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i data-lucide="hammer" style="width: 14px; color: var(--c-purple);"></i></div>
+                        </div>
+                        <div style="position: absolute; bottom: 10%; font-family: var(--font-mono); font-size: 0.6rem; color: var(--c-blue); opacity: 0.5;">14YR FIELD DOMAIN // ACCELERATING_THROUGH_TECH</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 02] Problem -->
+        <div class="slide" id="s02" data-color="var(--c-red)" data-label="Problem">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal"><i data-lucide="alert-circle"></i> THE PROBLEM</span>
+                    <h2 class="reveal delay-1">영업 현장의 보이지 않는<br><span class="highlight">심각한 비효율</span></h2>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;" class="reveal delay-2">
+                        <div class="pillar-card" style="padding: 1rem 1.5rem;">
+                            <div style="font-weight: 800; margin-bottom: 0.5rem; color: var(--c-red);">01. CRM 입력의 피로도</div>
+                            <p style="font-size: 1rem; color: var(--text-sub);">데이터 신뢰도 40% 미만 | 입력 완료율 현저히 낮음</p>
+                        </div>
+                        <div class="pillar-card" style="padding: 1rem 1.5rem;">
+                            <div style="font-weight: 800; margin-bottom: 0.5rem; color: var(--c-red);">02. 느린 의사결정</div>
+                            <p style="font-size: 1rem; color: var(--text-sub);">성과 분석 수작업 (3시간/월) | 동선 최적화 관리 불가</p>
+                        </div>
+                        <div class="pillar-card" style="padding: 1rem 1.5rem;">
+                            <div style="font-weight: 800; margin-bottom: 0.5rem; color: var(--c-red);">03. 높은 외부 데이터 의존</div>
+                            <p style="font-size: 1rem; color: var(--text-sub);">연간 비용 수백만 원 | 로직 투명성 결여 (0%)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="visual-stage">
+                    <div class="chart-container">
+                        <canvas id="chart-problem"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 03] Solution -->
+        <div class="slide" id="s03" data-color="var(--c-green)" data-label="Solution">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal"><i data-lucide="check-circle-2"></i> THE SOLUTION</span>
+                    <h2 class="reveal delay-1">현장의 경험을<br><span class="highlight">시스템으로 전환</span></h2>
+                    <p class="desc reveal delay-2">도메인 지식을 알고리즘으로 구현하여 영업 현장의 한계를 돌파합니다.</p>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;" class="reveal delay-3">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="impact-box" style="width: 140px; padding: 0.8rem;">3시간 → 5분</div>
+                            <span style="font-weight: 700;">의사결정 속도 확보</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="impact-box" style="width: 140px; padding: 0.8rem;">80% 감소</div>
+                            <span style="font-weight: 700;">CRM 입력 피로도 개선</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="impact-box" style="width: 140px; padding: 0.8rem;">70% 절감</div>
+                            <span style="font-weight: 700;">데이터 자립 및 비용 효율</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="visual-stage">
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1rem; width: 80%;">
+                        <div class="pillar-card" style="border-left: 4px solid var(--c-green);">
+                            <div style="font-size: 0.8rem; font-weight: 950; opacity: 0.6; margin-bottom: 0.5rem;">PILLAR 01</div>
+                            <div style="font-size: 1.2rem; font-weight: 900;">BEHAVIOR DATA (CRM)</div>
+                        </div>
+                        <div class="pillar-card" style="border-left: 4px solid var(--c-green);">
+                            <div style="font-size: 0.8rem; font-weight: 950; opacity: 0.6; margin-bottom: 0.5rem;">PILLAR 02</div>
+                            <div style="font-size: 1.2rem; font-weight: 900;">REAL-TIME OPS (Sandbox)</div>
+                        </div>
+                        <div class="pillar-card" style="border-left: 4px solid var(--c-green);">
+                            <div style="font-size: 0.8rem; font-weight: 950; opacity: 0.6; margin-bottom: 0.5rem;">PILLAR 03</div>
+                            <div style="font-size: 1.2rem; font-weight: 900;">DATA AUTONOMY (Prescription)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 04] CRM Comparison -->
+        <div class="slide" id="s04" data-color="var(--c-red)" data-label="CRM Imp.">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">CORE 01. BEHAVIOR-CRM</span>
+                    <h2 class="reveal delay-1">영업 행동을<br><span class="highlight">데이터 자산으로</span></h2>
+                    <p class="desc reveal delay-2">CRM을 단순 '입력 도구'에서 '전략 행동 도구'로 재정의합니다.</p>
+                    <div class="impact-box reveal delay-3" style="margin-top: 2rem;">
+                        입력 부하 80% 감소 | 신뢰도 50% 향상
+                    </div>
+                </div>
+                <div class="visual-stage">
+                    <div class="chart-container">
+                        <canvas id="chart-crm-before-after"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 05] CRM Arch -->
+        <div class="slide" id="s05" data-color="var(--c-red)" data-label="CRM Arch.">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">CRM ARCHITECTURE</span>
+                    <h2 class="reveal delay-1">3계층 KPI 설계의<br><span class="highlight">정교함</span></h2>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;" class="reveal delay-2">
+                        <div style="display: flex; gap: 1rem;">
+                            <div style="width: 20px; height: 20px; background: var(--c-red); border-radius: 4px;"></div>
+                            <div><b>Outcome Ind.</b> (TRG/PI/SWR)</div>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <div style="width: 20px; height: 20px; background: rgba(239, 68, 68, 0.6); border-radius: 4px;"></div>
+                            <div><b>Operative Ind.</b> (NAR/AHS/PV)</div>
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <div style="width: 20px; height: 20px; background: rgba(239, 68, 68, 0.3); border-radius: 4px;"></div>
+                            <div><b>Leading Ind.</b> (HIR/RTR/BCR)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        .pyramid { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 90%; }
+                        .p-layer {
+                            width: var(--w); padding: 1rem; background: rgba(255,255,255,0.02);
+                            border: 1px solid var(--c-red); border-radius: 12px;
+                            display: flex; flex-direction: column; align-items: center; justify-content: center;
+                            transition: 0.3s;
+                        }
+                        .p-layer:hover { background: rgba(239, 68, 68, 0.1); transform: scale(1.02); }
+                        .p-label { font-size: 0.7rem; color: var(--text-sub); margin-bottom: 0.3rem; font-weight: 800; }
+                        .p-value { font-size: 0.9rem; font-weight: 950; color: #fff; text-align: center; }
+                    </style>
+                    <div class="pyramid">
+                        <div class="p-layer" style="--w: 50%;">
+                            <span class="p-label">OUTCOME INDICATOR</span>
+                            <span class="p-value">TRG(매출) / PI(처방지수) / FGR(성장률)</span>
+                        </div>
+                        <div class="p-layer" style="--w: 75%;">
+                            <span class="p-label">OPERATIVE INDICATOR</span>
+                            <span class="p-value">NAR(계획이행) / AHS(계정건강) / PV(처방량)</span>
+                        </div>
+                        <div class="p-layer" style="--w: 100%;">
+                            <span class="p-label">LEADING INDICATOR (BEHAVIOR)</span>
+                            <span class="p-value">HIR(방문지수) / RTR(규칙성) / BCR(관계온도) / PHR(방문빈도)</span>
+                        </div>
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 10px; width: 100%; text-align: center;">
+                            <p style="font-size: 0.8rem; color: var(--c-red); font-weight: 900;">CORRELATION: 행동지표 → 실적 상관관계 증명 완료</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 06] Sandbox Dash -->
+        <div class="slide" id="s06" data-color="var(--c-green)" data-label="Sandbox">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">CORE 02. SFE SANDBOX</span>
+                    <h2 class="reveal delay-1">다차원 실적 분석의<br><span class="highlight">자동화</span></h2>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;" class="reveal delay-2">
+                        <li><i data-lucide="check" style="color: var(--c-green); vertical-align: middle;"></i> Real-time Analytics (ZEOR Wait)</li>
+                        <li><i data-lucide="check" style="color: var(--c-green); vertical-align: middle;"></i> Reliability Filter (100% Integrity)</li>
+                        <li><i data-lucide="check" style="color: var(--c-green); vertical-align: middle;"></i> Unified Execution Console</li>
+                    </ul>
+                </div>
+                <div class="visual-stage">
+                    <div class="chart-container">
+                        <canvas id="chart-sandbox-radar"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 07] Sandbox Ext -->
+        <div class="slide" id="s07" data-color="var(--c-green)" data-label="Forecast">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">SANDBOX EXTENDED</span>
+                    <h2 class="reveal delay-1">CRM &<br><span class="highlight">목표, 매출의 상관관계 분석</span></h2>
+                    <p class="desc reveal delay-2">선행 지표의 패턴 분석을 통해 CRM과 매출의 상관관계를 분석합니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <div class="chart-container">
+                        <canvas id="chart-forecast"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 08] Territory Map -->
+        <div class="slide" id="s08" data-color="var(--c-blue)" data-label="Spatial">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">CORE 03. TERRITORY OPTIMIZER</span>
+                    <h2 class="reveal delay-1">공간 데이터로<br><span class="highlight">영업 효율 시각화</span></h2>
+                    <p class="desc reveal delay-2">동선이 보이지 않으면 최적화도 불가능합니다. 모든 움직임을 지도로 파악합니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        .map-mock { position: relative; width: 100%; height: 100%; background: #242424; }
+                    </style>
+                    <div class="map-mock">
+                        <svg viewBox="0 0 400 300" style="width: 80%; height: 80%; z-index: 2; overflow: visible;">
+                            <defs>
+                                <filter id="glow-territory">
+                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                    <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                                </filter>
+                            </defs>
+                            
+                            <circle cx="120" cy="100" r="70" fill="var(--c-blue)" opacity="0.08" />
+                            <circle cx="280" cy="180" r="90" fill="var(--c-blue)" opacity="0.08" />
+                            
+                            <path d="M 60,60 L 120,100 L 180,70 L 280,180 L 340,150 L 280,240 L 120,100" 
+                                  fill="none" stroke="var(--c-blue)" stroke-width="1.5" 
+                                  stroke-dasharray="5,5" opacity="0.3" />
+                            
+                            <path d="M 60,60 L 120,100 L 280,180 L 340,150" 
+                                  fill="none" stroke="var(--c-blue)" stroke-width="3" 
+                                  filter="url(#glow-territory)" stroke-linecap="round" stroke-linejoin="round">
+                                <animate attributeName="stroke-dasharray" from="0, 1000" to="1000, 0" dur="2s" fill="freeze" />
+                            </path>
+                            
+                            <g fill="var(--bg-card)" stroke="var(--c-blue)" stroke-width="2">
+                                <circle cx="60" cy="60" r="5" />
+                                <circle cx="120" cy="100" r="7" />
+                                <circle cx="180" cy="70" r="5" />
+                                <circle cx="280" cy="180" r="9" />
+                                <circle cx="340" cy="150" r="6" />
+                                <circle cx="280" cy="240" r="5" />
+                            </g>
+                            
+                            <text x="295" y="175" fill="var(--text-main)" font-size="10" font-weight="900" style="font-family: 'Outfit';">HUB A</text>
+                            <text x="50" y="50" fill="var(--text-sub)" font-size="8" style="font-family: 'Outfit';">START</text>
+                        </svg>
+                        <div style="position: absolute; bottom: 1rem; right: 1rem; background: rgba(0,0,3,0.5); padding: 0.5rem; font-size: 0.7rem;">384개 종합병원 라이브 트래킹</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 09] Territory Impact -->
+        <div class="slide" id="s09" data-color="var(--c-blue)" data-label="Efficiency">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">TERRITORY IMPACT</span>
+                    <h2 class="reveal delay-1">데이터로 증명하는<br><span class="highlight">동선 효율화</span></h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;" class="reveal delay-2">
+                        <div class="pillar-card">
+                            <div style="font-size: 0.9rem; opacity: 0.6;">Before</div>
+                            <div style="font-size: 2rem; font-weight: 900;">450 km</div>
+                            <div style="color: var(--c-red);">Coverage 70%</div>
+                        </div>
+                        <div class="pillar-card" style="border-color: var(--c-blue);">
+                            <div style="font-size: 0.9rem; opacity: 0.6;">After</div>
+                            <div style="font-size: 2rem; font-weight: 900; color: var(--c-blue);">315 km</div>
+                            <div style="color: var(--c-green);">Coverage 95%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visual-stage">
+                    <div style="text-align: center;">
+                        <div style="font-size: 4rem; font-weight: 950; color: var(--c-blue);">-30%</div>
+                        <div style="font-size: 1.2rem; font-weight: 700;">월간 이동거리 감소</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 10] Prescription -->
+        <div class="slide" id="s10" data-color="var(--c-orange)" data-label="Data Self.">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">CORE 04. PRESCRIPTION DATA FLOW</span>
+                    <h2 class="reveal delay-1">처방 데이터의<br><span class="highlight">완전한 투명성</span></h2>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;" class="reveal delay-2">
+                        <li><i data-lucide="check-circle" style="color: var(--c-orange); vertical-align: middle;"></i> Entity Resolution (거래처 통합)</li>
+                        <li><i data-lucide="check-circle" style="color: var(--c-orange); vertical-align: middle;"></i> Weight Allocation (자동 배분 모델)</li>
+                        <li><i data-lucide="check-circle" style="color: var(--c-orange); vertical-align: middle;"></i> 100% Attribution Traceability</li>
+                    </ul>
+                </div>
+                <div class="visual-stage">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; --c-flow: var(--c-orange);">
+                        <div style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 70%);"></div>
+                        
+                        <svg viewBox="0 0 400 300" style="width: 90%; height: auto; z-index: 2; overflow: visible;">
+                            <defs>
+                                <filter id="glow-loop-fixed">
+                                    <feGaussianBlur stdDeviation="3" result="glow"/>
+                                    <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+                                </filter>
+                            </defs>
+
+                            <path id="loop-trace" d="M 60,100 L 200,100 L 340,100 L 340,220 L 60,220 Z" 
+                                  fill="none" stroke="rgba(245, 158, 11, 0.1)" stroke-width="2" stroke-dasharray="8,4" />
+                            
+                            <path d="M 60,100 L 200,100 L 340,100 L 340,220 L 60,220 Z" 
+                                  fill="none" stroke="var(--c-flow)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6">
+                                <animate attributeName="stroke-dasharray" from="0, 1000" to="1000, 0" dur="5s" repeatCount="indefinite" />
+                            </path>
+
+                            <g transform="translate(60, 100)">
+                                <circle r="20" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="2" filter="url(#glow-loop-fixed)" />
+                                <text y="-35" text-anchor="middle" fill="var(--text-main)" font-size="9" font-weight="900">PHARMA</text>
+                                <circle r="3" fill="var(--c-flow)">
+                                    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
+                                </circle>
+                            </g>
+
+                            <g transform="translate(200, 100)">
+                                <circle r="15" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="1.5" />
+                                <text y="-35" text-anchor="middle" fill="var(--text-sub)" font-size="8" font-weight="700">WHOLESALE</text>
+                            </g>
+
+                            <g transform="translate(340, 100)">
+                                <circle r="15" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="1.5" />
+                                <text y="-35" text-anchor="middle" fill="var(--text-sub)" font-size="8" font-weight="700">PHARMACY</text>
+                            </g>
+
+                            <g transform="translate(340, 220)">
+                                <circle r="15" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="1.5" />
+                                <text y="35" text-anchor="middle" fill="var(--text-sub)" font-size="8" font-weight="700">HOSPITAL</text>
+                            </g>
+
+                            <g transform="translate(60, 220)">
+                                <circle r="18" fill="var(--bg-card)" stroke="var(--c-flow)" stroke-width="2" filter="url(#glow-loop-fixed)" />
+                                <text y="35" text-anchor="middle" fill="var(--text-main)" font-size="9" font-weight="900">MR (DATA)</text>
+                                <path d="M -5,0 L -2,3 L 5,-3" fill="none" stroke="var(--c-flow)" stroke-width="2" stroke-linecap="round" />
+                            </g>
+
+                            <circle r="4" fill="var(--c-flow)" filter="url(#glow-loop-fixed)">
+                                <animateMotion dur="5s" repeatCount="indefinite">
+                                    <mpath href="#loop-trace"/>
+                                </animateMotion>
+                            </circle>
+                            <circle r="2" fill="white" opacity="0.8">
+                                <animateMotion dur="5s" repeatCount="indefinite" begin="2.5s">
+                                    <mpath href="#loop-trace"/>
+                                </animateMotion>
+                            </circle>
+                        </svg>
+
+                        <div style="position: absolute; top: 1.5rem; right: 2rem; text-align: right;">
+                            <div style="font-size: 0.5rem; color: var(--text-sub); letter-spacing: 0.1rem;">PRECISION TRACING</div>
+                            <div style="font-size: 1.1rem; font-weight: 900; color: var(--c-flow);">LOOP STABILIZED</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 11] Builder -->
+        <div class="slide" id="s11" data-color="var(--c-purple)" data-label="Automation">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">CORE 05. AUTO-REPORTING</span>
+                    <h2 class="reveal delay-1">리포팅의 자동화로<br><span class="highlight">기획에만 집중</span></h2>
+                    <p class="desc reveal delay-2">단순 반복 업무인 리포팅 제작 리소스를 절감하여 기획,전략 수립에 집중 하는 시간을 확보하겠습니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <style>
+                        @keyframes builder-scan-in { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+                        @keyframes builder-block-blink { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.7; } }
+                        @keyframes builder-wand-glow { 0%, 100% { filter: drop-shadow(0 0 5px var(--c-purple)); } 50% { filter: drop-shadow(0 0 15px var(--c-purple)); } }
+
+                        .reporting-split {
+                            width: 100%; height: 100%;
+                            display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                            gap: 0; padding: 1.5rem;
+                        }
+                        .reporting-side {
+                            position: relative; height: 100%;
+                            display: flex; flex-direction: column; justify-content: center;
+                            overflow: hidden;
+                        }
+                        .reporting-side + .reporting-side {
+                            border-left: 1px solid rgba(255,255,255,0.08);
+                            padding-left: 1.5rem; margin-left: 1.5rem;
+                        }
+                        .reporting-metric {
+                            align-items: center; gap: 1.2rem; text-align: center;
+                        }
+                        .reporting-kicker {
+                            font-size: 0.55rem; letter-spacing: 0.14rem; color: var(--text-sub); font-weight: 800;
+                        }
+                        .reporting-bars {
+                            display: flex; align-items: flex-end; justify-content: center; gap: 2.2rem;
+                            width: 100%;
+                        }
+                        .reporting-bar-wrap { text-align: center; }
+                        .reporting-track {
+                            width: 82px; height: 230px; background: rgba(255,255,255,0.05);
+                            border-radius: 12px; position: relative; overflow: hidden;
+                            border: 1px solid rgba(255,255,255,0.05);
+                        }
+                        .reporting-fill {
+                            position: absolute; bottom: 0; width: 100%; border-radius: 12px;
+                        }
+                        .builder-shell {
+                            width: 100%; height: 100%; background: rgba(255,255,255,0.02);
+                            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+                            position: relative; overflow: hidden; padding: 1.2rem;
+                            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+                        }
+                        .builder-canvas {
+                            width: 100%; height: 100%; background: var(--bg-card);
+                            border: 1px solid rgba(255,255,255,0.05); border-radius: 8px;
+                            padding: 1rem; position: relative;
+                        }
+                        .builder-line {
+                            height: 12px; background: rgba(255,255,255,0.05); border-radius: 4px;
+                            margin-bottom: 8px; animation: builder-scan-in 0.6s ease-out forwards;
+                            opacity: 0;
+                        }
+                        .builder-block {
+                            position: absolute; width: 34px; height: 34px;
+                            background: var(--c-purple); opacity: 0.1; border-radius: 6px;
+                            animation: builder-block-blink 2s infinite ease-in-out;
+                        }
+                    </style>
+                    <div class="reporting-split">
+                        <div class="reporting-side reporting-metric">
+                            <div class="reporting-kicker">REPORTING HOURS COMPARISON</div>
+                            <div style="font-size: 1.8rem; font-weight: 950; color: var(--c-purple);">93% REDUCTION</div>
+                            <div class="reporting-bars">
+                                <div class="reporting-bar-wrap">
+                                    <div class="reporting-track">
+                                        <div class="reporting-fill" style="height: 90%; background: var(--c-red);"></div>
+                                    </div>
+                                    <div style="margin-top: 0.9rem; font-weight: 800; font-size: 0.75rem;">Manual (7h)</div>
+                                </div>
+                                <div class="reporting-bar-wrap">
+                                    <div class="reporting-track">
+                                        <div class="reporting-fill" style="height: 7%; background: var(--c-purple);"></div>
+                                    </div>
+                                    <div style="margin-top: 0.9rem; font-weight: 800; color: var(--c-purple); font-size: 0.75rem;">Auto (30m)</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0.8rem 1rem; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 999px; font-size: 0.65rem; font-weight: 800; color: var(--c-purple);">
+                                반복 제작 시간을 줄이고, 기획에 더 많은 시간을 확보
+                            </div>
+                        </div>
+                        <div class="reporting-side" style="padding-right: 0.2rem;">
+                            <div class="builder-shell">
+                                <div style="position: absolute; top: 1rem; right: 1.3rem; text-align: right; z-index: 10;">
+                                    <div style="font-size: 0.45rem; color: var(--text-sub); letter-spacing: 0.15rem;">AUTO_GENERATOR_V4</div>
+                                    <div style="font-size: 0.85rem; font-weight: 950; color: var(--c-purple);">80% REDUCTION</div>
+                                </div>
+                                <div class="builder-canvas">
+                                    <div class="builder-line" style="width: 40%; background: var(--c-purple); animation-delay: 0.2s;"></div>
+                                    <div class="builder-line" style="width: 80%; animation-delay: 0.4s;"></div>
+                                    <div class="builder-line" style="width: 65%; animation-delay: 0.6s;"></div>
+                                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                                        <div style="flex: 1; height: 80px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                            <i data-lucide="image" style="width: 20px; color: var(--text-sub); opacity: 0.3;"></i>
+                                        </div>
+                                        <div style="flex: 1; height: 80px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                                            <i data-lucide="bar-chart-3" style="width: 20px; color: var(--text-sub); opacity: 0.3;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="builder-block" style="top: 22%; left: 10%;"></div>
+                                <div class="builder-block" style="bottom: 12%; right: 18%; animation-delay: 1s;"></div>
+                                <div style="position: absolute; bottom: 1.25rem; left: 1.25rem; display: flex; align-items: center; gap: 10px;">
+                                    <i data-lucide="wand-2" style="width: 24px; color: var(--c-purple); animation: builder-wand-glow 2s infinite;"></i>
+                                    <span style="font-size: 0.45rem; font-weight: 900; color: var(--text-sub); letter-spacing: 0.1rem;">ONE-CLICK GENERATION</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 12] BIDIX Platform -->
+        <div class="slide" id="s12" data-color="var(--c-pink)" data-label="BIDIX Plat.">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">EXTENDED 01. BIDIX PLATFORM</span>
+                    <h2 class="reveal delay-1">권리 관계를<br><span class="highlight">시스템으로 해석</span></h2>
+                    <p class="desc reveal delay-2">부동산 경매의 복잡한 권리 분석과 수익 시뮬레이션을 도메인 엔진으로 구현했습니다.</p>
+                </div>
+                <div class="visual-stage">
+                     <div style="width: 80%; padding: 2rem; background: var(--bg-deep); border-radius: 20px; border: 1px solid var(--c-pink);">
+                        <div style="font-family: var(--font-mono); font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; margin-bottom: 1rem;">
+                            SIMULATION_CORE v1.2
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                            <div style="display: flex; justify-content: space-between;"><span>Risk Level:</span> <span style="color: var(--c-pink);">MODERATE</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Expected ROI:</span> <span style="color: var(--c-green);">22.4%</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Decision:</span> <span style="background: var(--c-green); padding: 0 5px; color: black; font-weight: 900;">GO</span></div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 13] BIDIX Crawler -->
+        <div class="slide" id="s13" data-color="var(--c-pink)" data-label="Crawler">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">EXTENDED 02. BIDIX CRAWLER</span>
+                    <h2 class="reveal delay-1">경매 데이터의<br><span class="highlight">자동 수집과 정제</span></h2>
+                    <div class="impact-box reveal delay-2" style="background: rgba(236, 72, 153, 0.1); border: 2px solid var(--c-pink); color: var(--c-pink);">
+                        수기 수집 대비 1,000배 효율 증대
+                    </div>
+                </div>
+                <div class="visual-stage">
+                    <div class="chart-container">
+                        <canvas id="chart-crawler-trend"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 14] Full Integration -->
+        <div class="slide" id="s14" data-color="var(--c-blue)" data-label="Integration">
+            <div class="container full">
+                <div class="content">
+                    <span class="tag reveal">FULL INTEGRATION</span>
+                    <h2 class="reveal delay-1">모든 모듈이<br><span class="highlight">하나로 움직이는 SFE OS</span></h2>
+                </div>
+                <div style="position: relative; height: 400px; display: flex; align-items: center; justify-content: center;" class="reveal delay-2">
+                    <svg viewBox="0 0 1000 400" style="width: 100%; height: 100%;">
+                        <g font-family="Outfit" font-size="14" font-weight="800" fill="white" text-anchor="middle">
+                            <rect x="400" y="160" width="200" height="80" rx="10" fill="var(--c-blue)" />
+                            <text x="500" y="205">SFE CORE ENGINE</text>
+                            
+                            <rect x="100" y="50" width="150" height="60" rx="10" fill="var(--c-red)" />
+                            <text x="175" y="85">CRM</text>
+
+                            <rect x="425" y="40" width="150" height="60" rx="10" fill="var(--c-blue)" />
+                            <text x="500" y="75">TERRITORY</text>
+                            
+                            <rect x="750" y="50" width="150" height="60" rx="10" fill="var(--c-green)" />
+                            <text x="825" y="85">SANDBOX</text>
+                            
+                            <rect x="100" y="290" width="160" height="60" rx="10" fill="var(--c-orange)" />
+                            <text x="180" y="325">PRESCRIPTION DATA</text>
+                            
+                            <rect x="750" y="290" width="150" height="60" rx="10" fill="var(--c-pink)" />
+                            <text x="825" y="325">HTML BUILDER</text>
+                            
+                            <path d="M 250,80 L 400,165" stroke="white" stroke-width="2" stroke-dasharray="5,5" />
+                            <path d="M 500,100 L 500,160" stroke="white" stroke-width="2" stroke-dasharray="5,5" />
+                            <path d="M 750,80 L 600,165" stroke="white" stroke-width="2" stroke-dasharray="5,5" />
+                            <path d="M 260,320 L 400,235" stroke="white" stroke-width="2" stroke-dasharray="5,5" />
+                            <path d="M 750,320 L 600,235" stroke="white" stroke-width="2" stroke-dasharray="5,5" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 15] Business Impact -->
+        <div class="slide" id="s15" data-color="var(--c-blue)" data-label="Impact">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">BUSINESS IMPACT</span>
+                    <h2 class="reveal delay-1">시스템으로 증명하는<br><span class="highlight">운영 효율화</span></h2>
+                    <div style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: 1rem; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 10px;" class="reveal delay-2">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;"><span>METRIC</span> <span>RESULT</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>Decision Speed</span> <span style="color: var(--c-green);">4.5x Faster</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>Data Automation</span> <span style="color: var(--c-green);">99%</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>Travel Distance</span> <span style="color: var(--c-green);">-30%</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;"><span>Annual Reporting Loss</span> <span style="color: var(--c-green);">-78 Hours</span></div>
+                    </div>
+                </div>
+                <div class="visual-stage">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 80%;">
+                        <div class="pillar-card" style="text-align: center;">
+                            <div style="font-size: 0.7rem; opacity: 0.5;">DECISION</div>
+                            <div style="font-size: 2.2rem; font-weight: 950; color: var(--c-blue);">3h → 5m</div>
+                        </div>
+                        <div class="pillar-card" style="text-align: center;">
+                            <div style="font-size: 0.7rem; opacity: 0.5;">SAVINGS</div>
+                            <div style="font-size: 2.2rem; font-weight: 950; color: var(--c-blue);">70%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 16] Technical Foundation -->
+        <div class="slide" id="s16" data-color="var(--c-blue)" data-label="Technical">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">TECHNICAL FOUNDATION</span>
+                    <h2 class="reveal delay-1">확장 가능한<br><span class="highlight">시스템 아키텍처</span></h2>
+                    <p class="desc reveal delay-2">Python, FastAPI, Streamlit, HTML/CSS/JS 및 다차원 시각화 라이브러리를 통해 도메인을 구현했습니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem; width: 80%;">
+                        <div class="pillar-card" style="padding: 1rem; text-align: center; background: var(--c-blue);"><b>FRONTEND</b> (HTML/CSS/JS/Chart.js)</div>
+                        <div class="pillar-card" style="padding: 1rem; text-align: center; border-color: var(--c-blue);"><b>APPLICATION</b> (Python/FastAPI/Pandas)</div>
+                        <div class="pillar-card" style="padding: 1rem; text-align: center; opacity: 0.6;"><b>DATA</b> (CSV/JSON/Automation)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 17] Roadmap -->
+        <div class="slide" id="s17" data-color="var(--c-green)" data-label="Roadmap">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">FUTURE VISION</span>
+                    <h2 class="reveal delay-1">Part 1 완료 →<br><span class="highlight">Part 2 Roadmap</span></h2>
+                    <p class="desc reveal delay-2">기초 구조 수립을 넘어 운영 허브(OPS Hub)로의 확장을 준비합니다.</p>
+                </div>
+                <div class="visual-stage">
+                    <div style="width: 80%; display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 60px; font-weight: 900; color: var(--c-green);">Q2</div>
+                            <div style="flex: 1; padding: 0.8rem; border: 1px solid var(--c-green); border-radius: 8px;">Intake Gate & Daily Monitoring</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 60px; font-weight: 900; color: var(--c-green);">Q3</div>
+                            <div style="flex: 1; padding: 0.8rem; border: 1px solid var(--c-green); border-radius: 8px; opacity: 0.7;">Batch Automation & Alert System</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 60px; font-weight: 900; color: var(--c-green);">Q4</div>
+                            <div style="flex: 1; padding: 0.8rem; border: 1px solid var(--c-green); border-radius: 8px; opacity: 0.4;">Action Queue & Rule Engine</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 18] Competencies -->
+        <div class="slide" id="s18" data-color="var(--c-blue)" data-label="Competency">
+            <div class="container full">
+                 <span class="tag reveal">CORE COMPETENCIES</span>
+                 <h2 class="reveal delay-1">현장 + 기획 + 기술의<br><span class="highlight">완벽한 결합</span></h2>
+                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; width: 100%; margin-top: 2rem;" class="reveal delay-2">
+                     <div class="pillar-card">
+                         <i data-lucide="hospital" style="width: 40px; height: 40px; color: var(--c-blue); margin-bottom: 1rem;"></i>
+                         <div style="font-weight: 950; margin-bottom: 1rem;">Field Domain</div>
+                         <p style="font-size: 0.9rem; color: var(--text-sub);">14년 제약 영업 필드 경험<br>현장의 문제를 읽어내는 통찰</p>
+                     </div>
+                     <div class="pillar-card">
+                         <i data-lucide="brain-circuit" style="width: 40px; height: 40px; color: var(--c-blue); margin-bottom: 1rem;"></i>
+                         <div style="font-weight: 950; margin-bottom: 1rem;">Strategy</div>
+                         <p style="font-size: 0.9rem; color: var(--text-sub);">SFE OPS 아키텍처 기획 & 설계<br></p>
+                     </div>
+                     <div class="pillar-card">
+                         <i data-lucide="code" style="width: 40px; height: 40px; color: var(--c-blue); margin-bottom: 1rem;"></i>
+                         <div style="font-weight: 950; margin-bottom: 1rem;">Tech Skill</div>
+                         <p style="font-size: 0.9rem; color: var(--text-sub);">AI, Python, Web 기술력<br>아이디어를 실제 코드로 구현</p>
+                     </div>
+                 </div>
+            </div>
+        </div>
+
+        <!-- [Slide 19] Contact -->
+        <div class="slide" id="s19" data-color="var(--c-green)" data-label="Contact">
+            <div class="container">
+                <div class="content">
+                    <span class="tag reveal">READY TO IMPACT</span>
+                    <h2 class="reveal delay-1">함께 만들어갈<br><span class="highlight">새로운 변화</span></h2>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;" class="reveal delay-2">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="width: 40px; height: 40px; background: var(--bg-card); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--c-green);"><i data-lucide="mail" style="width: 18px; color: var(--c-green);"></i></div>
+                            <span style="font-weight: 700;">jhyun07@naver.com</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="width: 40px; height: 40px; background: var(--bg-card); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--c-green);"><i data-lucide="phone" style="width: 18px; color: var(--c-green);"></i></div>
+                            <span style="font-weight: 700;"> 010-7337-1253</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="width: 40px; height: 40px; background: var(--bg-card); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--c-green);"><i data-lucide="github" style="width: 18px; color: var(--c-green);"></i></div>
+                            <span style="font-weight: 700;">www.linkedin.com/in/
+JH-GU-1743693a8
+</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="visual-stage" style="background: transparent; border: none; box-shadow: none;">
+                    <div style="text-align: right;">
+                        <h3 style="font-size: 4rem; font-weight: 950; line-height: 1;">GU<br>JAEHYUN</h3>
+                        <p style="color: var(--c-green); font-weight: 800; letter-spacing: 0.3rem; margin-top: 1rem;">SFE SPECIALIST</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Slide 20] Thank You -->
+        <div class="slide" id="s20" data-color="var(--c-blue)" data-label="End">
+            <div class="container full">
+                <h2 class="reveal">감사합니다.</h2>
+                <p class="desc reveal delay-1" style="margin-top: -1rem;">기획이 실행 될 때, 조직은 최적화됩니다.</p>
+                <div style="margin-top: 4rem; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; display: inline-block;" class="reveal delay-2">
+                    <span style="font-weight: 950; letter-spacing: 0.4rem;">SFE OPERATING SYSTEM</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="bottom-hud">
+        <button class="btn-action" id="btn-prev" style="opacity: 0; pointer-events: none;"><i data-lucide="chevron-left"></i> PREV</button>
+        <button class="btn-action" id="btn-next">EXPLORE SFE OS <i data-lucide="chevron-right"></i></button>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('btn-next');
+        const prevBtn = document.getElementById('btn-prev');
+        const navDock = document.getElementById('nav-dock');
+        const charts = {};
+
+        // Initialize Nav
+        slides.forEach((slide, i) => {
+            const dot = document.createElement('div');
+            dot.className = `nav-item ${i === 0 ? 'active' : ''}`;
+            dot.setAttribute('data-label', slide.getAttribute('data-label'));
+            dot.onclick = () => goToSlide(i);
+            navDock.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.nav-item');
+
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            const activeSlide = slides[currentSlide];
+            activeSlide.classList.add('active');
+            dots[currentSlide].classList.add('active');
+
+            // Apply Theme Color
+            const themeColor = activeSlide.getAttribute('data-color');
+            document.body.style.setProperty('--accent-active', themeColor);
+
+            // Controls
+            if (currentSlide === 0) {
+                prevBtn.style.opacity = "0";
+                prevBtn.style.pointerEvents = "none";
+                nextBtn.innerHTML = `EXPLORE SFE OS <i data-lucide="chevron-right"></i>`;
+            } else {
+                prevBtn.style.opacity = "1";
+                prevBtn.style.pointerEvents = "auto";
+                nextBtn.innerHTML = currentSlide === slides.length - 1 ? `RESTART <i data-lucide="refresh-cw"></i>` : `NEXT <i data-lucide="chevron-right"></i>`;
+            }
+
+            // Init Charts on slide transition
+            initCharts(currentSlide);
+        }
+
+        nextBtn.onclick = () => goToSlide(currentSlide + 1);
+        prevBtn.onclick = () => goToSlide(currentSlide - 1);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') goToSlide(currentSlide + 1);
+            if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
+        });
+
+        function initCharts(idx) {
+            // Chart Problem (Slide 2)
+            if (idx === 1 && !charts.problem) {
+                charts.problem = new Chart(document.getElementById('chart-problem'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['CRM 신뢰도', '의사결정 시간(h)', '연간 비용(M)'],
+                        datasets: [{
+                            label: '현 상태 (비효율)',
+                            data: [35, 30, 80],
+                            backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                            borderColor: '#EF4444',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: { 
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: '#fff' } } },
+                        scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#94A3B8' } }, x: { ticks: { color: '#94A3B8' } } }
+                    }
+                });
+            }
+            // CRM Comparison (Slide 4)
+            if (idx === 3 && !charts.crm) {
+                charts.crm = new Chart(document.getElementById('chart-crm-before-after'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['입력 부하', '데이터 신뢰도', '효율성'],
+                        datasets: [
+                            { label: 'Before', data: [80, 40, 30], backgroundColor: 'rgba(239, 68, 68, 0.4)' },
+                            { label: 'After (SFE OS)', data: [20, 90, 95], backgroundColor: 'rgba(239, 68, 68, 1)' }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } } } }
+                });
+            }
+            // Sandbox Radar (Slide 6)
+            if (idx === 5 && !charts.sandbox) {
+                charts.sandbox = new Chart(document.getElementById('chart-sandbox-radar'), {
+                    type: 'radar',
+                    data: {
+                        labels: ['HIR', 'NAR', 'RTR', 'PV', 'PHR'],
+                        datasets: [{ label: 'Performance', data: [85, 90, 75, 92, 88], backgroundColor: 'rgba(16, 185, 129, 0.2)', borderColor: '#10B981', pointBackgroundColor: '#10B981' }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { r: { backgroundColor: 'rgba(255,255,255,0.02)', grid: { color: 'rgba(255,255,255,0.1)' }, angleLines: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#94A3B8' } } } }
+                });
+            }
+            // Forecast (Slide 7)
+            if (idx === 6 && !charts.forecast) {
+                charts.forecast = new Chart(document.getElementById('chart-forecast'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [
+                            { label: 'Actual', data: [120, 135, 125, null, null, null], borderColor: '#10B981', tension: 0.4 },
+                            { label: 'Forecast', data: [null, null, 125, 140, 155, 160], borderColor: '#3B82F6', borderDash: [5, 5], tension: 0.4 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } } } }
+                });
+            }
+            // Crawler Trend (Slide 13)
+            if (idx === 12 && !charts.crawler) {
+                charts.crawler = new Chart(document.getElementById('chart-crawler-trend'), {
+                    type: 'line',
+                    data: {
+                        labels: ['W1', 'W2', 'W3', 'W4'],
+                        datasets: [{ label: 'Objects Collected', data: [2000, 5500, 10000, 14800], borderColor: '#EC4899', backgroundColor: 'rgba(236, 72, 153, 0.1)', fill: true, tension: 0.3 }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } } } }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
