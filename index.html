@@ -354,12 +354,15 @@
         .module-node .id-text { font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-dim); }
         .module-node p { font-size: 0.7rem; color: var(--text-dim); line-height: 1.4; margin: 0; }
 
-        /* Unified Symmetric Positions */
-        .pos-1 { top: 15%; left: 15%; }    /* Top Left */
-        .pos-3 { bottom: 15%; left: 15%; } /* Bottom Left */
-        .pos-2 { top: 15%; right: 15%; }   /* Top Right */
-        .pos-4 { bottom: 15%; right: 15%; } /* Bottom Right */
-        .pos-5 { bottom: 5%; left: 50%; transform: translateX(-50%); width: 240px; } /* Center Bottom */
+        /* Unified Symmetric Positions - 8 Nodes Balanced Layout */
+        .pos-1 { top: 8%; left: 15%; }     /* Behavior CRM */
+        .pos-2 { top: 8%; right: 15%; }    /* Prescription Engine */
+        .pos-3 { top: 5%; left: 50%; transform: translateX(-50%); } /* KPI Core Engine */
+        .pos-4 { top: 40%; left: 5%; }     /* OPS Orchestrator (Validation) */
+        .pos-5 { top: 40%; right: 5%; }    /* Unified Sandbox */
+        .pos-6 { bottom: 12%; left: 5%; }  /* Territory Mapper */
+        .pos-7 { bottom: 5%; left: 50%; transform: translateX(-50%); } /* RADAR Intelligence */
+        .pos-8 { bottom: 12%; right: 5%; } /* Result Builder */
 
         .connection-paths {
             position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none;
@@ -484,177 +487,17 @@
             z-index: 10;
         }
 
-        /* Mobile Responsive Adjustments */
+        /* Mobile Adjustments */
         @media (max-width: 1024px) {
-            header { 
-                padding: 1rem 1.5rem; 
-            }
-            header.scrolled { 
-                padding: 0.8rem 1.5rem; 
-            }
-            header nav { 
-                display: none; /* Mobile navigation simplified */
-            }
-            
-            .container { 
-                padding: 0 1.5rem; 
-            }
-            
-            section {
-                padding: 10vh 0;
-                min-height: auto;
-            }
-
-            /* Hero Section */
-            .hero {
-                height: 100vh;
-                padding-top: 60px;
-            }
-            .hero-text h1 { 
-                font-size: clamp(2.8rem, 12vw, 4.5rem); 
-                margin: 1.5rem 0; 
-                line-height: 1.1;
-            }
-            .hero-text .subtitle { 
-                font-size: 1rem; 
-                line-height: 1.6;
-                padding: 0 1rem;
-            }
-            .hero-actions { 
-                margin-top: 2.5rem; 
-                flex-direction: column; 
-                gap: 1rem; 
-                align-items: center; 
-            }
-            .hero-btn { 
-                width: 100%; 
-                max-width: 280px; 
-                justify-content: center; 
-                padding: 1rem 2rem; 
-                font-size: 0.7rem;
-            }
-            .hero-reactor {
-                width: 60vh;
-                height: 60vh;
-            }
-
-            /* Content Sections */
-            .profile-container, .perspective-content, .dive-row { 
-                grid-template-columns: 1fr !important; 
-                gap: 3rem; 
-                text-align: center; 
-            }
-            
-            .profile-status h2, .perspective h2, .dive-text h3 { 
-                font-size: 2.2rem; 
-                line-height: 1.2;
-            }
-            
-            .profile-metrics { 
-                grid-template-columns: 1fr; 
-                gap: 1rem; 
-            }
-            
-            .profile-data-block { 
-                padding: 2rem 1.5rem; 
-                text-align: left;
-            }
-            .profile-data-block p {
-                font-size: 1.1rem;
-            }
-            
-            /* SFE OPS ARCHITECTURE: 노드 숨김 처리 */
-            #architecture { 
-                padding-bottom: 5vh; 
-            }
-            .map-wrapper { 
-                display: none; 
-            }
-            .arch-header h2 {
-                font-size: 2rem;
-            }
-            
-            /* Process Loop */
-            .loop-header h2 {
-                font-size: 2.8rem;
-            }
-            .loop-track { 
-                flex-direction: column; 
-                gap: 2.5rem; 
-                margin-top: 3rem;
-            }
-            .loop-track::after { 
-                display: none; 
-            }
-            .loop-point { 
-                gap: 1rem; 
-            }
-            .point-circle {
-                width: 60px;
-                height: 60px;
-                font-size: 1.4rem;
-            }
-            
-            /* Module Deep Dive */
-            .dive-row { 
-                margin-bottom: 8vh; 
-            }
-            .dive-visual { 
-                height: 250px; 
-                margin-top: 1.5rem; 
-                order: 2;
-            }
-            .dive-text {
-                order: 1;
-            }
-            .dive-row:nth-child(even) { 
-                direction: ltr; 
-            }
-            .dive-meta { 
-                grid-template-columns: 1fr; 
-                gap: 1.5rem; 
-                text-align: left; 
-                margin-top: 1.5rem;
-            }
-            .meta-item .val {
-                font-size: 1rem;
-            }
-            
-            /* Extended Section */
-            .ext-grid { 
-                grid-template-columns: 1fr; 
-                gap: 2rem;
-            }
-            .ext-card { 
-                padding: 2.5rem 1.5rem; 
-            }
-            .ext-card h3 { 
-                font-size: 1.8rem; 
-            }
-            
-            /* Contact Section */
-            .uplink-container { 
-                grid-template-columns: 1fr; 
-                padding: 3rem 1.5rem; 
-                text-align: center; 
-                gap: 3.5rem;
-            }
-            .uplink-status h2 { 
-                font-size: 2.5rem; 
-            }
-            .uplink-channels { 
-                align-items: stretch; 
-            }
-            .channel-card { 
-                transform: none !important; 
-                padding: 1.2rem 1.5rem;
-            }
-            .channel-info .val {
-                font-size: 1rem;
-            }
-            .closing-tags {
-                justify-content: center;
-            }
+            header { padding: 1rem 2rem; }
+            .container { padding: 0 2rem; }
+            .hero-text h1 { font-size: 3.5rem; }
+            .profile-container, .perspective-content, .dive-row { grid-template-columns: 1fr; gap: 3rem; }
+            .map-wrapper { height: auto; padding: 5rem 0; flex-direction: column; gap: 3rem; }
+            .module-node { position: static; width: 100%; transform: none !important; opacity: 1 !important; }
+            .loop-track { flex-direction: column; gap: 2rem; }
+            .loop-track::after { display: none; }
+            .closing h2 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -775,21 +618,21 @@
         </div>
     </section>
 
-    <!-- 3. SFE OPS ARCHITECTURE -->
+    <!-- 3. SALES DATA OS ARCHITECTURE -->
     <section id="architecture" class="arch-section">
         <div class="arch-bg"></div>
         <div class="container arch-header">
-            <span class="mono label">INTEGRATED OPERATING LOOP</span>
-            <h2>SFE OPS CORE ARCHITECTURE</h2>
+            <span class="mono label">INTEGRATED OPERATING SYSTEM</span>
+            <h2>SALES DATA OS ARCHITECTURE</h2>
         </div>
 
         <div class="map-wrapper" id="map-wrapper">
             <!-- Central Node -->
             <div class="main-core-node" id="core-node">
                 <div class="core-inner">
-                    <i data-lucide="cpu"></i>
-                    <span>SFE OPS</span>
-                    <span class="core-sub">MASTER ENGINE_v3.0</span>
+                    <i data-lucide="layers"></i>
+                    <span>SALES DATA OS</span>
+                    <span class="core-sub">MASTER ENGINE_v4.0</span>
                 </div>
             </div>
 
@@ -803,43 +646,70 @@
                     <i data-lucide="brain"></i>
                     <h3>Behavior CRM</h3>
                 </div>
-                <p>Behavior Coaching</p>
+                <p>Behavior Assets</p>
             </div>
 
-            <div class="module-node pos-2" data-node="sandbox">
+            <div class="module-node pos-2" data-node="prescription">
                 <span class="id-text">MOD_02</span>
                 <div class="module-node-header">
-                    <i data-lucide="flask-conical"></i>
-                    <h3>SFE Sandbox</h3>
+                    <i data-lucide="flow-connection"></i>
+                    <h3>Prescription Data Flow</h3>
                 </div>
-                <p>Strategy Sim</p>
+                <p>Integrity Engine</p>
             </div>
 
-            <div class="module-node pos-3" data-node="territory">
+            <div class="module-node pos-3" data-node="kpi">
                 <span class="id-text">MOD_03</span>
                 <div class="module-node-header">
-                    <i data-lucide="map"></i>
-                    <h3>Optimizer</h3>
+                    <i data-lucide="calculator"></i>
+                    <h3>KPI Engine</h3>
                 </div>
-                <p>Resource Allocation</p>
+                <p>Calculation Layer</p>
             </div>
 
-            <div class="module-node pos-4" data-node="flow">
+            <div class="module-node pos-4" data-node="ops">
                 <span class="id-text">MOD_04</span>
                 <div class="module-node-header">
-                    <i data-lucide="activity"></i>
-                    <h3>Prescription</h3>
+                    <i data-lucide="shield-check"></i>
+                    <h3>OPS Center</h3>
                 </div>
-                <p>Data Integrity</p>
+                <p>Validation & Orchestration</p>
             </div>
 
-            <div class="module-node pos-5" data-node="builder">
+            <div class="module-node pos-5" data-node="sandbox">
                 <span class="id-text">MOD_05</span>
                 <div class="module-node-header">
-                    <i data-lucide="hammer"></i>
-                    <h3>HTML Builder</h3>
+                    <i data-lucide="flask-conical"></i>
+                    <h3>Sandbox</h3>
                 </div>
-                <p>Rapid Prototyping</p>
+                <p>Integrated Analysis</p>
+            </div>
+
+            <div class="module-node pos-6" data-node="territory">
+                <span class="id-text">MOD_06</span>
+                <div class="module-node-header">
+                    <i data-lucide="map"></i>
+                    <h3>Territory Mapper</h3>
+                </div>
+                <p>Spatial Strategy</p>
+            </div>
+
+            <div class="module-node pos-7" data-node="radar">
+                <span class="id-text">MOD_07</span>
+                <div class="module-node-header">
+                    <i data-lucide="radar"></i>
+                    <h3>RADAR</h3>
+                </div>
+                <p>Signal Intelligence</p>
+            </div>
+
+            <div class="module-node pos-8" data-node="builder">
+                <span class="id-text">MOD_08</span>
+                <div class="module-node-header">
+                    <i data-lucide="hammer"></i>
+                    <h3>Result Builder</h3>
+                </div>
+                <p>Presentation Layer</p>
             </div>
         </div>
     </section>
@@ -854,24 +724,24 @@
             
             <div class="loop-track">
                 <div class="loop-point">
-                    <div class="point-circle"><i data-lucide="user-check"></i></div>
-                    <h4>Behavior</h4>
+                    <div class="point-circle"><i data-lucide="database"></i></div>
+                    <h4>Standardization</h4>
                 </div>
                 <div class="loop-point">
-                    <div class="point-circle"><i data-lucide="pie-chart"></i></div>
-                    <h4>Analysis</h4>
+                    <div class="point-circle"><i data-lucide="cpu"></i></div>
+                    <h4>Calculation</h4>
                 </div>
                 <div class="loop-point">
-                    <div class="point-circle"><i data-lucide="git-branch"></i></div>
-                    <h4>Allocation</h4>
+                    <div class="point-circle"><i data-lucide="shield-check"></i></div>
+                    <h4>Validation (OPS)</h4>
                 </div>
                 <div class="loop-point">
-                    <div class="point-circle"><i data-lucide="check-circle-2"></i></div>
-                    <h4>Validation</h4>
+                    <div class="point-circle"><i data-lucide="radar"></i></div>
+                    <h4>Intelligence</h4>
                 </div>
                 <div class="loop-point">
-                    <div class="point-circle"><i data-lucide="zap"></i></div>
-                    <h4>Execution</h4>
+                    <div class="point-circle"><i data-lucide="file-text"></i></div>
+                    <h4>Presentation</h4>
                 </div>
             </div>
         </div>
@@ -916,8 +786,8 @@
             <div class="dive-row">
                 <div class="dive-text">
                     <span class="mono label">// TEST INSIGHTS</span>
-                    <h3>SFE Sandbox</h3>
-                    <p>CRM,매출,실적을 다중 분석하여 기획자의 업무 효율을 극대화시키고, 빠른 의사결정을 도울 수 있습니다.</p>
+                    <h3>Unified Sandbox</h3>
+                    <p>CRM, 매출, 실적을 다중 분석하여 기획자의 업무 효율을 극대화시키고, 빠른 의사결정을 도울 수 있습니다. 각 모듈의 Result Asset을 통합하여 다차원 분석 자산을 생성합니다.</p>
                     <div class="dive-meta">
                         <div class="meta-item"><span class="key">ENGINE</span><span class="val">Analytics Engine</span></div>
                         <div class="meta-item"><span class="key">PLATFORM</span><span class="val">SFE OPS</span></div>
@@ -945,8 +815,8 @@
             <div class="dive-row">
                 <div class="dive-text">
                     <span class="mono label">// OPTIMAL ALLOCATION</span>
-                    <h3>Territory Optimizer</h3>
-                    <p>영업 구역(Territory)을 구조화하여 최적의 타겟 배치를 제안합니다. 효율이 떨어지는 영역을 파악하고 데이터 기반의 자원 배분 의사결정을 돕습니다.</p>
+                    <h3>Territory Mapper</h3>
+                    <p>영업 구역(Territory)을 구조화하여 최적의 타겟 배치를 제안합니다. 지리적 데이터와 활동 데이터를 결합하여 권역 실행 자산을 생성하고 자원 배분의 효율성을 극대화합니다.</p>
                     <div class="dive-meta">
                         <div class="meta-item"><span class="key">ALGORITHM</span><span class="val">Spatial Targeted Balancing</span></div>
                         <div class="meta-item"><span class="key">FOCUS</span><span class="val">Target Coverage Max</span></div>
@@ -973,8 +843,8 @@
             <div class="dive-row">
                 <div class="dive-text">
                     <span class="mono label">// DATA INTEGRITY</span>
-                    <h3>Prescription Flow</h3>
-                    <p>비용이 많이 드는 외부데이터에 의존하지 않고 복잡한 원외 처방 데이터를 직접 역추적하여 데이터의 유실을 방지하고 무결성을 검증합니다. 실적과 처방 데이터의 미스매칭을 해결하고 자사 브랜드의 흐름을 정확히 파악 할 수있습니다.</p>
+                    <h3>Prescription Engine</h3>
+                    <p>도매에서 약국, 병원으로 이어지는 복잡한 처방 흐름을 역추적하여 데이터의 정합성을 검증합니다. 실적과 처방 데이터의 미스매칭을 해결하고 자사 브랜드의 흐름을 정확히 파악하여 결과 자산을 생성합니다.</p>
                     <div class="dive-meta">
                         <div class="meta-item"><span class="key">PROTOCOL</span><span class="val">Prescription Tracking </span></div>
                         <div class="meta-item"><span class="key">PIPELINE</span><span class="val">Real-time Data Flow</span></div>
@@ -1007,10 +877,8 @@
             <div class="dive-row">
                 <div class="dive-text">
                     <span class="mono label">// RAPID PROTOTYPING</span>
-                    <h3>HTML Builder</h3>
-                    <p>SFE OPS를 통해 분석한 결과물을 HTML기술을 사용하여 웹에서 빠르게 만들어서 볼 수 있는 시스템을 구축했습니다.
-                        보고서 작성에 시간을 낭비하지 않고 기획과 전략에 집중할 수 있는 업무환경을 만듭니다.
-                    </p>
+                    <h3>Result Builder</h3>
+                    <p>Sales Data OS를 통해 계산 및 검증이 완료된 Result Asset을 HTML 기술을 사용하여 대화형 보고서로 자동 렌더링합니다. 보고서 작성의 수고를 덜고 전략 수립에만 집중할 수 있는 환경을 제공합니다.</p>
                     <div class="dive-meta">
                         <div class="meta-item"><span class="key">INTERFACE</span><span class="val">Interactive Prototype</span></div>
                         <div class="meta-item"><span class="key">CORE VALUE</span><span class="val">Strategy-to-Action</span></div>
