@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS - Slide 11: Layer 06: Presentation (Builder)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #A4D65E; /* Neon Green for Success/Output */
+            --neon-rgb: 164, 214, 94;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at 10% 10%, #1a2e0a 0%, var(--bg) 60%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header { margin-bottom: 50px; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
+        h2 { font-size: 52px; font-weight: 700; margin: 0; }
+
+        .builder-logic {
+            margin: 30px auto;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 40px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        .builder-logic b { color: var(--neon); }
+        .v-arrow { font-size: 24px; color: var(--neon); }
+
+        /* Report Cards Grid */
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .report-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .report-card:hover { border-color: var(--neon); transform: translateY(-10px); background: rgba(var(--neon-rgb), 0.05); }
+
+        .rc-icon { font-size: 28px; margin-bottom: 15px; display: block; }
+        .rc-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+        .rc-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+        /* Decorative Lines for Cards */
+        .report-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--neon);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .report-card:hover::after { transform: scaleX(1); }
+
+        /* Animation */
+        .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="fade-in">
+            <span class="label">Presentation Layer: Visual Synthesis</span>
+            <h2>HTML Builder: The Render-Only Engine</h2>
+        </header>
+
+        <div class="builder-logic fade-in delay-1">
+            <span>Result Asset (JSON)</span>
+            <span class="v-arrow">→</span>
+            <b>BUILDER</b>
+            <span class="v-arrow">→</span>
+            <span>interactive Report (HTML)</span>
+        </div>
+
+        <div class="report-grid">
+            <div class="report-card fade-in delay-2">
+                <span class="rc-icon">📊</span>
+                <div class="rc-title">CRM Activity</div>
+                <div class="rc-desc">8대 표준 활동 지표 기반의 영업 사원별 성과 및 행동 대시보드</div>
+            </div>
+
+            <div class="report-card fade-in delay-2">
+                <span class="rc-icon">🧪</span>
+                <div class="rc-title">Prescription Flow</div>
+                <div class="rc-desc">도매-약국-병원을 잇는 가치 사슬 흐름과 처방 정합성 분석</div>
+            </div>
+
+            <div class="report-card fade-in delay-2">
+                <span class="rc-icon">🗺️</span>
+                <div class="rc-title">Territory View</div>
+                <div class="rc-desc">공간 정보와 활동 동선을 결합한 권역 기반 실행 인텔리전스</div>
+            </div>
+
+            <div class="report-card fade-in delay-3">
+                <span class="rc-icon">🧩</span>
+                <div class="rc-title">Sandbox Drill-down</div>
+                <div class="rc-desc">Block Architecture 기반의 다차원 심층 분석 및 비교 보고서</div>
+            </div>
+
+            <div class="report-card fade-in delay-3">
+                <span class="rc-icon">🛰️</span>
+                <div class="rc-title">RADAR Status</div>
+                <div class="rc-desc">데이터 탐지 신호, 우선순위 이슈, 해결 옵션을 제안하는 전략 보고서</div>
+            </div>
+
+            <div class="report-card fade-in delay-3">
+                <span class="rc-icon">🏢</span>
+                <div class="rc-title">Integrated OS Dashboard</div>
+                <div class="rc-desc">모든 운영 지표를 한눈에 관제하는 최상위 운영 체계 통합 뷰</div>
+            </div>
+        </div>
+
+        <p style="margin-top: 40px; font-size: 15px; color: var(--text-secondary); opacity: 0.8;" class="fade-in delay-4">
+            <b>Rule Check:</b> Builder 내부에서는 어떠한 KPI 산식 로직도 직접 구현하지 않습니다. <br>
+            오직 이미 계산된 페이로드를 소비하여 <b>사용자 경험</b>을 시각화하는 데 집중합니다.
+        </p>
+    </div>
+
+</body>
+</html>

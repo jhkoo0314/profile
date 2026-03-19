@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIDIX: High-Precision Auction Valuation Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #FFB800; /* Gold/Amber for Valuation */
+            --neon-rgb: 255, 184, 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a2e 0%, var(--bg) 100%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1100px;
+            padding: 40px;
+        }
+
+        header { margin-bottom: 50px; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
+        h2 { font-size: 48px; font-weight: 700; margin: 0; }
+
+        .engine-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* Pipeline Flow */
+        .pipeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .step-node {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid rgba(255, 184, 0, 0.3);
+            padding: 20px 30px;
+            border-radius: 0 12px 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .step-node:hover {
+            background: rgba(255, 184, 0, 0.05);
+            border-left: 4px solid var(--neon);
+            transform: translateX(10px);
+        }
+
+        .step-node.active {
+            background: rgba(255, 184, 0, 0.1);
+            border-left: 4px solid var(--neon);
+            box-shadow: 0 0 20px rgba(255, 184, 0, 0.15);
+        }
+
+        .node-icon { 
+            width: 40px; 
+            font-size: 26px; 
+            display: flex; 
+            justify-content: center; 
+            filter: drop-shadow(0 0 5px rgba(255, 184, 0, 0.3)); 
+        }
+
+        .step-info {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .step-info h3 { margin: 0; font-size: 20px; font-weight: 700; color: #fff; }
+        .step-info p { margin: 6px 0 0; font-size: 15px; color: var(--text-secondary); }
+        .step-tag { font-size: 10px; font-weight: 700; background: rgba(255,184,0,0.2); color: var(--neon); padding: 4px 10px; border-radius: 4px; min-width: 80px; text-align: center; }
+
+        /* Feature Card */
+        .feature-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 35px;
+        }
+
+        .feat-item { margin-bottom: 25px; }
+        .feat-item:last-child { margin-bottom: 0; }
+        .feat-title { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; margin-bottom: 8px; color: var(--neon); }
+        .feat-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Animation */
+        .fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="fade-up">
+            <span class="label">Real Estate Data Engine</span>
+            <h2>BIDIX: Court Auction Valuation Engine</h2>
+        </header>
+
+        <div class="engine-grid">
+            <div class="pipeline-container fade-up delay-1">
+                <div class="step-node">
+                    <div class="node-icon">🏢</div>
+                    <div class="step-info"><h3>Property Analysis</h3><p>전국 법원 경매 물건 데이터 정규화 및 위치 매핑</p></div>
+                    <span class="step-tag">ADAPTER</span>
+                </div>
+                <div class="step-node">
+                    <div class="node-icon">⚖️</div>
+                    <div class="step-info"><h3>Legal & Rights Analysis</h3><p>매각물건명세서 등 법원 공고 문건 파싱 및 권리관계 분석</p></div>
+                    <span class="step-tag">QUALIFIER</span>
+                </div>
+                <div class="step-node active">
+                    <div class="node-icon">🏛️</div>
+                    <div class="step-info"><h3>Valuation Engine</h3><p>감정가 및 시세 기반의 객관적 자산 가치 산출</p></div>
+                    <span class="step-tag">CORE</span>
+                </div>
+                <div class="step-node">
+                    <div class="node-icon">💰</div>
+                    <div class="step-info"><h3>Bid ROI Prediction</h3><p>낙찰가 예측, 취등록세 및 부대비용 포함 수익률 분석</p></div>
+                    <span class="step-tag">PREDICTION</span>
+                </div>
+                <div class="step-node">
+                    <div class="node-icon">🎯</div>
+                    <div class="step-info"><h3>Auction Summarizer</h3><p>최종 추천 등급 부여 및 투자 리스크 레이블링</p></div>
+                    <span class="step-tag">RESULT</span>
+                </div>
+            </div>
+
+            <div class="feature-box fade-up delay-2">
+                <div class="feat-item">
+                    <div class="feat-title">✨ Auction Logic SSOT</div>
+                    <div class="feat-desc">전국의 경매 물건 정보를 단일 출처(BIDIX)로 관리하여 데이터 불일치를 제거하고 분석 속도를 획기적으로 개선했습니다.</div>
+                </div>
+                <div class="feat-item">
+                    <div class="feat-title">⚙️ Risk Policy Engine</div>
+                    <div class="feat-desc">임차권, 유치권 등 복잡한 경매 권리 분석 규칙을 엔진화하여 사람이 놓치기 쉬운 법적 리스크를 사전에 필터링합니다.</div>
+                </div>
+                <div class="feat-item">
+                    <div class="feat-title">📊 Historical Snapshots</div>
+                    <div class="feat-desc">과거 낙찰 사례와 유동성을 기반으로 데이터 중심의 낙찰 확률 및 수익률 시뮬레이션을 제공합니다.</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px; font-size: 13px; color: var(--text-secondary); opacity: 0.6;" class="fade-up delay-2">
+            BIDIX_COURT_AUCTION_ENGINE // REAL_ESTATE_DOMAIN // ACCURACY: 99.8%
+        </div>
+    </div>
+
+</body>
+</html>

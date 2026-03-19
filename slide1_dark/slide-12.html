@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS - Slide 12: Governance & Protocol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #FFD700; /* Golden for Governance/Rules */
+            --neon-rgb: 255, 215, 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 0%, #2e2a0a 0%, var(--bg) 70%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1000px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header { margin-bottom: 50px; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
+        h2 { font-size: 52px; font-weight: 700; margin: 0; }
+
+        .governance-frame {
+            border: 1px solid rgba(var(--neon-rgb), 0.3);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 50px;
+            border-radius: 24px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+
+        .governance-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(var(--neon-rgb), 0.1);
+            border-radius: 16px;
+            pointer-events: none;
+        }
+
+        .rule-list {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .rule-item {
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .rule-code {
+            font-family: monospace;
+            font-weight: 700;
+            color: var(--neon);
+            background: rgba(var(--neon-rgb), 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .rule-content h3 { font-size: 20px; color: var(--text-primary); margin-bottom: 8px; }
+        .rule-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+
+        .system-seal {
+            position: absolute;
+            top: -25px;
+            right: 40px;
+            width: 80px;
+            height: 80px;
+            background: var(--neon);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 12px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px var(--neon);
+            transform: rotate(15deg);
+        }
+
+        /* Animation */
+        .fade-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="fade-up">
+            <span class="label">System Integrity & Development Policy</span>
+            <h2>Governance: The Result Asset Protocol</h2>
+        </header>
+
+        <div class="governance-frame fade-up delay-1">
+            <div class="system-seal">Official<br>Protocol</div>
+            
+            <div class="rule-list">
+                <div class="rule-item fade-up delay-2">
+                    <div class="rule-code">RULE-01</div>
+                    <div class="rule-content">
+                        <h3>KPI Single Source Principle</h3>
+                        <p>모든 공식 수치 산출 로직은 오직 <code>modules/kpi/</code> 하위 엔진에서만 허용됩니다. 하위 레이어에서의 임의 계산은 시스템 부패로 간주하며 엄격히 금지합니다.</p>
+                    </div>
+                </div>
+
+                <div class="rule-item fade-up delay-2">
+                    <div class="rule-code">RULE-02</div>
+                    <div class="rule-content">
+                        <h3>Asset-Based Communication</h3>
+                        <p>모듈 간 데이터 전달은 원시 데이터가 아닌, 엔진이 검증 완료한 <code>Result Asset (JSON/CSV)</code> 규격을 통해서만 이루어져야 합니다.</p>
+                    </div>
+                </div>
+
+                <div class="rule-item fade-up delay-2">
+                    <div class="rule-code">RULE-03</div>
+                    <div class="rule-content">
+                        <h3>Cascading Maintenance</h3>
+                        <p>엔진 레이어의 수정 사항은 하위 모든 프레젠테이션 레이어에 즉각적이고 동일하게 반영되어야 합니다. (Single Logic Point of Truth)</p>
+                    </div>
+                </div>
+
+                <div class="rule-item fade-up delay-2">
+                    <div class="rule-code">RULE-04</div>
+                    <div class="rule-content">
+                        <h3>Render-Only Presentation</h3>
+                        <p>최종 출력물(Builder)은 데이터를 가공하지 않습니다. 오직 전달받은 Asset을 가장 효과적으로 시각화하는 책임만을 가집니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p style="margin-top: 40px; font-size: 14px; color: var(--text-secondary); opacity: 0.7;">
+            이 거버넌스는 Sales Data OS가 장기적으로 신뢰할 수 있는 데이터 신뢰성을 유지하기 위한 <b>양보할 수 없는 기준</b>입니다.
+        </p>
+    </div>
+
+</body>
+</html>

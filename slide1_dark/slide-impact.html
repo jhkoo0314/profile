@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS - Slide: Business Impact</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --accent: #A4D65E;
+            --neon: #A4D65E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --transition: all 0.5s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 100%, #1a2e0a 0%, var(--bg) 60%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 60px;
+            position: relative;
+        }
+
+        header { margin-bottom: 60px; text-align: center; }
+        .label {
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: var(--neon);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: block;
+        }
+        h2 {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* 3-Column Impact Grid */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .impact-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 48px 32px;
+            border-radius: 24px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .impact-card:hover { border-color: var(--neon); transform: translateY(-10px); background: rgba(164, 214, 94, 0.05); }
+
+        .i-icon {
+            font-size: 32px;
+            color: var(--neon);
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .i-title { font-size: 22px; font-weight: 700; margin-bottom: 24px; color: #fff; }
+
+        .i-list { list-style: none; text-align: left; padding: 0 10px; }
+        .i-list li {
+            font-size: 17px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            word-break: keep-all;
+        }
+        .i-list li::before { content: "✓"; color: var(--neon); font-weight: bold; }
+
+        .final-message {
+            text-align: center;
+            padding: 40px;
+            background: rgba(164, 214, 94, 0.1);
+            border: 1px solid var(--neon);
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(164, 214, 94, 0.1);
+        }
+
+        .final-message p {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        .fade-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="slide-content">
+        <header class="fade-up">
+            <span class="label">Project Outcome</span>
+            <h2>Expected <span style="color:var(--neon);">Impact</span></h2>
+        </header>
+
+        <div class="impact-grid fade-up delay-1">
+            <!-- 조직 관점 -->
+            <div class="impact-card">
+                <span class="i-icon">ORGANIZATION</span>
+                <span class="i-title"></span>
+                <ul class="i-list">
+                    <li>KPI 기준 통일</li>
+                    <li>실적 분쟁 감소</li>
+                    <li>의사결정 속도 향상</li>
+                </ul>
+            </div>
+
+            <!-- 관리자 관점 -->
+            <div class="impact-card">
+                <span class="i-icon">MANAGER</span>
+                <span class="i-title"></span>
+                <ul class="i-list">
+                    <li>코칭 포인트 즉시 식별</li>
+                    <li>데이터 기반 판단 가능</li>
+                    <li>성과 투명성 확보</li>
+                </ul>
+            </div>
+
+            <!-- 시스템 관점 -->
+            <div class="impact-card">
+                <span class="i-icon">SYSTEM</span>
+                <span class="i-title"></span>
+                <ul class="i-list">
+                    <li>데이터 신뢰성 확보</li>
+                    <li>재현 가능한 운영 구조</li>
+                    <li>운영 중단 없는 모듈 확장</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="final-message fade-up delay-2">
+            <p>"분석 도구가 아닌, <span style="color:var(--neon);">조직을 운영하는 시스템</span>으로 전환"</p>
+        </div>
+    </div>
+</body>
+</html>

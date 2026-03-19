@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slide1_dark - PDF Print Bundle</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #111;
+        }
+
+        .deck {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .slide-page {
+            width: 16in;
+            height: 9in;
+            border: 0;
+            margin: 0;
+            padding: 0;
+            page-break-after: always;
+            break-after: page;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .slide-page iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        .slide-page:last-child {
+            page-break-after: auto;
+            break-after: auto;
+        }
+
+        @page {
+            size: 16in 9in;
+            margin: 0;
+        }
+
+        @media screen {
+            body {
+                padding: 20px 0;
+            }
+
+            .slide-page {
+                box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
+            }
+        }
+
+        @media print {
+            html, body {
+                background: #fff;
+            }
+
+            .deck {
+                display: block;
+            }
+
+            .slide-page {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="deck" aria-label="slide1_dark print bundle">
+        <section class="slide-page"><iframe src="slide-01.html" title="slide-01"></iframe></section>
+        <section class="slide-page"><iframe src="slide-02.html" title="slide-02"></iframe></section>
+        <section class="slide-page"><iframe src="slide-problem.html" title="slide-problem"></iframe></section>
+        <section class="slide-page"><iframe src="slide-03.html" title="slide-03"></iframe></section>
+        <section class="slide-page"><iframe src="slide-04.html" title="slide-04"></iframe></section>
+        <section class="slide-page"><iframe src="slide-05.html" title="slide-05"></iframe></section>
+        <section class="slide-page"><iframe src="slide-06.html" title="slide-06"></iframe></section>
+        <section class="slide-page"><iframe src="slide-07.html" title="slide-07"></iframe></section>
+        <section class="slide-page"><iframe src="slide-08.html" title="slide-08"></iframe></section>
+        <section class="slide-page"><iframe src="slide-09.html" title="slide-09"></iframe></section>
+        <section class="slide-page"><iframe src="slide-10.html" title="slide-10"></iframe></section>
+        <section class="slide-page"><iframe src="slide-11.html" title="slide-11"></iframe></section>
+        <section class="slide-page"><iframe src="slide-scenario.html" title="slide-scenario"></iframe></section>
+        <section class="slide-page"><iframe src="slide-12.html" title="slide-12"></iframe></section>
+        <section class="slide-page"><iframe src="slide-13.html" title="slide-13"></iframe></section>
+        <section class="slide-page"><iframe src="slide-14.html" title="slide-14"></iframe></section>
+        <section class="slide-page"><iframe src="slide-impact.html" title="slide-impact"></iframe></section>
+        <section class="slide-page"><iframe src="slide-15.html" title="slide-15"></iframe></section>
+        <section class="slide-page"><iframe src="slide-domain-divider.html" title="slide-domain-divider"></iframe></section>
+        <section class="slide-page"><iframe src="slide-bidix.html" title="slide-bidix"></iframe></section>
+        <section class="slide-page"><iframe src="slide-bidix-crawler.html" title="slide-bidix-crawler"></iframe></section>
+        <section class="slide-page"><iframe src="slide-appendix.html" title="slide-appendix"></iframe></section>
+        <section class="slide-page"><iframe src="../report/00_crm_analysis_report.html" title="00_crm_analysis_report"></iframe></section>
+        <section class="slide-page"><iframe src="../report/01_report_precision_v1.html" title="01_report_precision_v1"></iframe></section>
+        <section class="slide-page"><iframe src="../report/02_prescription_flow_template_v1.html" title="02_prescription_flow_template_v1"></iframe></section>
+        <section class="slide-page"><iframe src="../report/04_territory_optimizer_v1.html" title="04_territory_optimizer_v1"></iframe></section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS - Slide 05: Core Engine & KPI Rule</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #00D9FF;
+            --accent: #FF6B35;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #152044 0%, var(--bg) 100%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header { margin-bottom: 60px; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
+        h2 { font-size: 52px; font-weight: 700; margin: 0; }
+
+        .engine-visual {
+            position: relative;
+            height: 400px;
+            margin: 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Central Engine Source */
+        .source-of-truth {
+            width: 220px;
+            height: 220px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 2px solid var(--neon);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 217, 255, 0.3);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 217, 255, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 60px rgba(0, 217, 255, 0.5); transform: scale(1.05); }
+        }
+
+        .engine-text { font-size: 14px; color: var(--neon); font-weight: 700; letter-spacing: 1px; }
+        .engine-name { font-size: 24px; font-weight: 700; margin-top: 5px; }
+
+        /* Hub Connections */
+        .hub-node {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .hub-node:hover { border-color: var(--neon); background: rgba(0, 217, 255, 0.1); transform: translateY(-5px); }
+
+        /* Positioning Nodes */
+        .n1 { top: 0; left: 15%; }
+        .n2 { top: 0; right: 15%; }
+        .n3 { bottom: 0; left: 15%; }
+        .n4 { bottom: 0; right: 15%; }
+        .n5 { top: 45%; left: 0; }
+        .n6 { top: 45%; right: 0; }
+
+        /* SVG Rays */
+        .rays-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .ray-line {
+            stroke: var(--neon);
+            stroke-width: 1;
+            stroke-dasharray: 5 5;
+            opacity: 0.3;
+            animation: flow 10s linear infinite;
+        }
+
+        @keyframes flow { to { stroke-dashoffset: -100; } }
+
+        /* Rule Box */
+        .rule-box {
+            margin-top: 50px;
+            background: rgba(255, 107, 53, 0.05);
+            border: 1px dashed var(--accent);
+            padding: 25px;
+            border-radius: 12px;
+            display: inline-block;
+            max-width: 800px;
+        }
+
+        .rule-box h3 { color: var(--accent); font-size: 18px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .rule-box p { font-size: 16px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Animation */
+        .pop-in { opacity: 0; transform: scale(0.9); animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        @keyframes popIn { to { opacity: 1; transform: scale(1); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="pop-in">
+            <span class="label">Single Source Layer</span>
+            <h2>KPI Engine: Source of Truth</h2>
+        </header>
+
+        <div class="engine-visual">
+            <svg class="rays-svg">
+                <!-- Lines from center (400, 200) to nodes approx -->
+                <line x1="50%" y1="50%" x2="25%" y2="10%" class="ray-line" />
+                <line x1="50%" y1="50%" x2="75%" y2="10%" class="ray-line" />
+                <line x1="50%" y1="50%" x2="25%" y2="90%" class="ray-line" />
+                <line x1="50%" y1="50%" x2="75%" y2="90%" class="ray-line" />
+                <line x1="50%" y1="50%" x2="10%" y2="50%" class="ray-line" />
+                <line x1="50%" y1="50%" x2="90%" y2="50%" class="ray-line" />
+            </svg>
+
+            <div class="source-of-truth pop-in delay-1">
+                <span class="engine-text">CORE ENGINE</span>
+                <span class="engine-name">KPI_ENGINE.py</span>
+                <div style="font-size: 11px; margin-top: 15px; opacity: 0.6;">MODULES/KPI/*</div>
+            </div>
+
+            <div class="hub-node n1 pop-in delay-2">CRM Modules</div>
+            <div class="hub-node n2 pop-in delay-2">Sandbox Analysis</div>
+            <div class="hub-node n3 pop-in delay-2">Territory Optimizer</div>
+            <div class="hub-node n4 pop-in delay-2">Prescription Flow</div>
+            <div class="hub-node n5 pop-in delay-2">RADAR Signal</div>
+            <div class="hub-node n6 pop-in delay-2">HTML Builder</div>
+        </div>
+
+        <div class="rule-box pop-in delay-2">
+            <h3>Mandatory Rule: Single Calculation Source</h3>
+            <p>
+                전사 공통 KPI는 오직 KPI엔진에서만 관리됩니다. <br>
+                Builder, Sandbox, Territory 등 모든 하이브리드 계층에서 <b>KPI 재계산을 금지</b>하며, <br>
+                이미 계산된 <b>Result Asset</b>을 소비하는 방식(Render-only)을 준수합니다.
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

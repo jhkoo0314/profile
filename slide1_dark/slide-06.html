@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS - Slide 06: Layer 04: OPS (Gatekeeper)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #FF006E; /* Neon Pink for Gatekeeper */
+            --neon-rgb: 255, 0, 110;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(0deg, #1a0a1a 0%, var(--bg) 100%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1100px;
+            padding: 40px;
+        }
+
+        header { margin-bottom: 60px; text-align: left; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
+        h2 { font-size: 52px; font-weight: 700; margin: 0; }
+
+        .gate-dialogue {
+            display: grid;
+            grid-template-columns: 0.8fr 0.8fr;
+            gap: 80px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dialogue Box */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .bubble {
+            padding: 24px 32px;
+            border-radius: 16px;
+            position: relative;
+            width: 100%;
+            line-height: 1.6;
+            font-size: 18px;
+        }
+
+        .bubble.intel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .bubble.ops {
+            background: rgba(255, 0, 110, 0.08);
+            border: 1px solid var(--neon);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.15);
+        }
+
+        .speaker-name { font-size: 12px; font-weight: 700; color: var(--neon); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Status List */
+        .status-shield {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-shield::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 110, 0.05) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .check-circle {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--neon);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon);
+            font-size: 12px;
+        }
+
+        /* Not OPS box */
+        .not-ops {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .not-ops span { display: flex; align-items: center; gap: 8px; }
+        .not-ops span::before { content: '✕'; color: #ff3333; font-weight: 800; }
+
+        /* Animation */
+        .slide-in { opacity: 0; transform: translateX(-30px); animation: slideIn 0.8s ease-out forwards; }
+        .slide-in-right { opacity: 0; transform: translateX(30px); animation: slideIn 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.6s; }
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="slide-in">
+            <span class="label">Traffic Control & Quality Gate</span>
+            <h2>OPS: The Orchestration Shield</h2>
+        </header>
+
+        <div class="gate-dialogue">
+            <div class="chat-container">
+                <div class="bubble intel slide-in delay-1">
+                    <div class="speaker-name">Intelligence / Builder</div>
+                    "실시간 KPI 분석 데이터를 리포트에 바로 퍼블리싱해도 될까요?"
+                </div>
+
+                <div class="bubble ops slide-in-right delay-2">
+                    <div class="speaker-name">Validation Layer (OPS)</div>
+                    "잠시만요. 데이터 무결성 체크 중... <br>
+                    매핑 누락 0건 발견. 품질 점수 95점 이상. <br>
+                    <b>[승인]</b> Result Asset으로 다음 단계 전달을 허가합니다."
+                </div>
+            </div>
+
+            <div class="status-shield slide-in-right delay-2">
+                <div class="check-item">
+                    <div class="check-circle">✓</div> <span>Asset 품질 검증 (Quality Gate)</span>
+                </div>
+                <div class="check-item">
+                    <div class="check-circle">✓</div> <span>데이터 매핑 정합성 검증</span>
+                </div>
+                <div class="check-item">
+                    <div class="check-circle">✓</div> <span>다음 단계 전달 가능 여부 판단</span>
+                </div>
+                <div class="check-item">
+                    <div class="check-circle">✓</div> <span>전체 파이프라인 실행 오케스트레이션</span>
+                </div>
+                
+                <p style="font-size: 13px; color: var(--neon); margin-top: 30px; border-top: 1px solid rgba(255,0,110,0.2); padding-top: 15px;">
+                    "OPS는 시스템의 머리가 아닌, <b>실행과 품질를 통제</b>하는 모듈입니다."
+                </p>
+            </div>
+        </div>
+
+        <div class="not-ops slide-in delay-2">
+            <b>OPS는 다음을 담당하지 않습니다:</b>
+            <span>KPI 계산</span>
+            <span>분석 로직 구현</span>
+            <span>보고서 렌더링</span>
+            <span>의사결정 확정</span>
+        </div>
+    </div>
+
+</body>
+</html>
