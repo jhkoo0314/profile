@@ -203,7 +203,7 @@
         
         nav { display: flex; gap: 3rem; }
         nav a { 
-            text-decoration: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 0.75rem; 
+            text-decoration: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 0.85rem; 
             letter-spacing: 0.1em; transition: 0.3s; position: relative;
         }
         nav a:hover, nav a.active { color: var(--accent-cyan); }
@@ -306,74 +306,72 @@
             clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
         }
 
-        /* --- 3. ARCHITECTURE: SYSTEM ACTIVATION --- */
-        .arch-section { background: var(--bg-deep); overflow: hidden; position: relative; }
+        /* --- 3. ARCHITECTURE: BENTO GRID --- */
+        .arch-section { background: var(--bg-deep); overflow: hidden; position: relative; padding: 15vh 0; }
         .arch-bg { position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(0,240,255,0.05) 0%, transparent 60%); z-index: 0; pointer-events: none; }
         
-        .arch-header { text-align: center; margin-bottom: 2rem; position: relative; z-index: 10; padding-top: 5vh; }
+        .arch-header { text-align: center; margin-bottom: 4rem; position: relative; z-index: 10; padding-top: 5vh; }
         .arch-header h2 { font-size: 2.5rem; font-weight: 900; letter-spacing: 0.1em; color: #fff; margin-top: 0.5rem; }
         
-        .map-wrapper {
-            position: relative; width: 100%; height: 90vh; display: flex; align-items: center; justify-content: center; z-index: 1;
+        .bento-wrapper {
+            position: relative; width: 100%; max-width: 1200px; margin: 0 auto; z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 180px);
+            gap: 1.5rem;
         }
 
-        .main-core-node {
-            position: absolute; width: 220px; height: 180px; background: rgba(5, 5, 13, 0.98);
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-            border: 1px solid var(--accent-cyan);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 50; box-shadow: 0 0 80px rgba(0, 240, 255, 0.15);
+        .bento-cell {
+            background: rgba(15, 15, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex; flex-direction: column; justify-content: space-between;
+            overflow: hidden; position: relative;
             backdrop-filter: blur(20px);
-            left: 50%; top: 50%; transform: translate(-50%, -50%);
-        }
-        .main-core-node::after {
-            content: ''; position: absolute; inset: 4px;
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-            border: 1px solid rgba(0, 240, 255, 0.2); pointer-events: none;
+            transition: all 0.5s var(--ease-expo);
+            opacity: 0; transform: translateY(30px);
         }
 
-        .core-inner { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; z-index: 2; }
-        .core-inner i { color: var(--accent-cyan); width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--accent-cyan)); }
-        .core-inner span { font-size: 1.3rem; font-weight: 900; letter-spacing: 0.1rem; color: #fff; }
-        .core-inner .core-sub { font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-cyan); opacity: 0.8; letter-spacing: 0.1em; }
-
-        .module-node {
-            position: absolute; width: 170px; padding: 1rem;
-            background: rgba(10, 10, 15, 0.9); 
-            border: 1px solid rgba(0, 240, 255, 0.1);
-            border-top: 3px solid var(--accent-cyan);
-            z-index: 20; opacity: 0;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            transition: all 0.4s var(--ease-expo); 
-            display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.3rem;
+        .bento-cell::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.05), transparent 70%);
+            opacity: 0; transition: 0.5s;
         }
-        .module-node:hover { border-color: var(--accent-cyan); box-shadow: 0 0 30px rgba(0,240,255,0.1); z-index: 30; }
-        .module-node-header { display: flex; align-items: center; gap: 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.4rem; }
-        .module-node-header i { color: var(--accent-cyan); width: 18px; height: 18px; }
-        .module-node-header h3 { font-size: 0.95rem; font-weight: 800; color: #fff; margin: 0; }
-        .module-node .id-text { font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-dim); }
-        .module-node p { font-size: 0.7rem; color: var(--text-dim); line-height: 1.4; margin: 0; }
 
-        /* Unified Symmetric Positions - 8 Nodes Balanced Layout */
-        .pos-1 { top: 8%; left: 15%; }     /* Behavior CRM */
-        .pos-2 { top: 8%; right: 15%; }    /* Prescription Engine */
-        .pos-3 { top: 5%; left: 50%; transform: translateX(-50%); } /* KPI Core Engine */
-        .pos-4 { top: 40%; left: 5%; }     /* OPS Orchestrator (Validation) */
-        .pos-5 { top: 40%; right: 5%; }    /* Unified Sandbox */
-        .pos-6 { bottom: 12%; left: 5%; }  /* Territory Mapper */
-        .pos-7 { bottom: 5%; left: 50%; transform: translateX(-50%); } /* RADAR Intelligence */
-        .pos-8 { bottom: 12%; right: 5%; } /* Result Builder */
+        .bento-cell:hover {
+            border-color: rgba(0, 240, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .bento-cell:hover::before { opacity: 1; }
 
-        .connection-paths {
-            position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none;
+        .bento-header { display: flex; align-items: flex-start; justify-content: space-between; position: relative; z-index: 2; }
+        .bento-icon { width: 40px; height: 40px; background: rgba(0, 240, 255, 0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); border: 1px solid rgba(0, 240, 255, 0.1); }
+        .bento-cell:hover .bento-icon { background: var(--accent-cyan); color: #000; box-shadow: 0 0 20px var(--accent-glow); }
+        .bento-id { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim); }
+
+        .bento-content { position: relative; z-index: 2; }
+        .bento-title { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .bento-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+
+        /* Grid specific placement */
+        .cell-main { grid-column: span 2; grid-row: span 2; border-color: rgba(0, 240, 255, 0.2); background: rgba(10, 15, 30, 0.8); }
+        .cell-main .bento-title { font-size: 2rem; margin-top: auto; margin-bottom: 1rem; }
+        .cell-main .bento-desc { font-size: 1rem; max-width: 80%; }
+        .cell-main .bento-icon { width: 60px; height: 60px; font-size: 1.5rem; }
+        .cell-main::after {
+            content: ''; position: absolute; bottom: 0; right: 0; width: 60%; height: 60%;
+            background: radial-gradient(circle at bottom right, rgba(0, 240, 255, 0.1), transparent 70%);
+            pointer-events: none;
         }
-        .conn-line {
-            fill: none; stroke: rgba(0, 240, 255, 0.3); stroke-width: 1.5;
-            stroke-dasharray: 4 4;
-        }
-        .conn-pulse {
-            fill: none; stroke: #fff; stroke-width: 2.5; opacity: 0.9;
-            filter: drop-shadow(0 0 8px var(--accent-cyan));
+
+        .cell-wide { grid-column: span 2; }
+        .cell-tall { grid-row: span 2; }
+
+        @media (max-width: 1024px) {
+            .bento-wrapper { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .cell-main, .cell-wide, .cell-tall { grid-column: span 1; grid-row: span 1; min-height: 200px; }
         }
 
         /* --- 4. OPERATING LOOP --- */
@@ -618,7 +616,7 @@
         </div>
     </section>
 
-    <!-- 3. SALES DATA OS ARCHITECTURE -->
+    <!-- 3. SALES DATA OS ARCHITECTURE (BENTO GRID) -->
     <section id="architecture" class="arch-section">
         <div class="arch-bg"></div>
         <div class="container arch-header">
@@ -626,90 +624,93 @@
             <h2>SALES DATA OS ARCHITECTURE</h2>
         </div>
 
-        <div class="map-wrapper" id="map-wrapper">
-            <!-- Central Node -->
-            <div class="main-core-node" id="core-node">
-                <div class="core-inner">
-                    <i data-lucide="layers"></i>
-                    <span>SALES DATA OS</span>
-                    <span class="core-sub">MASTER ENGINE_v4.0</span>
+        <div class="container">
+            <div class="bento-wrapper">
+                
+                <!-- Main Core (Large) -->
+                <div class="bento-cell cell-main">
+                    <div class="bento-header">
+                        <div class="bento-icon"><i data-lucide="shield-check"></i></div>
+                        <span class="bento-id">MASTER ENGINE</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">OS Center </h3>
+                        <p class="bento-desc">운영의 심장입니다. 모든 데이터 검증(Validation) 및 흐름 제어(Orchestration)가 이곳에서 이루어지며, 단일 소스 원칙에 따라 핵심 KPI를 계산합니다.</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- SVG Lines will connect these dynamically -->
-            <svg class="connection-paths" id="connection-svg"></svg>
-
-            <!-- Orbital Nodes -->
-            <div class="module-node pos-1" data-node="crm">
-                <span class="id-text">MOD_01</span>
-                <div class="module-node-header">
-                    <i data-lucide="brain"></i>
-                    <h3>Behavior CRM</h3>
+                <!-- Mod 1 -->
+                <div class="bento-cell">
+                    <div class="bento-header">
+                        <div class="bento-icon"><i data-lucide="brain"></i></div>
+                        <span class="bento-id">MOD_01</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Behavior CRM</h3>
+                        <p class="bento-desc">행동 지표 정량화 및 관리</p>
+                    </div>
                 </div>
-                <p>Behavior Assets</p>
-            </div>
 
-            <div class="module-node pos-2" data-node="prescription">
-                <span class="id-text">MOD_02</span>
-                <div class="module-node-header">
-                    <i data-lucide="flow-connection"></i>
-                    <h3>Prescription Data Flow</h3>
+                <!-- Mod 2 -->
+                <div class="bento-cell">
+                    <div class="bento-header">
+                        <div class="bento-icon"><i data-lucide="flow-connection"></i></div>
+                        <span class="bento-id">MOD_02</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Prescription Flow</h3>
+                        <p class="bento-desc">처방 실적 데이터 무결성 엔진</p>
+                    </div>
                 </div>
-                <p>Integrity Engine</p>
-            </div>
 
-            <div class="module-node pos-3" data-node="kpi">
-                <span class="id-text">MOD_03</span>
-                <div class="module-node-header">
-                    <i data-lucide="calculator"></i>
-                    <h3>KPI Engine</h3>
+                <!-- Mod 5 (Wide) -->
+                <div class="bento-cell cell-wide">
+                    <div class="bento-header">
+                        <div class="bento-icon"><i data-lucide="flask-conical"></i></div>
+                        <span class="bento-id">MOD_05</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Unified Sandbox</h3>
+                        <p class="bento-desc">CRM, 매출, 목표 등 다양한 데이터를 교차 분석하여 새로운 인사이트를 도출하는 통합 분석실입니다.</p>
+                    </div>
                 </div>
-                <p>Calculation Layer</p>
-            </div>
 
-            <div class="module-node pos-4" data-node="ops">
-                <span class="id-text">MOD_04</span>
-                <div class="module-node-header">
-                    <i data-lucide="shield-check"></i>
-                    <h3>OPS Center</h3>
+                <!-- Mod 6 -->
+                <div class="bento-cell">
+                    <div class="bento-header">
+                        <div class="bento-icon"><i data-lucide="map"></i></div>
+                        <span class="bento-id">MOD_06</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Territory Mapper</h3>
+                        <p class="bento-desc">공간 최적화 및 전략</p>
+                    </div>
                 </div>
-                <p>Validation & Orchestration</p>
-            </div>
 
-            <div class="module-node pos-5" data-node="sandbox">
-                <span class="id-text">MOD_05</span>
-                <div class="module-node-header">
-                    <i data-lucide="flask-conical"></i>
-                    <h3>Sandbox</h3>
+                <!-- Mod 7 -->
+                <div class="bento-cell">
+                    <div class="bento-header">
+                        <div class="bento-icon"><i data-lucide="radar"></i></div>
+                        <span class="bento-id">MOD_07</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">RADAR</h3>
+                        <p class="bento-desc">이상 징후 지능형 탐지</p>
+                    </div>
                 </div>
-                <p>Integrated Analysis</p>
-            </div>
 
-            <div class="module-node pos-6" data-node="territory">
-                <span class="id-text">MOD_06</span>
-                <div class="module-node-header">
-                    <i data-lucide="map"></i>
-                    <h3>Territory Mapper</h3>
+                <!-- Mod 8 (Wide) -->
+                <div class="bento-cell cell-wide">
+                    <div class="bento-header">
+                        <div class="bento-icon"><i data-lucide="hammer"></i></div>
+                        <span class="bento-id">MOD_08</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Result Builder</h3>
+                        <p class="bento-desc">처리된 결과를 최종 사용자가 볼 수있는 고품질의 HTML로 생성됩니다.</p>
+                    </div>
                 </div>
-                <p>Spatial Strategy</p>
-            </div>
 
-            <div class="module-node pos-7" data-node="radar">
-                <span class="id-text">MOD_07</span>
-                <div class="module-node-header">
-                    <i data-lucide="radar"></i>
-                    <h3>RADAR</h3>
-                </div>
-                <p>Signal Intelligence</p>
-            </div>
-
-            <div class="module-node pos-8" data-node="builder">
-                <span class="id-text">MOD_08</span>
-                <div class="module-node-header">
-                    <i data-lucide="hammer"></i>
-                    <h3>Result Builder</h3>
-                </div>
-                <p>Presentation Layer</p>
             </div>
         </div>
     </section>
@@ -1069,61 +1070,18 @@
             width: "80%", height: "80%", duration: 1.5, ease: "expo.inOut"
         });
 
-        // Architecture Connections Logic
-        function drawConnections() {
-            const svg = document.getElementById("connection-svg") || document.querySelector('.connection-paths');
-            const core = document.getElementById("core-node") || document.querySelector('.main-core-node');
-            const wrapper = document.getElementById("map-wrapper") || document.querySelector('.map-wrapper');
-            if (!svg || !core || !wrapper) return;
-            svg.innerHTML = '';
-            
-            const wrapperRect = wrapper.getBoundingClientRect();
-            const coreRect = core.getBoundingClientRect();
-            const coreX = coreRect.left - wrapperRect.left + coreRect.width / 2;
-            const coreY = coreRect.top - wrapperRect.top + coreRect.height / 2;
-            
-            document.querySelectorAll('.module-node').forEach((mod, idx) => {
-                const modRect = mod.getBoundingClientRect();
-                const modX = modRect.left - wrapperRect.left + modRect.width / 2;
-                const modY = modRect.top - wrapperRect.top + modRect.height / 2;
-                
-                const d = `M ${coreX} ${coreY} L ${modX} ${modY}`;
-                
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                line.setAttribute("d", d);
-                line.setAttribute("class", "conn-line");
-                svg.appendChild(line);
-
-                const pulsePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                pulsePath.setAttribute("d", d);
-                pulsePath.setAttribute("class", "conn-pulse pulse-" + idx);
-                pulsePath.style.strokeDasharray = "10 150";
-                svg.appendChild(pulsePath);
-            });
-
-            gsap.to(".conn-pulse", {
-                strokeDashoffset: -1000,
-                duration: 3,
-                stagger: 0.2,
-                ease: "linear",
-                repeat: -1
-            });
-        }
-        
-        setTimeout(drawConnections, 100);
-        window.addEventListener('resize', () => { requestAnimationFrame(drawConnections); });
-
-        const archTl = gsap.timeline({
+        // Bento Grid Reveal Animation
+        gsap.to(".bento-cell", {
             scrollTrigger: {
-                trigger: ".arch-section",
-                start: "top 50%",
-                toggleActions: "play none none reverse",
-                onEnter: () => setTimeout(drawConnections, 50)
-            }
+                trigger: ".bento-wrapper",
+                start: "top 75%",
+            },
+            opacity: 1, 
+            y: 0, 
+            stagger: 0.1, 
+            duration: 1.2, 
+            ease: "expo.out"
         });
-
-        archTl.from(".main-core-node", { scale: 0.8, opacity: 0, duration: 1.5, ease: "expo.out" })
-              .to(".module-node", { opacity: 1, y: 0, scale: 1, stagger: 0.1, duration: 1.2, ease: "power3.out" }, "-=0.8");
 
         // Loop points reveal
         const loopPoints = document.querySelectorAll(".loop-point");
