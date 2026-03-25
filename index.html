@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GW7CWB490F');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFE OPS COMMAND CENTER | GU JAEHYUN</title>
@@ -488,16 +497,109 @@
         /* Mobile Adjustments */
         @media (max-width: 1024px) {
             header { padding: 1rem 2rem; }
-            .container { padding: 0 2rem; }
+            .container { padding: 0 3rem; }
             .hero-text h1 { font-size: 3.5rem; }
-            .profile-container, .perspective-content, .dive-row { grid-template-columns: 1fr; gap: 3rem; }
+            .profile-container, .perspective-content, .dive-row { grid-template-columns: 1fr; gap: 4rem; }
             .map-wrapper { height: auto; padding: 5rem 0; flex-direction: column; gap: 3rem; }
             .module-node { position: static; width: 100%; transform: none !important; opacity: 1 !important; }
-            .loop-track { flex-direction: column; gap: 2rem; }
+            .loop-track { flex-direction: column; gap: 2.5rem; }
             .loop-track::after { display: none; }
             .closing h2 { font-size: 2.5rem; }
         }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 4000;
+            padding: 5px;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--accent-cyan);
+            transition: all 0.4s var(--ease-expo);
+            transform-origin: center;
+        }
+
+        /* Enhanced Mobile Styles */
+        @media (max-width: 768px) {
+            header { padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(0, 240, 255, 0.05); }
+            header.scrolled { padding: 0.8rem 1.5rem; }
+            
+            .menu-toggle { display: flex; }
+            
+            nav { 
+                position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+                background: rgba(2, 2, 5, 0.98); backdrop-filter: blur(30px);
+                flex-direction: column; justify-content: center; align-items: center;
+                transition: 0.6s var(--ease-expo); z-index: 3500; gap: 2.5rem;
+            }
+            nav.active { right: 0; }
+            nav a { font-size: 1.8rem; font-weight: 700; }
+            
+            .header-cta { display: none; }
+            #architecture { display: none; }
+            nav a[href="#architecture"] { display: none; }
+            
+            .container { padding: 0 1.5rem; }
+            
+            .hero { padding-top: 60px; }
+            .hero-reactor { width: 50vh; height: 50vh; opacity: 0.5; top: 45%; }
+            .hero-text h1 { font-size: 2.8rem; letter-spacing: -0.02em; }
+            .hero-text .subtitle { font-size: 1rem; line-height: 1.6; }
+            .hero-actions { flex-direction: column; gap: 1rem; width: 100%; max-width: 300px; margin: 3rem auto 0; }
+            .hero-btn { width: 100%; justify-content: center; padding: 1.2rem; font-size: 0.7rem; }
+            
+            section { padding: 8vh 0; min-height: auto; }
+            .profile-node { padding-top: 10vh; }
+            .profile-status h2 { font-size: 2.2rem; }
+            .profile-data-block { padding: 2rem 1.5rem; border-radius: 1rem; }
+            .profile-data-block p { font-size: 1rem; line-height: 1.7; }
+            .profile-metrics { grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 3rem; }
+            .metric-card { padding: 1.5rem 1rem; }
+            .metric-card .m-val { font-size: 1.8rem; }
+
+            .perspective h2 { font-size: 2.2rem; }
+            .perspective p { font-size: 1rem; }
+            .black-box-visual { height: 300px; }
+
+            .arch-header h2 { font-size: 1.8rem; }
+            .bento-cell { padding: 1.5rem; border-radius: 1.2rem; }
+            .cell-main .bento-title { font-size: 1.5rem; }
+            
+            .loop-header h2 { font-size: 2.5rem; }
+            .point-circle { width: 60px; height: 60px; font-size: 1.4rem; }
+            
+            .dive-text h3 { font-size: 2rem; }
+            .dive-text p { font-size: 1rem; margin-bottom: 2rem; }
+            .dive-visual { height: 280px; border-radius: 1.2rem; }
+            .dive-row { margin-bottom: 12vh; }
+            
+            .extended h2 { font-size: 2.2rem !important; }
+            .ext-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .ext-card { padding: 2.5rem 1.5rem; border-radius: 1.5rem; }
+            .ext-card h3 { font-size: 1.8rem; }
+
+            .uplink-container { padding: 3rem 1.5rem; border-radius: 1.5rem; grid-template-columns: 1fr; gap: 3rem; }
+            .uplink-status { text-align: center; align-items: center; }
+            .uplink-status h2 { font-size: 2.8rem; }
+            .uplink-status p { max-width: 100%; }
+            .closing-tags { justify-content: center; }
+            .channel-card { padding: 1.2rem; width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .hero-reactor { width: 40vh; height: 40vh; }
+            .profile-metrics { grid-template-columns: 1fr; }
+            .metric-card { text-align: center; }
+            .header-brand .name { font-size: 1rem; }
+        }
     </style>
+
 </head>
     <!-- Cinematic Overlay -->
     <div class="cinematic-overlay">
@@ -517,14 +619,20 @@
             <span class="name">GU JAEHYUN</span>
             <span class="role">Strategy & Operation</span>
         </div>
-        <nav>
+        <nav id="nav-menu">
             <a href="#profile">Profile</a>
             <a href="#architecture">Architecture</a>
             <a href="#process">Process</a>
             <a href="#extended">Extended</a>
         </nav>
         <div class="header-cta" onclick="location.href='#contact'">CONNECT</div>
+        <div class="menu-toggle" id="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
+
 
     <div class="ui-decoration">
         
@@ -963,13 +1071,14 @@
                 </div>
                 
                 <div class="uplink-channels">
-                    <a href="mailto:your-email@example.com" class="channel-channel-card channel-card">
+                    <a href="mailto:jhyun07@naver.com" class="channel-card">
                         <i data-lucide="mail"></i>
                         <div class="channel-info">
                             <span class="m-label">SECURE_MAIL_CHANNEL</span>
                             <span class="val">jhyun07@naver.com</span>
                         </div>
                     </a>
+
                     
                     <a href="https://www.linkedin.com/in/jh-gu-1743693a8" target="_blank" class="channel-card">
                         <i data-lucide="linkedin"></i>
@@ -998,6 +1107,44 @@
     <script>
         // Init Lucide
         lucide.createIcons();
+
+        // Mobile Menu Logic
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const navLinks = document.querySelectorAll('nav a');
+        const body = document.body;
+
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                const isActive = navMenu.classList.toggle('active');
+                
+                // Animate spans
+                const spans = mobileToggle.querySelectorAll('span');
+                if (isActive) {
+                    spans[0].style.transform = 'translateY(8px) rotate(45deg)';
+                    spans[1].style.opacity = '0';
+                    spans[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+                    body.style.overflow = 'hidden';
+                } else {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                    body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const spans = mobileToggle.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+                body.style.overflow = 'auto';
+            });
+        });
+
 
         // Particle System
         const particleContainer = document.getElementById('particles');
