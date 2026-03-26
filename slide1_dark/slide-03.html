@@ -4,236 +4,154 @@
     <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Data OS - Slide 03: 6-Layer Architecture</title>
+    <title>Sales Data OS - Slide: Problem Definition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0A0E27;
+            --accent: #FF3333;
+            --neon: #FF3333;
             --text-primary: #FFFFFF;
             --text-secondary: #B0B9C1;
-            --neon: #00D9FF;
-            --neon-pink: #FF006E;
-            --neon-green: #00FF41;
-            --neon-purple: #B537F2;
+            --transition: all 0.5s ease;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg);
             color: var(--text-primary);
             font-family: 'Outfit', sans-serif;
             height: 100vh;
-            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(var(--neon-rgb), 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(var(--neon-rgb), 0.05) 0%, transparent 40%);
+            background: radial-gradient(circle at 100% 0%, #1a0a0a 0%, var(--bg) 60%);
         }
 
         .slide-content {
-            width: 90%;
-            max-width: 1300px;
-            padding: 40px;
+            width: 100%;
+            max-width: 1200px;
+            padding: 60px;
             position: relative;
         }
 
-        header { margin-bottom: 40px; text-align: center; }
-        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 10px; display: block; }
-        h2 { font-size: 48px; font-weight: 700; margin: 0; }
-
-        /* The Layer Architecture SVG Styling */
-        .arch-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 40px;
-            gap: 20px;
-            perspective: 1200px;
-        }
-
-        .layer-box {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.4s ease, border-color 0.4s ease;
-        }
-
-        .layer-box:hover {
-            transform: translateZ(20px);
-            border-color: var(--neon);
-            background: rgba(var(--neon-rgb), 0.05);
-        }
-
-        .layer-title {
-            font-size: 13px;
-            font-weight: 700;
+        header { margin-bottom: 60px; }
+        .label {
+            font-size: 14px;
+            letter-spacing: 0.3em;
             color: var(--neon);
             text-transform: uppercase;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: block;
+        }
+        h2 {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
-        .layer-name { font-size: 18px; font-weight: 600; margin-bottom: 15px; min-height: 50px; display: flex; align-items: center; justify-content: center; }
-
-        .layer-items {
-            list-style: none;
-            text-align: left;
-            font-size: 13px;
-            color: var(--text-secondary);
-            padding: 0;
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
         }
 
-        .layer-items li {
-            margin-bottom: 8px;
-            padding-left: 14px;
-            position: relative;
+        .problem-box, .legacy-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid var(--neon);
+            padding: 40px;
+            border-radius: 4px 16px 16px 4px;
         }
 
-        .layer-items li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
+        .legacy-box { border-left-color: #555; opacity: 0.7; }
+
+        h3 {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 24px;
             color: var(--neon);
         }
 
-        /* Connecting Arrows */
-        .arrow {
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.1);
-            user-select: none;
-        }
+        .legacy-box h3 { color: #888; }
 
-        /* Bottom Definition */
-        .definition {
-            margin-top: 60px;
-            text-align: center;
-            font-size: 18px;
+        ul { list-style: none; }
+        li {
+            font-size: 20px;
+            margin-bottom: 16px;
             color: var(--text-secondary);
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .highlight { color: var(--text-primary); font-weight: 600; }
+        li::before {
+            content: "•";
+            color: var(--neon);
+            font-weight: bold;
+        }
+        
+        .legacy-box li::before { color: #555; }
 
-        /* Animation */
-        .stagger-up { opacity: 0; transform: translateY(20px); animation: staggerUp 0.6s ease-out forwards; }
-        @keyframes staggerUp { to { opacity: 1; transform: translateY(0); } }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
-        .delay-6 { animation-delay: 0.6s; }
+        .key-message {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 51, 51, 0.05);
+            border: 1px dashed rgba(255, 51, 51, 0.2);
+            border-radius: 12px;
+        }
 
+        .key-message p {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
+
+        .fade-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-
     <div class="slide-content">
-        <header class="stagger-up">
-            <span class="label">System Blueprint</span>
-            <h2>Sales Data OS 6-Layer Architecture</h2>
+        <header class="fade-up">
+            <span class="label">Analysis & Diagnostics</span>
+            <h2>Why <span style="color:var(--neon);">Sales Data OS</span>?</h2>
         </header>
 
-        <div class="arch-container">
-            <!-- 1. Data Layer -->
-            <div class="layer-box stagger-up delay-1">
-                <div class="layer-title">Layer 01</div>
-                <div class="layer-name">Data Layer</div>
-                <ul class="layer-items">
-                    <li>CRM Activity Raw</li>
-                    <li>Sales / Target Data</li>
-                    <li>Prescription Facts</li>
-                    <li>Master Data (HCP/HCO)</li>
+        <div class="grid-container">
+            <!-- Left: Problem -->
+            <div class="problem-box fade-up delay-1">
+                <h3>Current Problem (Why)</h3>
+                <ul>
+                    <li>실적 기준 불일치 → <span style="color:#fff;">조직 내 분쟁 발생</span></li>
+                    <li>활동과 성과의 <span style="color:#fff;">연결 불명확</span></li>
+                    <li>관리자 판단이 <span style="color:#fff;">경험과 감에 의존</span></li>
                 </ul>
             </div>
-            <div class="arrow stagger-up delay-1">→</div>
 
-            <!-- 2. Adapter Layer -->
-            <div class="layer-box stagger-up delay-2">
-                <div class="layer-title">Layer 02</div>
-                <div class="layer-name">Adapter Layer</div>
-                <ul class="layer-items">
-                    <li>Standard Schema Map</li>
-                    <li>Row Normalization</li>
-                    <li>Meaning Preservation</li>
-                    <li>Unified Input Generation</li>
-                </ul>
-            </div>
-            <div class="arrow stagger-up delay-2">→</div>
-
-            <!-- 3. Core Engine Layer -->
-            <div class="layer-box stagger-up delay-3">
-                <div class="layer-title">Layer 03</div>
-                <div class="layer-name">Core Engine</div>
-                <ul class="layer-items">
-                    <li>KPI Engine (Single Source)</li>
-                    <li>Module Service Calculation</li>
-                    <li>Domain Aggregate Logic</li>
-                    <li>Result Asset Generation</li>
-                </ul>
-            </div>
-            <div class="arrow stagger-up delay-3">→</div>
-
-            <!-- 4. Validation Layer (OPS) -->
-            <div class="layer-box stagger-up delay-4" style="border-bottom: 3px solid var(--neon-pink);">
-                <div class="layer-title" style="color:var(--neon-pink);">Layer 04</div>
-                <div class="layer-name">Validation (OPS)</div>
-                <ul class="layer-items">
-                    <li>Asset Quality Verification</li>
-                    <li>Mapping Correctness</li>
-                    <li>Gate Orchestration</li>
-                    <li>Pipeline Control</li>
-                </ul>
-            </div>
-            <div class="arrow stagger-up delay-4">→</div>
-
-            <!-- 5. Intelligence Layer -->
-            <div class="layer-box stagger-up delay-5">
-                <div class="layer-title">Layer 05</div>
-                <div class="layer-name">Intelligence</div>
-                <ul class="layer-items">
-                    <li>Sandbox Drill-down</li>
-                    <li>Territory Coverage</li>
-                    <li>Prescription Flow</li>
-                    <li>RADAR Decision Support</li>
-                </ul>
-            </div>
-            <div class="arrow stagger-up delay-5">→</div>
-
-            <!-- 6. Presentation Layer -->
-            <div class="layer-box stagger-up delay-6" style="border-bottom: 3px solid var(--neon-green);">
-                <div class="layer-title" style="color:var(--neon-green);">Layer 06</div>
-                <div class="layer-name">Presentation</div>
-                <ul class="layer-items">
-                    <li>HTML Report Builder</li>
-                    <li>Payload Consumption</li>
-                    <li>Asset Splitting (Large Data)</li>
-                    <li>Render-only Service</li>
+            <!-- Right: Legacy -->
+            <div class="legacy-box fade-up delay-1">
+                <h3>Legacy Limitations</h3>
+                <ul>
+                    <li>단순 리포트: 결과만 보여줌 (원인 부재)</li>
+                    <li>KPI 기준 부재: 조직별 해석 상이</li>
+                    <li>데이터 신뢰도 부족</li>
                 </ul>
             </div>
         </div>
 
-        <div class="definition stagger-up delay-6" style="margin-top: 50px;">
-            <p>
-                "제약 영업 데이터를 <span class="highlight">표준화</span>하고, 
-                공식 엔진으로 <span class="highlight">KPI를 계산</span>하며, 
-                <span class="highlight">품질을 검증(OPS)</span>한 뒤, <br>
-                분석·의사결정·표현 계층으로 <span class="highlight">안전하게 전달</span>하는 6계층 운영 체계입니다."
-            </p>
+        <div class="key-message fade-up delay-2">
+            <p>"문제는 데이터가 없는 것이 아니라, <span style="color:var(--neon);">운영 구조</span>가 없다는 것이다."</p>
         </div>
     </div>
-
 </body>
 </html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS - Slide 15: Future Vision (Part 2)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #00D9FF;
+            --neon-rgb: 0, 217, 255;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #0d1a42 0%, var(--bg) 100%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1100px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        header { margin-bottom: 60px; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 15px; display: block; font-weight: 700; }
+        h2 { font-size: 64px; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+
+        .vision-roadmap {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .vision-item {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+        }
+
+        .v-icon { font-size: 40px; margin-bottom: 20px; display: block; }
+        .v-title { font-size: 22px; font-weight: 700; margin-bottom: 15px; color: var(--neon); }
+        .v-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Future Horizon Line */
+        .horizon {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150%;
+            height: 200px;
+            background: radial-gradient(ellipse at top, rgba(var(--neon-rgb), 0.2) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(50px);
+        }
+
+        .final-message {
+            margin-top: 100px;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .final-logo {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 20px;
+            color: var(--neon);
+            letter-spacing: 0.5em;
+        }
+
+        /* Animation */
+        .fade-up { opacity: 0; transform: translateY(40px); animation: fadeUp 1s ease-out forwards; }
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.6s; }
+        .delay-3 { animation-delay: 0.9s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="fade-up">
+            <span class="label">Next Standard of Intelligence</span>
+            <h2>Future Vision: Part 2 Evolution</h2>
+        </header>
+
+        <div class="vision-roadmap">
+            <div class="vision-item fade-up delay-1">
+                <span class="v-icon">🚪</span>
+                <div class="v-title">Intake Gate</div>
+                <div class="v-desc">비정형 데이터의 자동 유입 및 실시간 정제/정규화 자동화 (Data Ingestion Hub)</div>
+            </div>
+
+            <div class="vision-item fade-up delay-2">
+                <span class="v-icon">🕒</span>
+                <div class="v-title">Daily Watch</div>
+                <div class="v-desc">매일 아침 발생하는 주요 데이터 변동성 및 이상 신호에 대한 자동 브리핑 환경 구축</div>
+            </div>
+
+            <div class="vision-item fade-up delay-3">
+                <span class="v-icon">⚡</span>
+                <div class="v-title">Action Queue</div>
+                <div class="v-desc">RADAR 신호를 실제 담당자의 우선순위 할 일 목록으로 변환하는 실행 연결 강화</div>
+            </div>
+        </div>
+
+        <div class="final-message fade-up delay-3">
+            Leading the Intelligent Sales Strategy
+        </div>
+        <div class="final-logo fade-up delay-3">
+            SALES DATA OS // 2026
+        </div>
+
+        <div class="horizon"></div>
+    </div>
+
+</body>
+</html>

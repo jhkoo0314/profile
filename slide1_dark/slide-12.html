@@ -4,7 +4,7 @@
     <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Data OS - Slide 12: Governance & Protocol</title>
+    <title>Sales Data OS - Slide 11: Layer 06: Presentation (Builder)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
             --bg: #0A0E27;
             --text-primary: #FFFFFF;
             --text-secondary: #B0B9C1;
-            --neon: #FFD700; /* Golden for Governance/Rules */
-            --neon-rgb: 255, 215, 0;
+            --neon: #A4D65E; /* Neon Green for Success/Output */
+            --neon-rgb: 164, 214, 94;
         }
 
         body {
@@ -27,12 +27,12 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: radial-gradient(circle at 50% 0%, #2e2a0a 0%, var(--bg) 70%);
+            background: radial-gradient(circle at 10% 10%, #1a2e0a 0%, var(--bg) 60%);
         }
 
         .slide-content {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             padding: 40px;
             text-align: center;
         }
@@ -41,126 +41,130 @@
         .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
         h2 { font-size: 52px; font-weight: 700; margin: 0; }
 
-        .governance-frame {
-            border: 1px solid rgba(var(--neon-rgb), 0.3);
+        .builder-logic {
+            margin: 30px auto;
+            max-width: 800px;
             background: rgba(255, 255, 255, 0.02);
-            padding: 50px;
-            border-radius: 24px;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 40px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 18px;
+            color: var(--text-secondary);
         }
 
-        .governance-frame::before {
+        .builder-logic b { color: var(--neon); }
+        .v-arrow { font-size: 24px; color: var(--neon); }
+
+        /* Report Cards Grid */
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .report-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .report-card:hover { border-color: var(--neon); transform: translateY(-10px); background: rgba(var(--neon-rgb), 0.05); }
+
+        .rc-icon { font-size: 28px; margin-bottom: 15px; display: block; }
+        .rc-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+        .rc-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+        /* Decorative Lines for Cards */
+        .report-card::after {
             content: '';
             position: absolute;
-            top: 10px; left: 10px; right: 10px; bottom: 10px;
-            border: 1px solid rgba(var(--neon-rgb), 0.1);
-            border-radius: 16px;
-            pointer-events: none;
-        }
-
-        .rule-list {
-            text-align: left;
-            margin-top: 30px;
-        }
-
-        .rule-item {
-            margin-bottom: 30px;
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 20px;
-            align-items: start;
-        }
-
-        .rule-code {
-            font-family: monospace;
-            font-weight: 700;
-            color: var(--neon);
-            background: rgba(var(--neon-rgb), 0.1);
-            padding: 5px 10px;
-            border-radius: 4px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .rule-content h3 { font-size: 20px; color: var(--text-primary); margin-bottom: 8px; }
-        .rule-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
-
-        .system-seal {
-            position: absolute;
-            top: -25px;
-            right: 40px;
-            width: 80px;
-            height: 80px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
             background: var(--neon);
-            color: #000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 12px;
-            text-transform: uppercase;
-            box-shadow: 0 0 20px var(--neon);
-            transform: rotate(15deg);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
+
+        .report-card:hover::after { transform: scaleX(1); }
 
         /* Animation */
-        .fade-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease-out forwards; }
+        .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s ease-out forwards; }
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-3 { animation-delay: 0.6s; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
 <body>
 
     <div class="slide-content">
-        <header class="fade-up">
-            <span class="label">System Integrity & Development Policy</span>
-            <h2>Governance: The Result Asset Protocol</h2>
+        <header class="fade-in">
+            <span class="label">Presentation Layer: Visual Synthesis</span>
+            <h2>HTML Builder: The Render-Only Engine</h2>
         </header>
 
-        <div class="governance-frame fade-up delay-1">
-            <div class="system-seal">Official<br>Protocol</div>
-            
-            <div class="rule-list">
-                <div class="rule-item fade-up delay-2">
-                    <div class="rule-code">RULE-01</div>
-                    <div class="rule-content">
-                        <h3>KPI Single Source Principle</h3>
-                        <p>모든 공식 수치 산출 로직은 오직 <code>modules/kpi/</code> 하위 엔진에서만 허용됩니다. 하위 레이어에서의 임의 계산은 시스템 부패로 간주하며 엄격히 금지합니다.</p>
-                    </div>
-                </div>
+        <div class="builder-logic fade-in delay-1">
+            <span>Result Asset (JSON)</span>
+            <span class="v-arrow">→</span>
+            <b>BUILDER</b>
+            <span class="v-arrow">→</span>
+            <span>interactive Report (HTML)</span>
+        </div>
 
-                <div class="rule-item fade-up delay-2">
-                    <div class="rule-code">RULE-02</div>
-                    <div class="rule-content">
-                        <h3>Asset-Based Communication</h3>
-                        <p>모듈 간 데이터 전달은 원시 데이터가 아닌, 엔진이 검증 완료한 <code>Result Asset (JSON/CSV)</code> 규격을 통해서만 이루어져야 합니다.</p>
-                    </div>
-                </div>
+        <div class="report-grid">
+            <div class="report-card fade-in delay-2">
+                <span class="rc-icon">📊</span>
+                <div class="rc-title">CRM Activity</div>
+                <div class="rc-desc">8대 표준 활동 지표 기반의 영업 사원별 성과 및 행동 대시보드</div>
+            </div>
 
-                <div class="rule-item fade-up delay-2">
-                    <div class="rule-code">RULE-03</div>
-                    <div class="rule-content">
-                        <h3>Cascading Maintenance</h3>
-                        <p>엔진 레이어의 수정 사항은 하위 모든 프레젠테이션 레이어에 즉각적이고 동일하게 반영되어야 합니다. (Single Logic Point of Truth)</p>
-                    </div>
-                </div>
+            <div class="report-card fade-in delay-2">
+                <span class="rc-icon">🧪</span>
+                <div class="rc-title">Prescription Flow</div>
+                <div class="rc-desc">도매-약국-병원을 잇는 가치 사슬 흐름과 처방 정합성 분석</div>
+            </div>
 
-                <div class="rule-item fade-up delay-2">
-                    <div class="rule-code">RULE-04</div>
-                    <div class="rule-content">
-                        <h3>Render-Only Presentation</h3>
-                        <p>최종 출력물(Builder)은 데이터를 가공하지 않습니다. 오직 전달받은 Asset을 가장 효과적으로 시각화하는 책임만을 가집니다.</p>
-                    </div>
-                </div>
+            <div class="report-card fade-in delay-2">
+                <span class="rc-icon">🗺️</span>
+                <div class="rc-title">Territory View</div>
+                <div class="rc-desc">공간 정보와 활동 동선을 결합한 권역 기반 실행 인텔리전스</div>
+            </div>
+
+            <div class="report-card fade-in delay-3">
+                <span class="rc-icon">🧩</span>
+                <div class="rc-title">Sandbox Drill-down</div>
+                <div class="rc-desc">Block Architecture 기반의 다차원 심층 분석 및 비교 보고서</div>
+            </div>
+
+            <div class="report-card fade-in delay-3">
+                <span class="rc-icon">🛰️</span>
+                <div class="rc-title">RADAR Status</div>
+                <div class="rc-desc">데이터 탐지 신호, 우선순위 이슈, 해결 옵션을 제안하는 전략 보고서</div>
+            </div>
+
+            <div class="report-card fade-in delay-3">
+                <span class="rc-icon">🏢</span>
+                <div class="rc-title">Integrated OS Dashboard</div>
+                <div class="rc-desc">모든 운영 지표를 한눈에 관제하는 최상위 운영 체계 통합 뷰</div>
             </div>
         </div>
 
-        <p style="margin-top: 40px; font-size: 14px; color: var(--text-secondary); opacity: 0.7;">
-            이 거버넌스는 Sales Data OS가 장기적으로 신뢰할 수 있는 데이터 신뢰성을 유지하기 위한 <b>양보할 수 없는 기준</b>입니다.
+        <p style="margin-top: 40px; font-size: 15px; color: var(--text-secondary); opacity: 0.8;" class="fade-in delay-4">
+            <b>Rule Check:</b> Builder 내부에서는 어떠한 KPI 산식 로직도 직접 구현하지 않습니다. <br>
+            오직 이미 계산된 페이로드를 소비하여 <b>사용자 경험</b>을 시각화하는 데 집중합니다.
         </p>
     </div>
 

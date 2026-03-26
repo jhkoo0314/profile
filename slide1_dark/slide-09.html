@@ -4,7 +4,7 @@
     <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Data OS - Slide 09: Layer 05: Prescription Flow</title>
+    <title>Sales Data OS - Slide 08: Layer 05: Territory (Execution View)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
             --bg: #0A0E27;
             --text-primary: #FFFFFF;
             --text-secondary: #B0B9C1;
-            --neon: #FF6600; /* Neon Orange for Prescription Flow */
-            --neon-rgb: 255, 102, 0;
+            --neon: #00FF41; /* Neon Green for Field/Territory */
+            --neon-rgb: 0, 255, 65;
         }
 
         body {
@@ -27,7 +27,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: radial-gradient(circle at 10% 90%, #2e1a0a 0%, var(--bg) 60%);
+            background: linear-gradient(135deg, #0a1f0a 0%, var(--bg) 100%);
         }
 
         .slide-content {
@@ -36,151 +36,158 @@
             padding: 40px;
         }
 
-        header { margin-bottom: 50px; text-align: center; }
+        header { margin-bottom: 50px; text-align: left; }
         .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
         h2 { font-size: 52px; font-weight: 700; margin: 0; }
 
-        .flow-container {
-            display: flex;
-            justify-content: space-around;
+        .territory-view {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
             align-items: center;
-            margin-top: 60px;
-            position: relative;
         }
 
-        .flow-node {
-            width: 220px;
-            height: 140px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(var(--neon-rgb), 0.2);
-            border-radius: 16px;
+        /* Map / Spatial Logic visualization */
+        .map-visual {
+            height: 450px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .flow-node:hover { transform: translateY(-10px); border-color: var(--neon); background: rgba(var(--neon-rgb), 0.05); }
-
-        .node-icon { font-size: 32px; margin-bottom: 10px; }
-        .node-name { font-size: 20px; font-weight: 700; color: var(--text-primary); }
-        .node-tag { font-size: 11px; color: var(--neon); font-weight: 700; margin-top: 5px; opacity: 0.8; }
-
-        /* Flow Particles Animation */
-        .connector {
-            flex-grow: 1;
-            height: 2px;
-            background: rgba(var(--neon-rgb), 0.2);
-            position: relative;
             overflow: hidden;
         }
 
-        .particle {
+        .map-svg {
+            width: 80%;
+            height: auto;
+            opacity: 0.2;
+            stroke: var(--neon);
+            stroke-width: 1;
+            fill: none;
+        }
+
+        .coordinate-point {
             position: absolute;
-            width: 10px;
-            height: 2px;
+            width: 8px;
+            height: 8px;
             background: var(--neon);
+            border-radius: 50%;
             box-shadow: 0 0 10px var(--neon);
-            animation: flow-particle 2s linear infinite;
+            opacity: 0;
+            transform: scale(0);
         }
 
-        @keyframes flow-particle {
-            0% { left: -10%; opacity: 0; }
-            50% { opacity: 1; }
-            100% { left: 110%; opacity: 0; }
+        @keyframes point-pop {
+            to { opacity: 0.8; transform: scale(1); }
         }
 
-        .p2 { animation-delay: 1s; }
+        .cp1 { top: 30%; left: 40%; animation: point-pop 0.5s ease-out 1s forwards; }
+        .cp2 { top: 50%; left: 60%; animation: point-pop 0.5s ease-out 1.2s forwards; }
+        .cp3 { top: 70%; left: 45%; animation: point-pop 0.5s ease-out 1.4s forwards; }
+        .cp4 { top: 40%; left: 55%; animation: point-pop 0.5s ease-out 1.6s forwards; }
+        .cp5 { top: 60%; left: 35%; animation: point-pop 0.5s ease-out 1.8s forwards; }
 
-        /* Payload Details */
-        .detail-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-top: 70px;
+        .radar-sweep {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, rgba(var(--neon-rgb), 0.1) 0%, transparent 20%);
+            animation: sweep 4s linear infinite;
+            top: -50%;
+            left: -50%;
+            z-index: 0;
         }
 
-        .detail-card {
-            padding: 24px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Detail List */
+        .summary-box {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .detail-card h3 { font-size: 18px; color: var(--neon); margin-bottom: 12px; font-weight: 700; }
-        .detail-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .info-row {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--neon);
+            border-radius: 4px;
+        }
 
-        /* Architecture Footnote */
-        .footnote {
-            margin-top: 40px;
-            text-align: center;
+        .info-row h3 { font-size: 18px; color: var(--neon); margin-bottom: 8px; }
+        .info-row p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+
+        .rule-pill {
+            margin-top: 30px;
+            background: rgba(var(--neon-rgb), 0.1);
+            color: var(--neon);
+            padding: 12px 20px;
+            border-radius: 8px;
             font-size: 13px;
-            color: var(--text-secondary);
-            font-family: monospace;
-            opacity: 0.6;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* Animation */
-        .fade-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease-out forwards; }
+        .fade-in { opacity: 0; transform: translateY(30px); animation: fadeIn 0.8s ease-out forwards; }
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
 <body>
 
     <div class="slide-content">
-        <header class="fade-up">
-            <span class="label">Intelligence Layer: Value Chain Tracking</span>
-            <h2>Prescription: End-to-End Flow Analysis</h2>
+        <header class="fade-in">
+            <span class="label">Intelligence Layer: Spatial Execution</span>
+            <h2>Territory: Activity & Space Intelligence</h2>
         </header>
 
-        <div class="flow-container fade-up delay-1">
-            <div class="flow-node">
-                <div class="node-icon">🏢</div>
-                <div class="node-name">Wholesaler</div>
-                <div class="node-tag">도매 유통</div>
-            </div>
-            
-            <div class="connector"><div class="particle"></div><div class="particle p2"></div></div>
-            
-            <div class="flow-node">
-                <div class="node-icon">💊</div>
-                <div class="node-name">Pharmacy</div>
-                <div class="node-tag">약국 처방/조제</div>
+        <div class="territory-view">
+            <div class="map-visual fade-in delay-1">
+                <div class="radar-sweep"></div>
+                <!-- Stylized Spatial Pattern Representation -->
+                <svg class="map-svg" viewBox="0 0 100 150">
+                    <path d="M50,10 L80,30 L90,80 L70,130 L30,140 L10,90 L20,30 Z" />
+                </svg>
+                <div class="coordinate-point cp1"></div>
+                <div class="coordinate-point cp2"></div>
+                <div class="coordinate-point cp3"></div>
+                <div class="coordinate-point cp4"></div>
+                <div class="coordinate-point cp5"></div>
+                
+                <div style="position: absolute; bottom: 20px; font-size: 10px; color: var(--neon); opacity: 0.5;">
+                    SPATIAL_COORDINATE_SYSTEM_ACTIVE
+                </div>
             </div>
 
-            <div class="connector"><div class="particle"></div><div class="particle p2"></div></div>
+            <div class="summary-box">
+                <div class="info-row fade-in delay-2">
+                    <h3>Spatial Coverage Analysis</h3>
+                    <p>활동 데이터와 병원/병원 담당자 좌표 정보를 결합하여 실제 영업 활동의 지리적 분포와 커버리지 밀도를 분석합니다.</p>
+                </div>
 
-            <div class="flow-node">
-                <div class="node-icon">🏥</div>
-                <div class="node-name">Hospital</div>
-                <div class="node-tag">최종 처방 실적</div>
-            </div>
-        </div>
+                <div class="info-row fade-in delay-2">
+                    <h3>Execution Intelligence</h3>
+                    <p>Sandbox의 성과 데이터(KPI Asset)를 지도 위에 매핑하여 지역별 성과 편차와 활동 동선을 입체적으로 해석합니다.</p>
+                </div>
 
-        <div class="detail-grid">
-            <div class="detail-card fade-up delay-2">
-                <h3>Supply Chain Mapping</h3>
-                <p>도매에서 약국을 사입된 유통 데이터를 기반으로 처방 데이터를 연동하여, 제품이 실제 시장에서 흐르는 경로를 입체적으로 모니터링합니다.</p>
-            </div>
-            <div class="detail-card fade-up delay-2">
-                <h3>Flow Consistency</h3>
-                <p>각 단계별 데이터의 정합성을 검증하여, 유통 과정에서의 수량 불일치나 누락 신호를 즉각적으로 감지합니다.</p>
-            </div>
-            <div class="detail-card fade-up delay-2">
-                <h3>Lightweight Preview</h3>
-                <p>대용량 처방 자산을 JSON 기반 페이로드로 관리하며, HTML 빌더에서 즉시 렌더링 가능한 경량화 프리뷰 정책을 적용합니다.</p>
-            </div>
-        </div>
+                <div class="info-row fade-in delay-2">
+                    <h3>Standard Workflow</h3>
+                    <p>표준 활동 파일을 기반으로 정교한 월별 동선 및 권역 최적화 요소를 도출합니다.</p>
+                </div>
 
-        <div class="footnote fade-up delay-2">
-            PRESCRIPTION_ENGINE_READY
+                <div class="rule-pill fade-in delay-2">
+                    <span>⚠️</span>
+                    <span>Selection Only Loading: 담당자 선택 시에만 분리된 자산(Route/Catalog)을 순차적으로 호출하여 성능 최적화</span>
+                </div>
+            </div>
         </div>
     </div>
 

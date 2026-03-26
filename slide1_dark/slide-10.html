@@ -4,7 +4,7 @@
     <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Data OS - Slide 10: Layer 05: RADAR (Signal Detection)</title>
+    <title>Sales Data OS - Slide 09: Layer 05: Prescription Flow</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,10 +13,8 @@
             --bg: #0A0E27;
             --text-primary: #FFFFFF;
             --text-secondary: #B0B9C1;
-            --neon: #FF3333; /* Neon Red for Alert/Signal */
-            --neon-rgb: 255, 51, 51;
-            --cyan: #00D9FF;
-            --cyan-rgb: 0, 217, 255;
+            --neon: #FF6600; /* Neon Orange for Prescription Flow */
+            --neon-rgb: 255, 102, 0;
         }
 
         body {
@@ -29,172 +27,160 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: linear-gradient(135deg, #2a0a0a 0%, var(--bg) 100%);
+            background: radial-gradient(circle at 10% 90%, #2e1a0a 0%, var(--bg) 60%);
         }
 
         .slide-content {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
             padding: 40px;
         }
 
-        header { margin-bottom: 40px; text-align: left; }
+        header { margin-bottom: 50px; text-align: center; }
         .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
         h2 { font-size: 52px; font-weight: 700; margin: 0; }
 
-        .radar-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 60px;
+        .flow-container {
+            display: flex;
+            justify-content: space-around;
             align-items: center;
+            margin-top: 60px;
+            position: relative;
         }
 
-        /* Radar Scanner Animation */
-        .radar-visual {
-            position: relative;
-            width: 400px;
-            height: 400px;
-            background: rgba(0, 217, 255, 0.05);
-            border: 2px solid rgba(0, 217, 255, 0.2);
-            border-radius: 50%;
+        .flow-node {
+            width: 220px;
+            height: 140px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(var(--neon-rgb), 0.2);
+            border-radius: 16px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .flow-node:hover { transform: translateY(-10px); border-color: var(--neon); background: rgba(var(--neon-rgb), 0.05); }
+
+        .node-icon { font-size: 32px; margin-bottom: 10px; }
+        .node-name { font-size: 20px; font-weight: 700; color: var(--text-primary); }
+        .node-tag { font-size: 11px; color: var(--neon); font-weight: 700; margin-top: 5px; opacity: 0.8; }
+
+        /* Flow Particles Animation */
+        .connector {
+            flex-grow: 1;
+            height: 2px;
+            background: rgba(var(--neon-rgb), 0.2);
+            position: relative;
             overflow: hidden;
         }
 
-        .radar-line {
+        .particle {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: conic-gradient(from 0deg, rgba(var(--cyan-rgb), 0.3) 0%, transparent 30%);
-            animation: radar-rotate 4s linear infinite;
-            z-index: 2;
-        }
-
-        .radar-circles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: 
-                radial-gradient(circle, transparent 33%, rgba(0, 217, 255, 0.1) 34%, transparent 35%),
-                radial-gradient(circle, transparent 66%, rgba(0, 217, 255, 0.1) 67%, transparent 68%),
-                repeating-conic-gradient(from 0deg, transparent 0 89deg, rgba(0, 217, 255, 0.05) 90deg);
-            z-index: 1;
-        }
-
-        @keyframes radar-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* Ping Signal */
-        .ping {
-            position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 2px;
             background: var(--neon);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--neon);
-            animation: ping-blink 2s ease-out infinite;
-            z-index: 10;
+            box-shadow: 0 0 10px var(--neon);
+            animation: flow-particle 2s linear infinite;
         }
 
-        .ping-label {
-            position: absolute;
-            white-space: nowrap;
-            font-size: 12px;
-            color: var(--neon);
-            font-weight: 700;
-            padding: 4px 8px;
-            background: rgba(0,0,0,0.8);
-            border: 1px solid var(--neon);
-            border-radius: 4px;
-            transform: translate(20px, -10px);
+        @keyframes flow-particle {
+            0% { left: -10%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { left: 110%; opacity: 0; }
         }
 
-        @keyframes ping-blink { 
-            0% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0; transform: scale(1.5); }
+        .p2 { animation-delay: 1s; }
+
+        /* Payload Details */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 70px;
         }
 
-        .p1 { top: 30%; left: 70%; animation-delay: 0.5s; }
-        .p2 { top: 60%; left: 20%; animation-delay: 1.5s; }
-        .p3 { top: 15%; left: 40%; animation-delay: 2.5s; }
-
-        /* Logic Detail cards */
-        .logic-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .logic-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .detail-card {
             padding: 24px;
             border-radius: 12px;
-            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .logic-card:hover { border-color: var(--neon); transform: translateX(10px); }
+        .detail-card h3 { font-size: 18px; color: var(--neon); margin-bottom: 12px; font-weight: 700; }
+        .detail-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 
-        .logic-card h3 { font-size: 18px; color: var(--neon); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .logic-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
-
-        .option-tag {
-            background: rgba(var(--neon-rgb), 0.1);
-            color: var(--neon);
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 15px;
+        /* Architecture Footnote */
+        .footnote {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-family: monospace;
+            opacity: 0.6;
         }
 
         /* Animation */
-        .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s ease-out forwards; }
+        .fade-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease-out forwards; }
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
 <body>
 
     <div class="slide-content">
-        <header class="fade-in">
-            <span class="label">Intelligence Layer: Signal Sensing</span>
-            <h2>RADAR: Intelligence & Option Engine</h2>
+        <header class="fade-up">
+            <span class="label">Intelligence Layer: Value Chain Tracking</span>
+            <h2>Prescription: End-to-End Flow Analysis</h2>
         </header>
 
-        <div class="radar-grid">
-            <div class="radar-visual fade-in delay-1">
-                <div class="radar-circles"></div>
-                <div class="radar-line"></div>
-                
-                <div class="ping p1"><div class="ping-label">Anomaly Detected: Area 04</div></div>
-                <div class="ping p2"><div class="ping-label">Growth Opportunity: Branch A</div></div>
-                <div class="ping p3"><div class="ping-label">Critical Signal: Activity Drop</div></div>
+        <div class="flow-container fade-up delay-1">
+            <div class="flow-node">
+                <div class="node-icon">🏢</div>
+                <div class="node-name">Wholesaler</div>
+                <div class="node-tag">도매 유통</div>
+            </div>
+            
+            <div class="connector"><div class="particle"></div><div class="particle p2"></div></div>
+            
+            <div class="flow-node">
+                <div class="node-icon">💊</div>
+                <div class="node-name">Pharmacy</div>
+                <div class="node-tag">약국 처방/조제</div>
             </div>
 
-            <div class="logic-stack">
-                <div class="logic-card fade-in delay-2">
-                    <h3>Signal Detection</h3>
-                    <p>방대한 데이터 중 개입이 필요한 유의미한 수치 변화와 패턴 이탈을 감지합니다.</p>
-                </div>
+            <div class="connector"><div class="particle"></div><div class="particle p2"></div></div>
 
-                <div class="logic-card fade-in delay-2">
-                    <h3>Issue Prioritization</h3>
-                    <p>감지된 신호를 중요도와 실적 영향도에 따라 정렬하여 경영진이 가장 먼저 봐야 할 <br/>문제를 선별합니다.</p>
-                </div>
-
-                <div class="logic-card fade-in delay-2">
-                    <h3>Decision Option Templating</h3>
-                    <p>문제를 보여주는 데 그치지 않고, 해결을 위한 실무적 옵션(A안, B안 등)을 <br/>템플릿화하여 제안합니다.</p>
-                    <div class="option-tag">PROACTIVE_DECISION_SUPPORT</div>
-                </div>
+            <div class="flow-node">
+                <div class="node-icon">🏥</div>
+                <div class="node-name">Hospital</div>
+                <div class="node-tag">최종 처방 실적</div>
             </div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-card fade-up delay-2">
+                <h3>Supply Chain Mapping</h3>
+                <p>도매에서 약국을 사입된 유통 데이터를 기반으로 처방 데이터를 연동하여, 제품이 실제 시장에서 흐르는 경로를 입체적으로 모니터링합니다.</p>
+            </div>
+            <div class="detail-card fade-up delay-2">
+                <h3>Flow Consistency</h3>
+                <p>각 단계별 데이터의 정합성을 검증하여, 유통 과정에서의 수량 불일치나 누락 신호를 즉각적으로 감지합니다.</p>
+            </div>
+            <div class="detail-card fade-up delay-2">
+                <h3>Lightweight Preview</h3>
+                <p>대용량 처방 자산을 JSON 기반 페이로드로 관리하며, HTML 빌더에서 즉시 렌더링 가능한 경량화 프리뷰 정책을 적용합니다.</p>
+            </div>
+        </div>
+
+        <div class="footnote fade-up delay-2">
+            PRESCRIPTION_ENGINE_READY
         </div>
     </div>
 

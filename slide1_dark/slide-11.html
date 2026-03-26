@@ -4,7 +4,7 @@
     <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Data OS - Slide 11: Layer 06: Presentation (Builder)</title>
+    <title>Sales Data OS - Slide 10: Layer 05: RADAR (Signal Detection)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,8 +13,10 @@
             --bg: #0A0E27;
             --text-primary: #FFFFFF;
             --text-secondary: #B0B9C1;
-            --neon: #A4D65E; /* Neon Green for Success/Output */
-            --neon-rgb: 164, 214, 94;
+            --neon: #FF3333; /* Neon Red for Alert/Signal */
+            --neon-rgb: 255, 51, 51;
+            --cyan: #00D9FF;
+            --cyan-rgb: 0, 217, 255;
         }
 
         body {
@@ -27,83 +29,133 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: radial-gradient(circle at 10% 10%, #1a2e0a 0%, var(--bg) 60%);
+            background: linear-gradient(135deg, #2a0a0a 0%, var(--bg) 100%);
         }
 
         .slide-content {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             padding: 40px;
-            text-align: center;
         }
 
-        header { margin-bottom: 50px; }
+        header { margin-bottom: 40px; text-align: left; }
         .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
         h2 { font-size: 52px; font-weight: 700; margin: 0; }
 
-        .builder-logic {
-            margin: 30px auto;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px 40px;
-            border-radius: 40px;
-            display: inline-flex;
-            align-items: center;
-            gap: 20px;
-            font-size: 18px;
-            color: var(--text-secondary);
-        }
-
-        .builder-logic b { color: var(--neon); }
-        .v-arrow { font-size: 24px; color: var(--neon); }
-
-        /* Report Cards Grid */
-        .report-grid {
+        .radar-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-top: 50px;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
         }
 
-        .report-card {
+        /* Radar Scanner Animation */
+        .radar-visual {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background: rgba(0, 217, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .radar-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 0deg, rgba(var(--cyan-rgb), 0.3) 0%, transparent 30%);
+            animation: radar-rotate 4s linear infinite;
+            z-index: 2;
+        }
+
+        .radar-circles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle, transparent 33%, rgba(0, 217, 255, 0.1) 34%, transparent 35%),
+                radial-gradient(circle, transparent 66%, rgba(0, 217, 255, 0.1) 67%, transparent 68%),
+                repeating-conic-gradient(from 0deg, transparent 0 89deg, rgba(0, 217, 255, 0.05) 90deg);
+            z-index: 1;
+        }
+
+        @keyframes radar-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Ping Signal */
+        .ping {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--neon);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--neon);
+            animation: ping-blink 2s ease-out infinite;
+            z-index: 10;
+        }
+
+        .ping-label {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 12px;
+            color: var(--neon);
+            font-weight: 700;
+            padding: 4px 8px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--neon);
+            border-radius: 4px;
+            transform: translate(20px, -10px);
+        }
+
+        @keyframes ping-blink { 
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+
+        .p1 { top: 30%; left: 70%; animation-delay: 0.5s; }
+        .p2 { top: 60%; left: 20%; animation-delay: 1.5s; }
+        .p3 { top: 15%; left: 40%; animation-delay: 2.5s; }
+
+        /* Logic Detail cards */
+        .logic-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .logic-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 16px;
-            text-align: left;
+            padding: 24px;
+            border-radius: 12px;
             position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
         }
 
-        .report-card:hover { border-color: var(--neon); transform: translateY(-10px); background: rgba(var(--neon-rgb), 0.05); }
+        .logic-card:hover { border-color: var(--neon); transform: translateX(10px); }
 
-        .rc-icon { font-size: 28px; margin-bottom: 15px; display: block; }
-        .rc-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
-        .rc-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+        .logic-card h3 { font-size: 18px; color: var(--neon); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .logic-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
 
-        /* Decorative Lines for Cards */
-        .report-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--neon);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
+        .option-tag {
+            background: rgba(var(--neon-rgb), 0.1);
+            color: var(--neon);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 15px;
         }
-
-        .report-card:hover::after { transform: scaleX(1); }
 
         /* Animation */
         .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s ease-out forwards; }
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
     </style>
@@ -112,60 +164,38 @@
 
     <div class="slide-content">
         <header class="fade-in">
-            <span class="label">Presentation Layer: Visual Synthesis</span>
-            <h2>HTML Builder: The Render-Only Engine</h2>
+            <span class="label">Intelligence Layer: Signal Sensing</span>
+            <h2>RADAR: Intelligence & Option Engine</h2>
         </header>
 
-        <div class="builder-logic fade-in delay-1">
-            <span>Result Asset (JSON)</span>
-            <span class="v-arrow">→</span>
-            <b>BUILDER</b>
-            <span class="v-arrow">→</span>
-            <span>interactive Report (HTML)</span>
-        </div>
-
-        <div class="report-grid">
-            <div class="report-card fade-in delay-2">
-                <span class="rc-icon">📊</span>
-                <div class="rc-title">CRM Activity</div>
-                <div class="rc-desc">8대 표준 활동 지표 기반의 영업 사원별 성과 및 행동 대시보드</div>
+        <div class="radar-grid">
+            <div class="radar-visual fade-in delay-1">
+                <div class="radar-circles"></div>
+                <div class="radar-line"></div>
+                
+                <div class="ping p1"><div class="ping-label">Anomaly Detected: Area 04</div></div>
+                <div class="ping p2"><div class="ping-label">Growth Opportunity: Branch A</div></div>
+                <div class="ping p3"><div class="ping-label">Critical Signal: Activity Drop</div></div>
             </div>
 
-            <div class="report-card fade-in delay-2">
-                <span class="rc-icon">🧪</span>
-                <div class="rc-title">Prescription Flow</div>
-                <div class="rc-desc">도매-약국-병원을 잇는 가치 사슬 흐름과 처방 정합성 분석</div>
-            </div>
+            <div class="logic-stack">
+                <div class="logic-card fade-in delay-2">
+                    <h3>Signal Detection</h3>
+                    <p>방대한 데이터 중 개입이 필요한 유의미한 수치 변화와 패턴 이탈을 감지합니다.</p>
+                </div>
 
-            <div class="report-card fade-in delay-2">
-                <span class="rc-icon">🗺️</span>
-                <div class="rc-title">Territory View</div>
-                <div class="rc-desc">공간 정보와 활동 동선을 결합한 권역 기반 실행 인텔리전스</div>
-            </div>
+                <div class="logic-card fade-in delay-2">
+                    <h3>Issue Prioritization</h3>
+                    <p>감지된 신호를 중요도와 실적 영향도에 따라 정렬하여 경영진이 가장 먼저 봐야 할 <br/>문제를 선별합니다.</p>
+                </div>
 
-            <div class="report-card fade-in delay-3">
-                <span class="rc-icon">🧩</span>
-                <div class="rc-title">Sandbox Drill-down</div>
-                <div class="rc-desc">Block Architecture 기반의 다차원 심층 분석 및 비교 보고서</div>
-            </div>
-
-            <div class="report-card fade-in delay-3">
-                <span class="rc-icon">🛰️</span>
-                <div class="rc-title">RADAR Status</div>
-                <div class="rc-desc">데이터 탐지 신호, 우선순위 이슈, 해결 옵션을 제안하는 전략 보고서</div>
-            </div>
-
-            <div class="report-card fade-in delay-3">
-                <span class="rc-icon">🏢</span>
-                <div class="rc-title">Integrated OS Dashboard</div>
-                <div class="rc-desc">모든 운영 지표를 한눈에 관제하는 최상위 운영 체계 통합 뷰</div>
+                <div class="logic-card fade-in delay-2">
+                    <h3>Decision Option Templating</h3>
+                    <p>문제를 보여주는 데 그치지 않고, 해결을 위한 실무적 옵션(A안, B안 등)을 <br/>템플릿화하여 제안합니다.</p>
+                    <div class="option-tag">PROACTIVE_DECISION_SUPPORT</div>
+                </div>
             </div>
         </div>
-
-        <p style="margin-top: 40px; font-size: 15px; color: var(--text-secondary); opacity: 0.8;" class="fade-in delay-4">
-            <b>Rule Check:</b> Builder 내부에서는 어떠한 KPI 산식 로직도 직접 구현하지 않습니다. <br>
-            오직 이미 계산된 페이로드를 소비하여 <b>사용자 경험</b>을 시각화하는 데 집중합니다.
-        </p>
     </div>
 
 </body>
