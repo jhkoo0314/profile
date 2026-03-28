@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS - Slide 04: Data & Adapter Layer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #00D9FF;
+            --accent: #FF6B35;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg) 0%, #0d1a42 100%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 60px;
+        }
+
+        header { margin-bottom: 50px; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
+        h2 { font-size: 52px; font-weight: 700; margin: 0; }
+
+        .transformation-grid {
+            display: grid;
+            grid-template-columns: 1fr 80px 1.5fr;
+            gap: 40px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        /* Raw Data Column */
+        .source-side {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .source-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            border-left: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .source-item .file-tag { font-family: monospace; font-size: 12px; color: var(--accent); border: 1px solid var(--accent); padding: 2px 6px; border-radius: 4px; }
+
+        /* Adapter Column */
+        .adapter-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--neon);
+        }
+
+        .gear-icon {
+            font-size: 40px;
+            animation: spin 8s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Standard Side */
+        .standard-side {
+            background: rgba(var(--neon-rgb), 0.05);
+            border: 1px solid var(--neon);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.1);
+        }
+
+        .standard-title { font-size: 18px; font-weight: 700; color: var(--neon); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .type-pill {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .type-pill:hover { background: var(--neon); color: var(--bg); transform: scale(1.05); }
+
+        .principle-note {
+            margin-top: 40px;
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            border-left: 2px solid var(--neon);
+            padding-left: 20px;
+        }
+
+        /* Animation */
+        .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="fade-in">
+            <span class="label">Decision Standardization</span>
+            <h2>데이터 표준화 = 의사결정 기준 통합</h2>
+        </header>
+
+        <div class="transformation-grid">
+            <div class="source-side fade-in delay-1">
+                <div class="source-item">
+                    <span class="file-tag">XLSX</span> CRM Activity Raw
+                </div>
+                <div class="source-item">
+                    <span class="file-tag">XLSX</span> Sales / Target Data
+                </div>
+                <div class="source-item">
+                    <span class="file-tag">CSV</span> Prescription Facts
+                </div>
+                <div class="source-item">
+                    <span class="file-tag">XLSX</span> Master (HCP/HCO)
+                </div>
+                <div style="font-size: 13px; color: var(--accent); margin-top: 15px; font-style: italic;">
+                    "회사마다 다른 데이터 구조와 활동 기준"
+                </div>
+            </div>
+
+            <div class="adapter-column fade-in delay-2">
+                <div class="gear-icon">⚙️</div>
+                <div style="font-size: 12px; font-weight: 700; white-space: nowrap;">ADAPTER</div>
+                <div style="font-size: 24px;">→</div>
+            </div>
+
+            <div class="standard-side fade-in delay-2">
+                <div class="standard-title">CRM 8대 표준 활동유형</div>
+                <div class="types-grid">
+                    <div class="type-pill">PT</div>
+                    <div class="type-pill">Demo</div>
+                    <div class="type-pill">Closing</div>
+                    <div class="type-pill">Needs</div>
+                    <div class="type-pill">FaceToFace</div>
+                    <div class="type-pill">Contact</div>
+                    <div class="type-pill">Access</div>
+                    <div class="type-pill">Feedback</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="principle-note fade-in delay-3">
+            <p>
+                <b>Impact:</b> Adapter는 원본 데이터의 의미를 보존한 채 <span style="color:var(--neon);">표준 스키마(Standard Schema)</span>로 통합합니다. <br>
+                회사마다 다른 데이터 구조를 단일 기준으로 맞춰, <b>조직 전체의 성과관리와 운영 판단 기준을 일원화</b>합니다.
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

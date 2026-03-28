@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GW7CWB490F');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS: Integrated Strategic Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================ */
+        /* MASTER SLIDE ENGINE STYLES                                   */
+        /* ============================================================ */
+        :root {
+            --bg-master: #0A0E27;
+            --nav-accent: #00D9FF;
+            --transition-speed: 0.8s;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-master);
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden; /* Prevent master scroll */
+            color: #fff;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #presentation-deck {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slide-frame.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .slide-frame.past { transform: scale(1.1); opacity: 0; }
+        .slide-frame.future { transform: scale(0.9); opacity: 0; }
+
+        /* Master Navigation Controls */
+        #nav-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            z-index: 9999;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover { border-color: var(--nav-accent); box-shadow: 0 0 15px var(--nav-accent); }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        #slide-counter {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--nav-accent);
+            margin-right: 15px;
+        }
+
+        #progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--nav-accent);
+            width: 0%;
+            z-index: 10000;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px var(--nav-accent);
+        }
+
+        /* Common Slide Internal Selectors (Scoped to Slide Frame) */
+        .slide-frame h1, .slide-frame h2, .slide-frame p, .slide-frame h3 { font-family: 'Outfit', sans-serif; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            #nav-controls {
+                right: 20px;
+                bottom: 20px;
+                gap: 10px;
+                padding: 10px;
+                background: rgba(0,0,0,0.5);
+                border-radius: 30px;
+                backdrop-filter: blur(10px);
+            }
+            .nav-btn { width: 40px; height: 40px; }
+            #slide-counter { margin-right: 5px; font-size: 11px; }
+            #progress-bar { height: 4px; }
+        }
+    </style>
+
+
+    <!-- SLIDE SPECIFIC CSS (Automated Scope Injection) -->
+    <style>
+        /* Slide 01 Theme */
+        #slide-01 { background: #0A0E27; --neon: #00D9FF; --neon-rgb: 0, 217, 255; }
+        #slide-01 h1 { background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.7) 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Slide 02 Theme */
+        #slide-02 { background: radial-gradient(circle at 0% 100%, #0d143c 0%, #0A0E27 50%); --neon: #2563EB; --neon-rgb: 37, 99, 235; }
+        
+        /* Slide 03 Theme */
+        #slide-03 { background-color: #0A0E27; --neon: #00D9FF; }
+
+        /* Slide 06 Theme (Pink) */
+        #slide-06 { background: linear-gradient(0deg, #1a0a1a 0%, #0A0E27 100%); --neon: #FF006E; --neon-rgb: 255, 0, 110; }
+
+        /* Slide 07 Theme (Purple) */
+        #slide-07 { background: radial-gradient(circle at 100% 0%, #1a0a2e 0%, #0A0E27 60%); --neon: #B537F2; --neon-rgb: 181, 55, 242; }
+
+        /* Slide 08 Theme (Green) */
+        #slide-08 { background: linear-gradient(135deg, #0a1f0a 0%, #0A0E27 100%); --neon: #00FF41; --neon-rgb: 0, 255, 65; }
+
+        /* Slide 09 Theme (Orange) */
+        #slide-09 { background: radial-gradient(circle at 10% 90%, #2e1a0a 0%, #0A0E27 60%); --neon: #FF6600; --neon-rgb: 255, 102, 0; }
+
+        /* Slide 10 Theme (Red) */
+        #slide-10 { background: linear-gradient(135deg, #2a0a0a 0%, #0A0E27 100%); --neon: #FF3333; --neon-rgb: 255, 51, 51; }
+
+        /* Slide 12 Theme (Gold) */
+        #slide-12 { background: radial-gradient(circle at 50% 0%, #2e2a0a 0%, #0A0E27 70%); --neon: #FFD700; --neon-rgb: 255, 215, 0; }
+        
+        /* Slide 11 Theme (Success) */
+        #slide-11 { background: radial-gradient(circle at 10% 10%, #1a2e0a 0%, #0A0E27 60%); --neon: #A4D65E; --neon-rgb: 164, 214, 94; }
+
+        /* ... Styles from each file injected below (Truncated here for logic, will be full in output) */
+    </style>
+</head>
+<body>
+
+    <div id="presentation-deck">
+        <!-- Slide 01 (Genesis) -->
+        <section id="slide-01" class="slide-frame active">
+            <iframe src="slide-01.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 02 (Why OS) -->
+        <section id="slide-02" class="slide-frame future">
+            <iframe src="slide-02.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 03 [NEW-01] (Problem Definition) -->
+        <section id="slide-03" class="slide-frame future">
+            <iframe src="slide-03.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 04 (Arch) -->
+        <section id="slide-04" class="slide-frame future">
+            <iframe src="slide-04.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 05 (Data/Adapter) -->
+        <section id="slide-05" class="slide-frame future">
+            <iframe src="slide-05.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 06 (Engine) -->
+        <section id="slide-06" class="slide-frame future">
+            <iframe src="slide-06.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 07 (OPS) -->
+        <section id="slide-07" class="slide-frame future">
+            <iframe src="slide-07.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 08 (Sandbox) -->
+        <section id="slide-08" class="slide-frame future">
+            <iframe src="slide-08.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 09 (Territory) -->
+        <section id="slide-09" class="slide-frame future">
+            <iframe src="slide-09.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 10 (Prescription) -->
+        <section id="slide-10" class="slide-frame future">
+            <iframe src="slide-10.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 11 (RADAR) -->
+        <section id="slide-11" class="slide-frame future">
+            <iframe src="slide-11.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 12 (Presentation) -->
+        <section id="slide-12" class="slide-frame future">
+            <iframe src="slide-12.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 13 [NEW-02] (Scenario) -->
+        <section id="slide-13" class="slide-frame future">
+            <iframe src="slide-13.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 14 (Governance) -->
+        <section id="slide-14" class="slide-frame future">
+            <iframe src="slide-14.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 15 (Folder) -->
+        <section id="slide-15" class="slide-frame future">
+            <iframe src="slide-15.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 16 (Modes) -->
+        <section id="slide-16" class="slide-frame future">
+            <iframe src="slide-16.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 17 [NEW-03] (Impact) -->
+        <section id="slide-17" class="slide-frame future">
+            <iframe src="slide-17.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 18 (Vision) -->
+        <section id="slide-18" class="slide-frame future">
+            <iframe src="slide-18.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 19 (Domain Divider) -->
+        <section id="slide-19" class="slide-frame future">
+            <iframe src="slide-19.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 20 (BIDIX Engine) -->
+        <section id="slide-20" class="slide-frame future">
+            <iframe src="slide-20.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 21 (BIDIX Crawler) -->
+        <section id="slide-21" class="slide-frame future">
+            <iframe src="slide-21.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 22 (Appendix Divider) -->
+        <section id="slide-22" class="slide-frame future">
+            <iframe src="slide-22.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 23 (Report 00) -->
+        <section id="slide-23" class="slide-frame future">
+            <iframe src="slide-23.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 24 (Report 01) -->
+        <section id="slide-24" class="slide-frame future">
+            <iframe src="slide-24.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 25 (Report 02) -->
+        <section id="slide-25" class="slide-frame future">
+            <iframe src="slide-25.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+
+        <!-- Slide 26 (Report 04) -->
+        <section id="slide-26" class="slide-frame future">
+            <iframe src="slide-26.html" style="width:100%; height:100%; border:none;"></iframe>
+        </section>
+    </div>
+
+    <!-- Master UI -->
+    <div id="nav-controls">
+        <div id="slide-counter">01 / 26</div>
+        <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled>←</button>
+        <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">→</button>
+    </div>
+    <div id="progress-bar"></div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 26;
+
+        // Universal Mobile Strategy: Inject responsive styles into iframes at runtime
+        const mobileCSS = `
+            @media (max-width: 768px) {
+                body { overflow-y: auto !important; height: auto !important; padding: 30px 15px !important; display: block !important; }
+                .layout-container, .slide-content, .main-concept, .principles-container, .dive-meta, .uplink-container {
+                    display: block !important;
+                    width: 100% !important;
+                    padding: 0 !important;
+                    grid-template-columns: 1fr !important;
+                    gap: 30px !important;
+                }
+                .photo-frame { width: 100% !important; height: auto !important; aspect-ratio: 1/1.2 !important; margin-bottom: 20px !important; }
+                h1 { font-size: 2.8rem !important; margin-bottom: 1.2rem !important; line-height: 1.1 !important; word-break: keep-all !important; }
+                h2 { font-size: 1.8rem !important; line-height: 1.2 !important; margin-bottom: 1rem !important; }
+                .description-box, .mission-statement, .sub-text { font-size: 1.05rem !important; line-height: 1.6 !important; }
+                .os-cycle li { font-size: 0.95rem !important; padding: 6px 0 6px 25px !important; }
+                .principles-container { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+                .visual-stack, .ambient-glow, .bg-decoration, .nav-hint { display: none !important; }
+                .protocol-box { width: 100% !important; padding: 15px !important; }
+                .protocol-item { font-size: 0.8rem !important; gap: 8px !important; }
+                .os-cycle { margin-top: 15px !important; }
+            }
+        `;
+
+        function injectMobileStyles(iframe) {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                if (!doc) return;
+                if (doc.getElementById('mobile-patch-style')) return;
+
+                const style = doc.createElement('style');
+                style.id = 'mobile-patch-style';
+                style.textContent = mobileCSS;
+                doc.head.appendChild(style);
+            } catch (e) {
+                // Squelch cross-origin errors if any
+            }
+        }
+
+        function updateUI() {
+            // Update Slides
+            document.querySelectorAll('.slide-frame').forEach((frame, idx) => {
+                const slideNum = idx + 1;
+                frame.classList.remove('active', 'past', 'future');
+                
+                if (slideNum === currentSlide) {
+                    frame.classList.add('active');
+                    // Ensure active iframe is optimized
+                    const iframe = frame.querySelector('iframe');
+                    if (iframe) {
+                        if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+                            injectMobileStyles(iframe);
+                        } else {
+                            iframe.onload = () => injectMobileStyles(iframe);
+                        }
+                    }
+                } else if (slideNum < currentSlide) {
+                    frame.classList.add('past');
+                } else {
+                    frame.classList.add('future');
+                }
+            });
+
+            // Update Counter
+            document.getElementById('slide-counter').innerText = 
+                `${currentSlide.toString().padStart(2, '0')} / ${totalSlides}`;
+
+            // Update Buttons
+            document.getElementById('prev-btn').disabled = (currentSlide === 1);
+            document.getElementById('next-btn').disabled = (currentSlide === totalSlides);
+
+            // Update Progress Bar
+            document.getElementById('progress-bar').style.width = 
+                `${(currentSlide / totalSlides) * 100}%`;
+        }
+
+        function changeSlide(direction) {
+            const next = currentSlide + direction;
+            if (next >= 1 && next <= totalSlides) {
+                currentSlide = next;
+                updateUI();
+            }
+        }
+
+        // Global Keyboard Listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                changeSlide(-1);
+            }
+        });
+
+        // Initialize UI
+        updateUI();
+
+        // One-time pass for all currently loaded iframes
+        window.addEventListener('load', () => {
+            document.querySelectorAll('iframe').forEach(iframe => injectMobileStyles(iframe));
+        });
+    </script>
+
+</body>
+</html>

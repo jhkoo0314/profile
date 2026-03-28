@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIDIX Crawler: Resilient Data Acquisition Pipeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #00FFD1; /* Teal for Acquisition/Crawler */
+            --neon-rgb: 0, 255, 209;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f162a 0%, var(--bg) 100%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1100px;
+            padding: 40px;
+        }
+
+        header { margin-bottom: 50px; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
+        h2 { font-size: 48px; font-weight: 700; margin: 0; }
+
+        .crawler-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Flow Diagram */
+        .flow-path {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            position: relative;
+        }
+
+        .flow-node {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flow-node::after {
+            content: '';
+            position: absolute;
+            left: 30px;
+            bottom: -30px;
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(180deg, var(--neon) 0%, transparent 100%);
+        }
+
+        .flow-node:last-child::after { display: none; }
+
+        .node-icon { font-size: 24px; color: var(--neon); filter: drop-shadow(0 0 5px var(--neon)); }
+        .node-info h3 { margin: 0; font-size: 16px; font-weight: 700; }
+        .node-info p { margin: 4px 0 0; font-size: 12px; color: var(--text-secondary); }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(0, 255, 209, 0.05);
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .stat-val { font-size: 32px; font-weight: 700; color: var(--neon); margin-bottom: 5px; }
+        .stat-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+
+        .highlights {
+            margin-top: 30px;
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .highlights li {
+            padding-left: 25px;
+            position: relative;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        .highlights li::before {
+            content: '🛡️';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .highlights b { color: #fff; font-weight: 600; }
+
+        /* Animation */
+        .fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="fade-up">
+            <span class="label">Scalable Operating Structure</span>
+            <h2>산업이 달라도 동일하게 작동하는 수집·정규화 구조</h2>
+        </header>
+
+        <div class="crawler-box">
+            <div class="flow-path fade-up delay-1">
+                <div class="flow-node">
+                    <div class="node-icon">⚖️</div>
+                    <div class="node-info"><h3>Source (Court Auction)</h3><p> 산업별 원천 데이터를 안정적으로 수집하는 시작점 </p></div>
+                </div>
+                <div class="flow-node">
+                    <div class="node-icon">⚙️</div>
+                    <div class="node-info"><h3>Crawler Engine</h3><p> 스케줄링과 재시도로 데이터 수집 안정성을 확보 </p></div>
+                </div>
+                <div class="flow-node">
+                    <div class="node-icon">📥</div>
+                    <div class="node-info"><h3>Normalized Storage</h3><p> 원본과 정규화 데이터를 분리해 이후 판단 기준과 운영 기준을 일관되게 유지 </p></div>
+                </div>
+            </div>
+
+            <div class="fade-up delay-2">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-val">> 99%</div>
+                        <div class="stat-label">Collection Stability</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val">< 0.5%</div>
+                        <div class="stat-label">Data Loss</div>
+                    </div>
+                </div>
+
+                <ul class="highlights">
+                    <li><b>Idempotency Protection:</b> 중복 제어를 통해 데이터 무결성을 보장하고, 다시 수집해도 같은 기준을 유지합니다.</li>
+                    <li><b>Observability Spec:</b> 실행 이력을 남겨 장애 원인과 운영 리스크를 빠르게 파악할 수 있습니다.</li>
+                    <li><b>Resilient Scheduling:</b> 안정적인 수집 구조를 통해 산업이 바뀌어도 동일한 운영 체계와 전략 판단 구조를 적용할 수 있습니다.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px; font-size: 13px; color: var(--text-secondary); opacity: 0.6;" class="fade-up delay-2">
+            BIDIX_CRAWLER_V2 // OPS_RELIABILITY: 99.9% // DATA_FRESHNESS: < 2HRS
+        </div>
+    </div>
+
+</body>
+</html>

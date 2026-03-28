@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GW7CWB490F"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-GW7CWB490F');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS - Slide 10: Layer 05: RADAR (Signal Detection)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0E27;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #FF3333; /* Neon Red for Alert/Signal */
+            --neon-rgb: 255, 51, 51;
+            --cyan: #00D9FF;
+            --cyan-rgb: 0, 217, 255;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2a0a0a 0%, var(--bg) 100%);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1100px;
+            padding: 40px;
+        }
+
+        header { margin-bottom: 40px; text-align: left; }
+        .label { font-size: 14px; letter-spacing: 0.3em; color: var(--neon); text-transform: uppercase; margin-bottom: 12px; display: block; font-weight: 700; }
+        h2 { font-size: 52px; font-weight: 700; margin: 0; }
+
+        .radar-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* Radar Scanner Animation */
+        .radar-visual {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background: rgba(0, 217, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .radar-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 0deg, rgba(var(--cyan-rgb), 0.3) 0%, transparent 30%);
+            animation: radar-rotate 4s linear infinite;
+            z-index: 2;
+        }
+
+        .radar-circles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle, transparent 33%, rgba(0, 217, 255, 0.1) 34%, transparent 35%),
+                radial-gradient(circle, transparent 66%, rgba(0, 217, 255, 0.1) 67%, transparent 68%),
+                repeating-conic-gradient(from 0deg, transparent 0 89deg, rgba(0, 217, 255, 0.05) 90deg);
+            z-index: 1;
+        }
+
+        @keyframes radar-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Ping Signal */
+        .ping {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--neon);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--neon);
+            animation: ping-blink 2s ease-out infinite;
+            z-index: 10;
+        }
+
+        .ping-label {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 12px;
+            color: var(--neon);
+            font-weight: 700;
+            padding: 4px 8px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--neon);
+            border-radius: 4px;
+            transform: translate(20px, -10px);
+        }
+
+        @keyframes ping-blink { 
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+
+        .p1 { top: 30%; left: 70%; animation-delay: 0.5s; }
+        .p2 { top: 60%; left: 20%; animation-delay: 1.5s; }
+        .p3 { top: 15%; left: 40%; animation-delay: 2.5s; }
+
+        /* Logic Detail cards */
+        .logic-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .logic-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 24px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .logic-card:hover { border-color: var(--neon); transform: translateX(10px); }
+
+        .logic-card h3 { font-size: 18px; color: var(--neon); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .logic-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+
+        .option-tag {
+            background: rgba(var(--neon-rgb), 0.1);
+            color: var(--neon);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        /* Animation */
+        .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide-content">
+        <header class="fade-in">
+            <span class="label">Issue To Action</span>
+            <h2>문제 탐지 · 우선순위 · 실행 연결</h2>
+        </header>
+
+        <div class="radar-grid">
+            <div class="radar-visual fade-in delay-1">
+                <div class="radar-circles"></div>
+                <div class="radar-line"></div>
+                
+                <div class="ping p1"><div class="ping-label">Priority Signal: Area 04</div></div>
+                <div class="ping p2"><div class="ping-label">Growth Signal: Branch A</div></div>
+                <div class="ping p3"><div class="ping-label">Critical Signal: Activity Drop</div></div>
+            </div>
+
+            <div class="logic-stack">
+                <div class="logic-card fade-in delay-2">
+                    <h3>Signal Detection</h3>
+                    <p>데이터 이상 신호를 탐지해 개입이 필요한 문제를 빠르게 포착합니다.</p>
+                </div>
+
+                <div class="logic-card fade-in delay-2">
+                    <h3>Issue Prioritization</h3>
+                    <p>감지된 신호를 실적 영향도 기준으로 정렬해, 무엇부터 실행할지 우선순위를 명확히 합니다.</p>
+                </div>
+
+                <div class="logic-card fade-in delay-2">
+                    <h3>Execution Option</h3>
+                    <p>문제 발견에서 끝나지 않고, 바로 실행 가능한 대응 옵션과 운영 액션으로 연결합니다.</p>
+                    <div class="option-tag">분석이 아니라 실행을 위한 시스템</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
