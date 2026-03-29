@@ -24,10 +24,12 @@ $entries = @(
   @{ Path='slide-20.html'; Mode='static' },
   @{ Path='slide-21.html'; Mode='static' },
   @{ Path='slide-22.html'; Mode='static' },
-  @{ Path='slide-23.html'; Mode='dynamic' },
+  @{ Path='slide-23.html'; Mode='static' },
   @{ Path='slide-24.html'; Mode='dynamic' },
   @{ Path='slide-25.html'; Mode='dynamic' },
-  @{ Path='slide-26.html'; Mode='dynamic' }
+  @{ Path='slide-26.html'; Mode='dynamic' },
+  @{ Path='slide-27.html'; Mode='dynamic' },
+  @{ Path='slide-28.html'; Mode='dynamic' }
 )
 
 function Get-BodyInnerHtml([string]$html) {
@@ -51,7 +53,7 @@ function Get-ExternalAssets([string]$html) {
   return $assets
 }
 
-function Scope-Css([string]$css, [string]$prefix) {
+function Invoke-ScopeCss([string]$css, [string]$prefix) {
   $css = [regex]::Replace($css, '/\*[\s\S]*?\*/', '')
   $keyframes = [regex]::Matches($css, '(?ms)@keyframes\s+[^{]+\{(?:[^{}]|\{[^{}]*\})*\}') | ForEach-Object { $_.Value.Trim() }
   $css = [regex]::Replace($css, '(?ms)@keyframes\s+[^{]+\{(?:[^{}]|\{[^{}]*\})*\}', '')
@@ -75,7 +77,7 @@ function Scope-Css([string]$css, [string]$prefix) {
   return (($result.Trim()) + "`n" + ($keyframes -join "`n")).Trim()
 }
 
-function Prefix-ScriptIds([string]$script, [string]$id) {
+function Invoke-PrefixScriptIds([string]$script, [string]$id) {
   $script = $script -replace "document\.getElementById\('([^']+)'\)", "document.querySelector('#$id #`$1')"
   $script = $script -replace 'document\.getElementById\("([^"]+)"\)', 'document.querySelector("#$id #$1")'
   return $script
@@ -142,7 +144,7 @@ foreach ($entry in $entries) {
   $id = ('slide-{0:d2}' -f $index)
   $prefix = "#$id"
   foreach ($asset in (Get-ExternalAssets $html)) { [void]$assets.Add($asset) }
-  $styles = (Get-StyleBlocks $html | ForEach-Object { Scope-Css $_ $prefix }) -join "`n"
+  $styles = (Get-StyleBlocks $html | ForEach-Object { Invoke-ScopeCss $_ $prefix }) -join "`n"
   $bodyInner = Get-BodyInnerHtml $html
   $styleParts.Add($styles)
   $sections.Add(@"

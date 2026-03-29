@@ -4,15 +4,18 @@
     <script></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Data OS - Appendix</title>
+    <title>Sales Data OS - Thank You</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0A0E27;
-            --accent: #555;
             --text-primary: #FFFFFF;
+            --text-secondary: #B0B9C1;
+            --neon: #00D9FF;
+            --neon-rgb: 0, 217, 255;
+            --neon-glow: rgba(0, 217, 255, 0.4);
         }
 
         body {
@@ -25,45 +28,123 @@
             justify-content: center;
             overflow: hidden;
             margin: 0;
-            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, var(--bg) 100%);
+            background: radial-gradient(circle at 100% 100%, #1a1a2e 0%, var(--bg) 60%);
         }
 
-        .appendix-header {
+        .slide-content {
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 60px 100px;
+            z-index: 10;
+        }
+
+        .label {
+            font-size: 14px;
+            letter-spacing: 0.5em;
+            color: var(--neon);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: block;
+            text-shadow: 0 0 10px var(--neon-glow);
         }
 
         h1 {
             font-size: 80px;
             font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            letter-spacing: -0.02em;
             margin: 0;
-            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.4) 100%);
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.6) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        p {
-            font-size: 18px;
-            color: #8892b0;
-            letter-spacing: 0.4em;
-            margin-top: 20px;
-            text-transform: uppercase;
+        .divider {
+            width: 80px;
+            height: 4px;
+            background: var(--neon);
+            margin: 40px auto;
+            box-shadow: 0 0 20px var(--neon-glow);
         }
 
-        .fade-in { opacity: 0; animation: fadeIn 1.5s ease-out forwards; }
-        @keyframes fadeIn { to { opacity: 1; } }
+        .thank-you {
+            font-size: 32px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            margin-bottom: 60px;
+        }
+
+        .contact-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(var(--neon-rgb), 0.1);
+            padding: 24px 40px;
+            border-radius: 16px;
+            display: inline-grid;
+            grid-template-columns: auto auto;
+            gap: 40px;
+            backdrop-filter: blur(20px);
+        }
+
+        .contact-item {
+            text-align: left;
+        }
+
+        .contact-item .tag {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: var(--neon);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+            opacity: 0.8;
+        }
+
+        .contact-item .val {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .fade-up { opacity: 0; transform: translateY(40px); animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* Background elements */
+        .glow-sphere {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(var(--neon-rgb), 0.05) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .sphere-1 { top: -200px; left: -200px; }
+        .sphere-2 { bottom: -200px; right: -200px; }
     </style>
 </head>
 <body>
-    <div class="appendix-header fade-in">
-        <h1>Appendix</h1>
-        <p>Result Assets & Samples</p>
+    <div class="glow-sphere sphere-1"></div>
+    <div class="glow-sphere sphere-2"></div>
+
+    <div class="slide-content">
+        <span class="label fade-up">End of Presentation</span>
+        <h1 class="fade-up">Sales Data OS</h1>
+        <div class="divider fade-up delay-1"></div>
+        <p class="thank-you fade-up delay-1">시스템을 넘어, 데이터 운영의 기준을 제시합니다.</p>
+        
+        <div class="contact-box fade-up delay-2">
+            <div class="contact-item">
+                <span class="tag">Presenting Architect</span>
+                <span class="val">GU JAE-HYUN</span>
+            </div>
+            <div class="contact-item">
+                <span class="tag">Strategic Mission</span>
+                <span class="val">Strategic Transformation</span>
+            </div>
+        </div>
     </div>
 </body>
 </html>
-

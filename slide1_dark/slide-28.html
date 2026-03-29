@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SFE RADAR - Decision Brief</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #2563eb;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg-main: #f1f5f9;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --radius: 10px;
+      --shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+      --font: "Segoe UI", system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font);
+      padding: 1.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .max-w-custom { max-width: 1560px; margin: 0 auto; }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35rem;
+      display: block;
+    }
+
+    .metric-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-header h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid;
+    }
+
+    .status-normal {
+      color: var(--success);
+      border-color: rgba(5,150,105,.25);
+      background: rgba(5,150,105,.08);
+    }
+
+    .status-warning {
+      color: var(--warning);
+      border-color: rgba(217,119,6,.25);
+      background: rgba(217,119,6,.08);
+    }
+
+    .status-critical {
+      color: var(--danger);
+      border-color: rgba(220,38,38,.25);
+      background: rgba(220,38,38,.08);
+    }
+
+    .signal-card {
+      border-left: 4px solid var(--warning);
+    }
+
+    .signal-card.critical {
+      border-left-color: var(--danger);
+    }
+
+    .signal-card.normal {
+      border-left-color: var(--success);
+    }
+
+    .mini-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .decision-option {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1rem;
+      background: #fff;
+    }
+
+    .decision-option.recommended {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37,99,235,.08);
+    }
+
+    table.radar-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.76rem;
+    }
+
+    table.radar-table th,
+    table.radar-table td {
+      border: 1px solid #e2e8f0;
+      padding: 0.6rem;
+      text-align: center;
+    }
+
+    table.radar-table th {
+      background: #f8fafc;
+      color: #64748b;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.68rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 260px;
+      width: 100%;
+    }
+
+    .branch-filter {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0.45rem 0.55rem;
+      min-width: 170px;
+    }
+
+    .period-filter {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0.45rem 0.55rem;
+      min-width: 150px;
+    }
+
+    .seg-wrap {
+      display: flex;
+      gap: 0.25rem;
+      padding: 0.25rem;
+      background: #e2e8f0;
+      border-radius: 10px;
+    }
+
+    .seg-btn {
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .seg-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.16);
+    }
+  </style>
+</head>
+<body>
+  <div class="max-w-custom">
+
+    <!-- HEADER -->
+    <header class="flex justify-between items-end pb-5 mb-5 border-b-2 border-slate-900">
+      <div>
+        <p class="text-blue-600 font-bold text-xs uppercase tracking-[0.24em] mb-1">
+          Strategic Early Warning System
+        </p>
+        <h1 class="text-3xl font-bold text-slate-900 tracking-tight leading-none">
+          RADAR <span class="text-slate-400 font-normal">DECISION BRIEF</span>
+          <span class="ml-1 text-[0.72rem] font-semibold text-slate-400 uppercase tracking-[0.18em] align-middle">v0.1</span>
+        </h1>
+          <p id="reportTitle" class="text-slate-500 font-bold text-xs mt-2 uppercase">
+            Monthly Executive Decision Support Report
+          </p>
+      </div>
+
+      <div class="flex flex-col items-end gap-3">
+        <div class="status-badge status-warning" id="overallStatusBadge">
+          ● Warning
+        </div>
+        <div class="flex gap-2 items-center flex-wrap justify-end">
+          <select id="scopeFilter" class="period-filter"></select>
+          <select id="branchFilter" class="branch-filter"></select>
+        </div>
+        <div class="text-right">
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">기준월</p>
+          <p id="periodLabel" class="text-sm font-black text-slate-900">2026.03</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex justify-between items-center mb-5 gap-3 flex-wrap">
+      <div class="seg-wrap">
+        <button id="periodMonthly" type="button" class="seg-btn active">월별</button>
+        <button id="periodQuarterly" type="button" class="seg-btn">분기별</button>
+        <button id="periodYearly" type="button" class="seg-btn">연간</button>
+      </div>
+      <div class="flex gap-2 items-center flex-wrap">
+        <select id="monthSel" class="period-filter">
+          <option value="AUTO">기준월 (최신)</option>
+          <option value="0">1월</option>
+          <option value="1">2월</option>
+          <option value="2">3월</option>
+          <option value="3">4월</option>
+          <option value="4">5월</option>
+          <option value="5">6월</option>
+          <option value="6">7월</option>
+          <option value="7">8월</option>
+          <option value="8">9월</option>
+          <option value="9">10월</option>
+          <option value="10">11월</option>
+          <option value="11">12월</option>
+        </select>
+        <select id="quarterSel" class="period-filter hidden">
+          <option value="AUTO">기준분기 (최신)</option>
+          <option value="0">1분기</option>
+          <option value="1">2분기</option>
+          <option value="2">3분기</option>
+          <option value="3">4분기</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- EXECUTIVE STRIP -->
+    <div class="grid grid-cols-12 gap-3 mb-6">
+      <div class="col-span-12 md:col-span-8 card border-l-4 border-l-amber-500 !mb-0">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="mini-label">Top Issue</p>
+            <h2 id="topIssue" class="text-xl font-bold text-slate-900 mt-1">
+              RTR 저하와 목표 달성 미흡이 동시에 발생
+            </h2>
+            <p id="topIssueDesc" class="text-sm text-slate-600 mt-2">
+              관계 유지 지표 약화가 성과 저하와 함께 관찰되며 관리 개입 우선순위가 높은 상태입니다.
+            </p>
+          </div>
+          <div class="text-right min-w-[180px]">
+            <p class="mini-label">Decision Readiness</p>
+          <div id="decisionReadiness" class="text-3xl font-black text-amber-600 mt-1">82</div>
+            <p class="text-[11px] text-slate-500 font-bold uppercase">priority readiness score</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-12 md:col-span-4 card !mb-0 bg-slate-900 text-white">
+        <p class="mini-label text-slate-400">Validation Status</p>
+        <div class="mt-3">
+          <div id="validationStatusText" class="text-2xl font-black">APPROVED</div>
+          <p class="text-xs text-slate-300 mt-2">
+            validation-approved result asset 기반
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="grid grid-cols-6 gap-3 mb-8">
+      <div class="card border-l-4 border-l-blue-600 !mb-0">
+        <span class="metric-label">목표 달성률</span>
+        <div id="kpiGoalAttainment" class="metric-value text-blue-700">93.2%</div>
+      </div>
+      <div class="card border-l-4 border-l-rose-600 !mb-0">
+        <span class="metric-label">PV 변화율</span>
+        <div id="kpiPvChange" class="metric-value text-rose-600">-18.4%</div>
+      </div>
+      <div class="card border-l-4 border-l-amber-600 !mb-0">
+        <span class="metric-label">HIR</span>
+        <div id="kpiHir" class="metric-value text-amber-600">58.3</div>
+      </div>
+      <div class="card border-l-4 border-l-amber-600 !mb-0">
+        <span class="metric-label">RTR</span>
+        <div id="kpiRtr" class="metric-value text-amber-600">67.1</div>
+      </div>
+      <div class="card border-l-4 border-l-slate-800 !mb-0">
+        <span class="metric-label">Signal Count</span>
+        <div id="kpiSignalCount" class="metric-value text-slate-900">3</div>
+      </div>
+      <div class="card border-l-4 border-l-slate-300 !mb-0">
+        <span class="metric-label">Confidence</span>
+        <div id="kpiConfidence" class="metric-value text-slate-500">0.94</div>
+      </div>
+    </div>
+
+    <!-- TOP SIGNALS -->
+    <div class="section-header">
+      <div class="w-full flex items-center justify-between gap-3">
+        <h3>Layer 01 : Top Signals</h3>
+        <span id="filterStatus" class="mini-label">전체지점 · 월별</span>
+      </div>
+    </div>
+
+    <div id="topSignalsContainer" class="grid grid-cols-12 gap-4 mb-8">
+    </div>
+
+    <!-- ISSUE SUMMARY -->
+    <div class="section-header">
+      <h3>Layer 02 : Issue Summary & Evidence</h3>
+    </div>
+
+    <div class="grid grid-cols-12 gap-4 mb-8">
+      <div class="col-span-12 md:col-span-7 card">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="text-[11px] font-black text-slate-500 uppercase">Signal Evidence Trend</h4>
+          <span id="trendScopeLabel" class="text-[10px] font-bold text-slate-400 uppercase">월별 추세</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="radarTrendChart"></canvas>
+        </div>
+      </div>
+
+      <div class="col-span-12 md:col-span-5 card">
+        <h4 class="text-[11px] font-black text-slate-500 uppercase mb-4">Possible Explanations</h4>
+        <div id="possibleExplanations" class="space-y-3 text-sm">
+        </div>
+        <p class="mt-4 text-[11px] text-slate-400 font-bold uppercase">
+          * 확정 원인이 아닌 관리 해석용 힌트
+        </p>
+      </div>
+    </div>
+
+    <!-- DECISION OPTIONS -->
+    <div class="section-header">
+      <h3>Layer 03 : Decision Options</h3>
+    </div>
+
+    <div id="decisionOptionsContainer" class="grid grid-cols-12 gap-4 mb-8">
+      <div class="col-span-12 md:col-span-4 decision-option recommended">
+        <div class="flex items-center justify-between">
+          <h4 class="text-lg font-bold text-slate-900">Option A</h4>
+          <span class="status-badge status-warning">Recommended</span>
+        </div>
+        <p class="mt-3 text-sm text-slate-700 font-semibold">Coaching Focus</p>
+        <p class="mt-2 text-sm text-slate-600">현재는 RADAR 의사결정 규칙이 확정 전이므로, 우선 코칭 중심 해석을 기본 옵션으로 표시합니다.</p>
+        <div class="mt-4 text-xs text-slate-500">
+          <div>Style: coaching_focus</div>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-4 decision-option">
+        <div class="flex items-center justify-between">
+          <h4 class="text-lg font-bold text-slate-900">Option B</h4>
+        </div>
+        <p class="mt-3 text-sm text-slate-700 font-semibold">Monitoring Hold</p>
+        <p class="mt-2 text-sm text-slate-600">추가 월별·지점별 신호 기준이 확정되기 전까지는 한 주기 더 모니터링하고 추세를 확인하는 보조 옵션입니다.</p>
+        <div class="mt-4 text-xs text-slate-500">
+          <div>Style: monitoring_hold</div>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-4 decision-option">
+        <div class="flex items-center justify-between">
+          <h4 class="text-lg font-bold text-slate-900">Option C</h4>
+        </div>
+        <p class="mt-3 text-sm text-slate-700 font-semibold">Selective Intervention</p>
+        <p class="mt-2 text-sm text-slate-600">지점별 신호 정의가 완료되면 반복 약세 구간만 선별 개입하는 방향으로 확장할 예정입니다.</p>
+        <div class="mt-4 text-xs text-slate-500">
+          <div>Style: selective_intervention</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNAL TABLE -->
+    <div class="section-header">
+      <h3>Layer 04 : Signal Matrix</h3>
+    </div>
+
+    <div class="card">
+      <table class="radar-table">
+        <thead>
+          <tr>
+            <th>Signal</th>
+            <th>Severity</th>
+            <th>Priority</th>
+            <th>Scope</th>
+            <th>Main Evidence</th>
+            <th>Decision Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6" class="text-slate-400">No signal data</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FOOTNOTE -->
+    <div class="mt-6 text-[11px] text-slate-400 font-bold uppercase tracking-wide">
+      RADAR is an intelligence-layer decision support module.  
+      It does not recalculate KPI, does not assign field schedules, and does not assert root causes with certainty.
+    </div>
+  </div>
+
+  <script>
+    const defaultRadarData = {
+      report_title: "RADAR Decision Brief",
+      period_label: "2026.03",
+      overall_status: "warning",
+      top_issue: "RTR 저하와 목표 달성 미흡이 동시에 발생",
+      top_issue_desc: "관계 유지 지표 약화가 성과 저하와 함께 관찰되며 관리 개입 우선순위가 높은 상태입니다.",
+      decision_readiness: 82,
+      validation_status: "APPROVED",
+      signal_count: 3,
+      branch_options: ["서울", "대구"],
+      confidence: 0.94,
+      kpi_snapshot: {
+        goal_attainment_pct: 93.2,
+        pv_change_pct: -18.4,
+        hir: 58.3,
+        rtr: 67.1
+      },
+      signals: [
+        {
+          signal_type: "goal_underperformance",
+          severity: "critical",
+          priority_score: 91,
+          title: "Goal Underperformance",
+          message: "목표 달성률이 기준 미만이며 성과 저하가 동반됩니다.",
+          scope: { level: "company", branch_keys: ["서울", "대구"] },
+          evidence: { metric: "goal_attainment_pct", current_value: 93.2, threshold: 95 },
+          possible_explanations: ["관계 유지 활동 일관성 저하 가능성", "핵심 타겟 접촉 우선순위 분산 가능성"],
+          decision_options: [{ option_code: "A" }, { option_code: "B" }, { option_code: "C" }]
+        },
+        {
+          signal_type: "rtr_weakness",
+          severity: "warning",
+          priority_score: 82,
+          title: "RTR Weakness",
+          message: "관계 유지 지표가 기대 범위 아래로 하락했습니다.",
+          scope: { level: "branch", branch_keys: ["대구"] },
+          evidence: { metric: "rtr", current_value: 67.1, threshold: 70 },
+          possible_explanations: ["relationship maintenance 약화 가능성"],
+          decision_options: [{ option_code: "A" }, { option_code: "B" }]
+        },
+        {
+          signal_type: "hir_weakness",
+          severity: "warning",
+          priority_score: 61,
+          title: "HIR Weakness",
+          message: "핵심 타겟 접촉 강도가 약화되고 있습니다.",
+          scope: { level: "company", branch_keys: [] },
+          evidence: { metric: "hir", current_value: 58.3, threshold: 60 },
+          possible_explanations: ["타겟 접촉 밀도 저하 가능성"],
+          decision_options: [{ option_code: "A" }, { option_code: "B" }]
+        }
+      ],
+      trend_chart: {
+        labels: ['2026.01', '2026.02', '2026.03'],
+        goal_attainment: [101, 97, 93.2],
+        rtr: [73, 70, 67.1],
+        hir: [64, 61, 58.3]
+      }
+    };
+    const radarData = (window.__RADAR_DATA__ && typeof window.__RADAR_DATA__ === "object")
+      ? window.__RADAR_DATA__
+      : defaultRadarData;
+
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el && value !== undefined && value !== null) el.textContent = String(value);
+    };
+    const scopeFilter = document.getElementById("scopeFilter");
+    const branchFilter = document.getElementById("branchFilter");
+    const periodMonthly = document.getElementById("periodMonthly");
+    const periodQuarterly = document.getElementById("periodQuarterly");
+    const periodYearly = document.getElementById("periodYearly");
+    const monthSel = document.getElementById("monthSel");
+    const quarterSel = document.getElementById("quarterSel");
+    const filterStatus = document.getElementById("filterStatus");
+    const trendScopeLabel = document.getElementById("trendScopeLabel");
+    const topSignalsContainer = document.getElementById("topSignalsContainer");
+    const signalTableBody = document.querySelector("table.radar-table tbody");
+    const possibleExplanations = document.getElementById("possibleExplanations");
+    const decisionOptionsContainer = document.getElementById("decisionOptionsContainer");
+    let trendChartInstance = null;
+    let periodMode = "monthly";
+
+    setText("reportTitle", radarData.report_title || defaultRadarData.report_title);
+    setText("periodLabel", radarData.period_label || defaultRadarData.period_label);
+    setText("topIssue", radarData.top_issue || defaultRadarData.top_issue);
+    setText("topIssueDesc", radarData.top_issue_desc || defaultRadarData.top_issue_desc);
+    setText("decisionReadiness", radarData.decision_readiness ?? defaultRadarData.decision_readiness);
+    setText("validationStatusText", radarData.validation_status || defaultRadarData.validation_status);
+
+    const kpi = radarData.kpi_snapshot || defaultRadarData.kpi_snapshot;
+    setText("kpiGoalAttainment", `${Number(kpi.goal_attainment_pct || 0).toFixed(1)}%`);
+    setText("kpiPvChange", `${Number(kpi.pv_change_pct || 0).toFixed(1)}%`);
+    setText("kpiHir", Number(kpi.hir || 0).toFixed(1));
+    setText("kpiRtr", Number(kpi.rtr || 0).toFixed(1));
+    setText("kpiSignalCount", String(radarData.signal_count ?? 0));
+    setText("kpiConfidence", Number(radarData.confidence || 0).toFixed(2));
+
+    const allSignals = Array.isArray(radarData.signals) ? radarData.signals : [];
+
+    const buildBranchOptions = () => {
+      const options = new Set(["전체지점"]);
+      const payloadBranches = Array.isArray(radarData.branch_options) ? radarData.branch_options : [];
+      payloadBranches.forEach((b) => {
+        const t = String(b || "").trim();
+        if (t) options.add(t);
+      });
+      allSignals.forEach((signal) => {
+        const branchKeys = Array.isArray(signal?.scope?.branch_keys) ? signal.scope.branch_keys : [];
+        branchKeys.forEach((b) => {
+          const t = String(b || "").trim();
+          if (t) options.add(t);
+        });
+      });
+      return Array.from(options);
+    };
+
+    const renderSignalCards = (signals) => {
+      if (!topSignalsContainer) return;
+      if (!signals.length) {
+        topSignalsContainer.innerHTML = `
+          <div class="col-span-12 card">
+            <div class="text-sm text-slate-500">선택한 지점에서 표시할 신호가 없습니다.</div>
+          </div>`;
+        return;
+      }
+      topSignalsContainer.innerHTML = signals.slice(0, 3).map((signal) => {
+        const sev = String(signal.severity || "warning").toLowerCase();
+        const badgeClass = sev === "critical" ? "status-critical" : "status-warning";
+        const cardClass = sev === "critical" ? "critical" : "normal";
+        const scopeLevel = String(signal?.scope?.level || "company");
+        const branchCount = (Array.isArray(signal?.scope?.branch_keys) ? signal.scope.branch_keys.length : 0);
+        const scopeText = scopeLevel === "branch" ? `Branch ${branchCount}개` : "Company";
+        return `
+          <div class="col-span-12 md:col-span-4 card signal-card ${cardClass}">
+            <div class="flex items-center justify-between">
+              <span class="status-badge ${badgeClass}">${sev === "critical" ? "Critical" : "Warning"}</span>
+              <span class="mini-label">Priority ${Number(signal.priority_score || 0)}</span>
+            </div>
+            <h4 class="mt-4 text-lg font-bold text-slate-900">${signal.title || signal.signal_type}</h4>
+            <p class="text-sm text-slate-600 mt-2">${signal.message || ""}</p>
+            <div class="mt-4 text-xs text-slate-500">Scope: ${scopeText}</div>
+          </div>`;
+      }).join("");
+    };
+
+    const renderSignalTable = (signals) => {
+      if (!signalTableBody) return;
+      if (!signals.length) {
+        signalTableBody.innerHTML = `<tr><td colspan="6" class="text-slate-400">No signal data</td></tr>`;
+        return;
+      }
+      signalTableBody.innerHTML = signals.map((signal) => {
+        const scopeLevel = String(signal?.scope?.level || "company");
+        const scopeText = scopeLevel === "branch"
+          ? (Array.isArray(signal?.scope?.branch_keys) ? signal.scope.branch_keys.join(", ") : "-")
+          : "Company";
+        const evidenceValue = Number(signal?.evidence?.current_value ?? 0);
+        return `
+          <tr>
+            <td>${signal.title || signal.signal_type}</td>
+            <td>${signal.severity || "-"}</td>
+            <td>${Number(signal.priority_score || 0)}</td>
+            <td>${scopeText}</td>
+            <td>${evidenceValue}</td>
+            <td>${Array.isArray(signal.decision_options) ? signal.decision_options.length : 0}</td>
+          </tr>`;
+      }).join("");
+    };
+
+    const renderExplanations = (signals) => {
+      if (!possibleExplanations) return;
+      const items = [];
+      signals.forEach((signal) => {
+        (Array.isArray(signal.possible_explanations) ? signal.possible_explanations : []).forEach((exp) => {
+          if (exp && !items.includes(exp)) items.push(exp);
+        });
+      });
+      if (!items.length) {
+        possibleExplanations.innerHTML = `
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+            선택한 지점에서 요약 가능한 해석 힌트가 없습니다.
+          </div>`;
+        return;
+      }
+      possibleExplanations.innerHTML = items.slice(0, 5).map((text) => (
+        `<div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">${text}</div>`
+      )).join("");
+    };
+
+    const renderDecisionOptions = (signals) => {
+      if (!decisionOptionsContainer) return;
+      return;
+    };
+
+    const filterSignalsByBranch = (branchName, scopeMode) => {
+      if (!branchName || branchName === "전체지점" || scopeMode === "all") return allSignals;
+      const branchScoped = allSignals.filter((signal) => {
+        const keys = Array.isArray(signal?.scope?.branch_keys) ? signal.scope.branch_keys : [];
+        return keys.map((v) => String(v)).includes(branchName);
+      });
+      if (branchScoped.length) return branchScoped;
+      return allSignals.filter((signal) => String(signal?.scope?.level || "company") === "company");
+    };
+
+    const updateHeaderWithSignals = (signals) => {
+      const top = signals.length ? signals[0] : null;
+      if (top) {
+        setText("topIssue", top.title || top.signal_type || "Top issue");
+        setText("topIssueDesc", top.message || "");
+        setText("decisionReadiness", Number(top.priority_score || 0));
+        setText("kpiSignalCount", signals.length);
+      } else {
+        setText("topIssue", "선택 지점에서 감지된 핵심 신호 없음");
+        setText("topIssueDesc", "현재 선택한 지점 기준으로 경보 신호가 생성되지 않았습니다.");
+        setText("decisionReadiness", 40);
+        setText("kpiSignalCount", 0);
+      }
+    };
+
+    const applyBranchFilter = () => {
+      const scopeMode = scopeFilter ? scopeFilter.value : "all";
+      const selected = scopeMode === "branch"
+        ? (branchFilter ? branchFilter.value : "전체지점")
+        : "전체지점";
+      const filtered = filterSignalsByBranch(selected, scopeMode);
+      renderSignalCards(filtered);
+      renderSignalTable(filtered);
+      renderExplanations(filtered);
+      renderDecisionOptions(filtered);
+      updateHeaderWithSignals(filtered);
+    };
+
+    const chunkArray = (values, size) => {
+      const result = [];
+      for (let i = 0; i < values.length; i += size) {
+        result.push(values.slice(i, i + size));
+      }
+      return result;
+    };
+
+    const avg = (values) => {
+      if (!values.length) return 0;
+      const total = values.reduce((sum, value) => sum + Number(value || 0), 0);
+      return total / values.length;
+    };
+
+    const buildTrendByMode = (mode) => {
+      const trend = radarData.trend_chart || defaultRadarData.trend_chart;
+      const labels = Array.isArray(trend.labels) ? trend.labels : [];
+      const goal = Array.isArray(trend.goal_attainment) ? trend.goal_attainment : [];
+      const rtr = Array.isArray(trend.rtr) ? trend.rtr : [];
+      const hir = Array.isArray(trend.hir) ? trend.hir : [];
+
+      if (mode === "quarterly") {
+        const labelGroups = chunkArray(labels, 3);
+        const goalGroups = chunkArray(goal, 3);
+        const rtrGroups = chunkArray(rtr, 3);
+        const hirGroups = chunkArray(hir, 3);
+        return {
+          labels: labelGroups.map((_, idx) => `Q${idx + 1}`),
+          goal_attainment: goalGroups.map((g) => Number(avg(g).toFixed(1))),
+          rtr: rtrGroups.map((g) => Number(avg(g).toFixed(1))),
+          hir: hirGroups.map((g) => Number(avg(g).toFixed(1))),
+        };
+      }
+
+      if (mode === "yearly") {
+        return {
+          labels: ["연간"],
+          goal_attainment: [Number(avg(goal).toFixed(1))],
+          rtr: [Number(avg(rtr).toFixed(1))],
+          hir: [Number(avg(hir).toFixed(1))],
+        };
+      }
+
+      return {
+        labels: labels,
+        goal_attainment: goal,
+        rtr: rtr,
+        hir: hir,
+      };
+    };
+
+    const getSelectedPeriodIndex = (mode, labels) => {
+      if (!Array.isArray(labels) || !labels.length) return 0;
+      if (mode === "yearly") return 0;
+      if (mode === "quarterly") {
+        if (quarterSel && quarterSel.value !== "AUTO") {
+          return Math.max(0, Math.min(labels.length - 1, Number(quarterSel.value)));
+        }
+        return labels.length - 1;
+      }
+      if (monthSel && monthSel.value !== "AUTO") {
+        return Math.max(0, Math.min(labels.length - 1, Number(monthSel.value)));
+      }
+      return labels.length - 1;
+    };
+
+    const updatePeriodLabelByMode = (mode, labels) => {
+      const idx = getSelectedPeriodIndex(mode, labels);
+      const label = Array.isArray(labels) && labels.length ? labels[idx] : (radarData.period_label || defaultRadarData.period_label);
+      setText("periodLabel", label);
+      if (trendScopeLabel) {
+        trendScopeLabel.textContent = mode === "yearly" ? "연간 추세" : mode === "quarterly" ? "분기별 추세" : "월별 추세";
+      }
+    };
+
+    const updateKpisByPeriod = (mode) => {
+      const trendByMode = buildTrendByMode(mode);
+      const idx = getSelectedPeriodIndex(mode, trendByMode.labels);
+      const goal = Number((trendByMode.goal_attainment || [])[idx] || 0);
+      const hir = Number((trendByMode.hir || [])[idx] || 0);
+      const rtr = Number((trendByMode.rtr || [])[idx] || 0);
+      setText("kpiGoalAttainment", `${goal.toFixed(1)}%`);
+      setText("kpiHir", hir.toFixed(1));
+      setText("kpiRtr", rtr.toFixed(1));
+      updatePeriodLabelByMode(mode, trendByMode.labels);
+    };
+
+    const renderTrendChart = (mode) => {
+      const trendCtx = document.getElementById('radarTrendChart');
+      if (!trendCtx) return;
+      if (trendChartInstance) {
+        trendChartInstance.destroy();
+      }
+      const trendByMode = buildTrendByMode(mode);
+      trendChartInstance = new Chart(trendCtx, {
+        type: 'line',
+        data: {
+          labels: trendByMode.labels,
+          datasets: [
+            {
+              label: 'Goal Attainment',
+              data: trendByMode.goal_attainment,
+              borderColor: '#2563eb',
+              backgroundColor: 'rgba(37,99,235,0.08)',
+              tension: 0.3
+            },
+            {
+              label: 'RTR',
+              data: trendByMode.rtr,
+              borderColor: '#d97706',
+              backgroundColor: 'rgba(217,119,6,0.08)',
+              tension: 0.3
+            },
+            {
+              label: 'HIR',
+              data: trendByMode.hir,
+              borderColor: '#dc2626',
+              backgroundColor: 'rgba(220,38,38,0.08)',
+              tension: 0.3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    };
+
+    const setPeriodButtons = (mode) => {
+      periodMode = mode;
+      [periodMonthly, periodQuarterly, periodYearly].forEach((button) => {
+        if (button) button.classList.remove("active");
+      });
+      if (mode === "monthly" && periodMonthly) periodMonthly.classList.add("active");
+      if (mode === "quarterly" && periodQuarterly) periodQuarterly.classList.add("active");
+      if (mode === "yearly" && periodYearly) periodYearly.classList.add("active");
+      if (monthSel) monthSel.classList.toggle("hidden", mode !== "monthly");
+      if (quarterSel) quarterSel.classList.toggle("hidden", mode !== "quarterly");
+    };
+
+    const updateFilterStatus = () => {
+      if (!filterStatus) return;
+      const scopeText = scopeFilter && scopeFilter.value === "branch"
+        ? `지점 · ${(branchFilter && branchFilter.value) || "미선택"}`
+        : "전체지점";
+      const modeText = periodMode === "yearly" ? "연간" : periodMode === "quarterly" ? "분기별" : "월별";
+      filterStatus.textContent = `${scopeText} · ${modeText}`;
+    };
+
+    const applyFilters = () => {
+      applyBranchFilter();
+      updateKpisByPeriod(periodMode);
+      renderTrendChart(periodMode);
+      updateFilterStatus();
+    };
+
+    const branchOptions = buildBranchOptions();
+    if (branchFilter) {
+      branchFilter.innerHTML = branchOptions
+        .map((branch) => `<option value="${branch}">${branch}</option>`)
+        .join("");
+      branchFilter.addEventListener("change", applyFilters);
+    }
+
+    if (scopeFilter) {
+      scopeFilter.innerHTML = `
+        <option value="all">전체지점</option>
+        <option value="branch">지점</option>
+      `;
+      scopeFilter.value = "all";
+      scopeFilter.addEventListener("change", () => {
+        if (branchFilter) {
+          const isBranchMode = scopeFilter.value === "branch";
+          branchFilter.disabled = !isBranchMode;
+          if (!isBranchMode) {
+            branchFilter.value = "전체지점";
+          }
+        }
+        applyFilters();
+      });
+    }
+
+    if (branchFilter) {
+      branchFilter.disabled = true;
+      branchFilter.value = "전체지점";
+    }
+
+    if (periodMonthly) periodMonthly.addEventListener("click", () => { setPeriodButtons("monthly"); applyFilters(); });
+    if (periodQuarterly) periodQuarterly.addEventListener("click", () => { setPeriodButtons("quarterly"); applyFilters(); });
+    if (periodYearly) periodYearly.addEventListener("click", () => { setPeriodButtons("yearly"); applyFilters(); });
+    if (monthSel) monthSel.addEventListener("change", applyFilters);
+    if (quarterSel) quarterSel.addEventListener("change", applyFilters);
+
+    setPeriodButtons("monthly");
+    applyFilters();
+
+    const badge = document.getElementById("overallStatusBadge");
+    if (badge) {
+      const status = String(radarData.overall_status || "warning").toLowerCase();
+      badge.classList.remove("status-normal", "status-warning", "status-critical");
+      if (status === "critical") {
+        badge.classList.add("status-critical");
+        badge.textContent = "● Critical";
+      } else if (status === "normal") {
+        badge.classList.add("status-normal");
+        badge.textContent = "● Normal";
+      } else {
+        badge.classList.add("status-warning");
+        badge.textContent = "● Warning";
+      }
+    }
+
+    // Trend chart is rendered by applyFilters() with period mode.
+  </script>
+</body>
+</html>
