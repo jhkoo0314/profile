@@ -109,11 +109,15 @@ body { font-family: 'Outfit', sans-serif; }
   overflow: hidden;
 }
 .slide-root, .slide-root * {
-  animation-play-state: paused !important;
+  animation: none !important;
+  transition: none !important;
 }
 .slide-root .fade-up,
 .slide-root .stagger-up,
 .slide-root .fade-in,
+.slide-root .pop-in,
+.slide-root .slide-in,
+.slide-root .slide-in-right,
 .slide-root [class*='delay-'] {
   opacity: 1 !important;
   visibility: visible !important;
@@ -129,6 +133,26 @@ body { font-family: 'Outfit', sans-serif; }
   html, body { background: #fff; }
   .deck { display: block; }
   .slide-page { box-shadow: none; }
+
+  /* Print-to-PDF stability (Chrome):
+     Avoid backdrop-filter in print and force exact color adjustments. */
+  .slide-page, .slide-root {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Reported missing "KPI cards": slide 02 / 10 / 13 */
+  #slide-02 .principle-card,
+  #slide-10 .flow-node,
+  #slide-13 .step-card {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+  }
+
+  /* Decorative moving particles are irrelevant in print. */
+  #slide-10 .particle { display: none !important; }
 }
 "@
 

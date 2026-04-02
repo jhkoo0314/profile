@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data OS — Print Edition (28 Slides)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================ */
+        /* PRINT.HTML — PDF 인쇄 전용, 모든 애니메이션 OFF               */
+        /* ============================================================ */
+
+        /* --- 화면 미리보기용 기본 스타일 --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background: #1a1a2e;
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+        }
+
+        .print-header {
+            text-align: center;
+            padding: 30px 40px 20px;
+            background: #0A0E27;
+            border-bottom: 2px solid #00D9FF;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .print-header-left {
+            text-align: left;
+        }
+
+        .print-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #00D9FF;
+            letter-spacing: 0.05em;
+        }
+
+        .print-header p {
+            font-size: 13px;
+            color: #8892b0;
+            margin-top: 4px;
+        }
+
+        .print-btn {
+            background: #00D9FF;
+            color: #0A0E27;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.05em;
+            transition: opacity 0.2s;
+        }
+
+        .print-btn:hover { opacity: 0.85; }
+
+        .slide-label {
+            font-size: 11px;
+            color: #8892b0;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 8px 0;
+            background: #111426;
+        }
+
+        /* 각 슬라이드 래퍼 */
+        .slide-page {
+            width: 297mm;       /* A4 가로 */
+            height: 210mm;      /* A4 세로 */
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            background: #0A0E27;
+            display: block;
+        }
+
+        .slide-page iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* 화면 미리보기: 슬라이드 간격 */
+        .slide-wrapper {
+            margin: 0 auto 6px;
+        }
+
+        /* ============================================================ */
+        /* 인쇄 스타일                                                    */
+        /* ============================================================ */
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        @media print {
+            html, body {
+                background: #0A0E27 !important;
+                width: 297mm;
+                margin: 0;
+                padding: 0;
+            }
+
+            .print-header,
+            .slide-label,
+            .screen-only {
+                display: none !important;
+            }
+
+            .slide-wrapper {
+                margin: 0;
+                padding: 0;
+                page-break-after: always;
+                page-break-inside: avoid;
+                break-after: page;
+                break-inside: avoid;
+            }
+
+            .slide-wrapper:last-child {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            .slide-page {
+                width: 297mm !important;
+                height: 210mm !important;
+                margin: 0 !important;
+                overflow: hidden !important;
+                position: relative !important;
+            }
+
+            .slide-page iframe {
+                width: 297mm !important;
+                height: 210mm !important;
+                border: none !important;
+            }
+        }
+
+        /* ============================================================ */
+        /* 전역 애니메이션 OFF CSS (iframe에 주입됨)                      */
+        /* ============================================================ */
+    </style>
+</head>
+<body>
+
+    <!-- 화면 미리보기 전용 헤더 (인쇄 시 숨김) -->
+    <div class="print-header screen-only">
+        <div class="print-header-left">
+            <h1>Sales Data OS — Print Edition</h1>
+            <p>총 28 슬라이드 · PDF 인쇄 전용 · 모든 애니메이션 비활성화</p>
+        </div>
+        <button class="print-btn" onclick="window.print()">🖨️ PDF로 인쇄</button>
+    </div>
+
+    <!-- Slide 01 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 01 / 28 — Protocol Genesis</div>
+        <div class="slide-page"><iframe src="slide-01.html" id="frame-01" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 02 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 02 / 28 — Why OS?</div>
+        <div class="slide-page"><iframe src="slide-02.html" id="frame-02" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 03 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 03 / 28 — Problem Definition</div>
+        <div class="slide-page"><iframe src="slide-03.html" id="frame-03" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 04 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 04 / 28 — Architecture</div>
+        <div class="slide-page"><iframe src="slide-04.html" id="frame-04" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 05 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 05 / 28 — Data Adapter</div>
+        <div class="slide-page"><iframe src="slide-05.html" id="frame-05" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 06 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 06 / 28 — Engine</div>
+        <div class="slide-page"><iframe src="slide-06.html" id="frame-06" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 07 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 07 / 28 — OPS</div>
+        <div class="slide-page"><iframe src="slide-07.html" id="frame-07" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 08 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 08 / 28 — Sandbox</div>
+        <div class="slide-page"><iframe src="slide-08.html" id="frame-08" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 09 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 09 / 28 — Territory</div>
+        <div class="slide-page"><iframe src="slide-09.html" id="frame-09" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 10 / 28 — Prescription Flow</div>
+        <div class="slide-page"><iframe src="slide-10.html" id="frame-10" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 11 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 11 / 28 — RADAR</div>
+        <div class="slide-page"><iframe src="slide-11.html" id="frame-11" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 12 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 12 / 28 — Presentation</div>
+        <div class="slide-page"><iframe src="slide-12.html" id="frame-12" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 13 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 13 / 28 — Scenario</div>
+        <div class="slide-page"><iframe src="slide-13.html" id="frame-13" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 14 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 14 / 28 — Governance</div>
+        <div class="slide-page"><iframe src="slide-14.html" id="frame-14" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 15 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 15 / 28 — Folder Structure</div>
+        <div class="slide-page"><iframe src="slide-15.html" id="frame-15" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 16 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 16 / 28 — Modes</div>
+        <div class="slide-page"><iframe src="slide-16.html" id="frame-16" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 17 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 17 / 28 — Impact</div>
+        <div class="slide-page"><iframe src="slide-17.html" id="frame-17" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 18 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 18 / 28 — Vision</div>
+        <div class="slide-page"><iframe src="slide-18.html" id="frame-18" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 19 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 19 / 28 — Domain Divider</div>
+        <div class="slide-page"><iframe src="slide-19.html" id="frame-19" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 20 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 20 / 28 — BIDIX Engine</div>
+        <div class="slide-page"><iframe src="slide-20.html" id="frame-20" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 21 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 21 / 28 — BIDIX Crawler</div>
+        <div class="slide-page"><iframe src="slide-21.html" id="frame-21" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 22 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 22 / 28 — Closing</div>
+        <div class="slide-page"><iframe src="slide-22.html" id="frame-22" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 23 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 23 / 28 — Appendix Divider</div>
+        <div class="slide-page"><iframe src="slide-23.html" id="frame-23" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 24 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 24 / 28 — CRM Dashboard</div>
+        <div class="slide-page"><iframe src="slide-24.html" id="frame-24" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 25 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 25 / 28 — Report 01</div>
+        <div class="slide-page"><iframe src="slide-25.html" id="frame-25" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 26 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 26 / 28 — Report 02</div>
+        <div class="slide-page"><iframe src="slide-26.html" id="frame-26" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 27 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 27 / 28 — Report 04</div>
+        <div class="slide-page"><iframe src="slide-27.html" id="frame-27" scrolling="no"></iframe></div>
+    </div>
+
+    <!-- Slide 28 -->
+    <div class="slide-wrapper">
+        <div class="slide-label screen-only">SLIDE 28 / 28 — RADAR Decision Brief</div>
+        <div class="slide-page"><iframe src="slide-28.html" id="frame-28" scrolling="no"></iframe></div>
+    </div>
+
+    <script>
+        /**
+         * ============================================================
+         * 모든 iframe에 애니메이션 완전 비활성화 CSS를 주입합니다.
+         * - CSS animation / transition / keyframes 전부 OFF
+         * - opacity: 0 상태의 fade-up 요소를 즉시 opacity: 1로 강제
+         * - 파티클(particle), 글로우(glow) 등 동적 요소 정지
+         * ============================================================
+         */
+        const ANIMATION_KILL_CSS = `
+            /* ── 전역 애니메이션 완전 비활성화 ── */
+            *, *::before, *::after {
+                animation-duration: 0s !important;
+                animation-delay: 0s !important;
+                animation-iteration-count: 1 !important;
+                animation-fill-mode: both !important;
+                transition-duration: 0s !important;
+                transition-delay: 0s !important;
+            }
+
+            /* ── fade-up 등 초기 opacity:0 클래스 즉시 노출 ── */
+            .fade-up,
+            .fade-in,
+            [class*="fade"],
+            [class*="slide-in"],
+            [class*="appear"],
+            [class*="reveal"],
+            [class*="animate"],
+            .delay-1, .delay-2, .delay-3, .delay-4, .delay-5 {
+                opacity: 1 !important;
+                transform: none !important;
+                visibility: visible !important;
+            }
+
+            /* ── 파티클 / 글로우 / 반짝임 정지 ── */
+            .particle,
+            .ambient-glow,
+            .glow,
+            .pulse,
+            .blink,
+            .scanner-line,
+            .scanner,
+            .orb,
+            .dot-animation,
+            .typing-cursor {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            /* 파티클은 중간 위치에 고정 표시 */
+            .particle {
+                left: 50% !important;
+                opacity: 0.7 !important;
+            }
+
+            /* ── keyframe 재정의: 모든 keyframe을 즉시 완료 상태로 ── */
+            @keyframes fadeUp   { to { opacity: 1; transform: translateY(0); } }
+            @keyframes fadeIn   { to { opacity: 1; } }
+            @keyframes slideUp  { to { opacity: 1; transform: translateY(0); } }
+            @keyframes slideIn  { to { opacity: 1; transform: translateX(0); } }
+            @keyframes grow     { to { transform: scaleX(1); } }
+            @keyframes pulse    { to { opacity: 1; } }
+            @keyframes blink    { to { opacity: 1; } }
+            @keyframes spin     { to { transform: rotate(0deg); } }
+            @keyframes scanLine { to { opacity: 0.3; } }
+            @keyframes flow-particle { 0%,100% { left:50%; opacity:0.7; } }
+            @keyframes shimmer  { to { background-position: 0 0; } }
+            @keyframes breathe  { to { opacity: 1; transform: scale(1); } }
+            @keyframes orbit    { to { transform: rotate(0deg); } }
+            @keyframes counter  { to { opacity: 1; } }
+
+            /* ── 마우스 무브 기반 transform 방지 ── */
+            .layout-container {
+                transform: none !important;
+                transition: none !important;
+            }
+
+            /* ── PDF 렌더러에서 backdrop-filter 카드 누락 방지 ── */
+            .principle-card,
+            .flow-node,
+            .detail-card,
+            .step-card {
+                -webkit-backdrop-filter: none !important;
+                backdrop-filter: none !important;
+                background: rgba(10, 14, 39, 0.96) !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+            }
+
+            /* ── print.html iframe 내 body 스크롤 제거 ── */
+            body {
+                overflow: hidden !important;
+            }
+        `;
+
+        /**
+         * 단일 iframe에 애니메이션 킬 CSS를 주입합니다.
+         */
+        function injectKillCSS(iframe) {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                if (!doc) return;
+                if (doc.getElementById('__anim-kill__')) return; // 중복 주입 방지
+
+                const style = doc.createElement('style');
+                style.id = '__anim-kill__';
+                style.textContent = ANIMATION_KILL_CSS;
+                (doc.head || doc.documentElement).appendChild(style);
+
+                // JavaScript 기반 mousemove 애니메이션도 제거
+                try {
+                    const win = iframe.contentWindow;
+                    if (win) {
+                        // 마우스 이벤트 비활성화
+                        win.document.removeEventListener('mousemove', win.__mouseMoveHandler);
+                        // 타이머 기반 애니메이션 정지를 위해 requestAnimationFrame 오버라이드
+                        win.requestAnimationFrame = function(cb) { return 0; };
+                        win.cancelAnimationFrame = function() {};
+                        // setInterval / setTimeout은 Chart.js 등에 영향을 주므로 유지
+                    }
+                } catch(e) { /* cross-origin ignore */ }
+
+            } catch (e) {
+                console.warn('iframe 주입 실패:', e);
+            }
+        }
+
+        /**
+         * 모든 iframe에 대해 로드 완료 시 주입 실행
+         */
+        function setupAllFrames() {
+            document.querySelectorAll('iframe').forEach(function(iframe) {
+                // 이미 로드된 경우
+                try {
+                    const doc = iframe.contentDocument;
+                    if (doc && doc.readyState === 'complete') {
+                        injectKillCSS(iframe);
+                    }
+                } catch(e) {}
+
+                // 로드 완료 이벤트
+                iframe.addEventListener('load', function() {
+                    injectKillCSS(this);
+                });
+            });
+        }
+
+        // DOM 준비 후 실행
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupAllFrames);
+        } else {
+            setupAllFrames();
+        }
+
+        // 안전망: 1초/3초/6초 후 재시도 (느린 iframe 대비)
+        setTimeout(function() { document.querySelectorAll('iframe').forEach(injectKillCSS); }, 1000);
+        setTimeout(function() { document.querySelectorAll('iframe').forEach(injectKillCSS); }, 3000);
+        setTimeout(function() { document.querySelectorAll('iframe').forEach(injectKillCSS); }, 6000);
+
+        /**
+         * ============================================================
+         * 인쇄 직전(onbeforeprint) 강제 재주입
+         * → Chrome이 PDF 렌더 트리를 캡처하기 직전에 실행됨
+         * → fade-up opacity:0 문제의 근본 해결책
+         * ============================================================
+         */
+        function forceInjectBeforePrint() {
+            document.querySelectorAll('iframe').forEach(function(iframe) {
+                try {
+                    const doc = iframe.contentDocument || iframe.contentWindow.document;
+                    if (!doc) return;
+
+                    // 기존 킬 스타일 제거 후 재주입 (최신 상태 보장)
+                    const old = doc.getElementById('__anim-kill__');
+                    if (old) old.remove();
+
+                    const style = doc.createElement('style');
+                    style.id = '__anim-kill__';
+                    style.textContent = ANIMATION_KILL_CSS;
+                    (doc.head || doc.documentElement).appendChild(style);
+
+                    // 인라인 스타일로 fade-up 요소 직접 강제 처리 (가장 확실)
+                    doc.querySelectorAll('.fade-up, .delay-1, .delay-2, .delay-3, .delay-4, .delay-5').forEach(function(el) {
+                        el.style.setProperty('opacity', '1', 'important');
+                        el.style.setProperty('transform', 'none', 'important');
+                        el.style.setProperty('visibility', 'visible', 'important');
+                        el.style.setProperty('animation', 'none', 'important');
+                        el.style.setProperty('transition', 'none', 'important');
+                    });
+
+                    doc.querySelectorAll('.principle-card, .flow-node, .detail-card, .step-card').forEach(function(el) {
+                        el.style.setProperty('-webkit-backdrop-filter', 'none', 'important');
+                        el.style.setProperty('backdrop-filter', 'none', 'important');
+                        el.style.setProperty('background', 'rgba(10, 14, 39, 0.96)', 'important');
+                        el.style.setProperty('opacity', '1', 'important');
+                        el.style.setProperty('visibility', 'visible', 'important');
+                        el.style.setProperty('transform', 'none', 'important');
+                    });
+
+                } catch(e) { /* cross-origin ignore */ }
+            });
+        }
+
+        // 방법 1: window.onbeforeprint (모든 브라우저 지원)
+        window.addEventListener('beforeprint', forceInjectBeforePrint);
+        window.onbeforeprint = forceInjectBeforePrint;
+
+        // 방법 2: matchMedia print 이벤트 (Chrome 안전망)
+        if (window.matchMedia) {
+            var mq = window.matchMedia('print');
+            mq.addListener(function(e) {
+                if (e.matches) forceInjectBeforePrint();
+            });
+        }
+    </script>
+
+</body>
+</html>

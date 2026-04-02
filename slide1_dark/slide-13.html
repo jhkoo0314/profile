@@ -158,10 +158,28 @@
             border-bottom: 2px solid var(--neon);
         }
 
-        .fade-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease-out forwards; }
+        /* opacity:0을 base에서 제거 → @keyframes from으로 이동 */
+        .fade-up { animation: fadeUp 0.8s ease-out both; }
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── PDF 인쇄: 애니메이션 OFF → base opacity(1)로 즉시 표시 ── */
+        @media print {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+            .fade-up, .delay-1, .delay-2 {
+                opacity: 1 !important;
+                transform: none !important;
+                visibility: visible !important;
+            }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
     </style>
 </head>
 <body>
