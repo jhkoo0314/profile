@@ -1,77 +1,9 @@
-$ErrorActionPreference = 'Stop'
-
-$root = 'C:\profile\slide1_dark'
-
-$slides = @(
-  @{ File='slide-01.html'; Title='Protocol Genesis' },
-  @{ File='slide-02.html'; Title='Why OS?' },
-  @{ File='slide-03.html'; Title='Problem Definition' },
-  @{ File='slide-04.html'; Title='Architecture' },
-  @{ File='slide-05.html'; Title='Data Adapter' },
-  @{ File='slide-06.html'; Title='Engine' },
-  @{ File='slide-07.html'; Title='OPS' },
-  @{ File='slide-08.html'; Title='Sandbox' },
-  @{ File='slide-09.html'; Title='Territory' },
-  @{ File='slide-10.html'; Title='Prescription Flow' },
-  @{ File='slide-11.html'; Title='RADAR' },
-  @{ File='slide-12.html'; Title='Presentation' },
-  @{ File='slide-13.html'; Title='Scenario' },
-  @{ File='slide-14.html'; Title='Governance' },
-  @{ File='slide-15.html'; Title='Folder Structure' },
-  @{ File='slide-16.html'; Title='Modes' },
-  @{ File='slide-17.html'; Title='Impact' },
-  @{ File='slide-18.html'; Title='Vision' },
-  @{ File='slide-19.html'; Title='Domain Divider' },
-  @{ File='slide-20.html'; Title='BIDIX Engine' },
-  @{ File='slide-21.html'; Title='BIDIX Crawler' },
-  @{ File='slide-22.html'; Title='Closing' },
-  @{ File='slide-23.html'; Title='Appendix Divider' },
-  @{ File='slide-24.html'; Title='CRM Dashboard' },
-  @{ File='slide-25.html'; Title='Report 01' },
-  @{ File='slide-26.html'; Title='Report 02' },
-  @{ File='slide-27.html'; Title='Report 04' },
-  @{ File='slide-28.html'; Title='RADAR Decision Brief' }
-)
-
-function New-PrintBundle {
-  param(
-    [string]$OutFile,
-    [string]$Heading,
-    [string]$Subheading,
-    [array]$BundleSlides,
-    [string]$ExtraActionsHtml = ''
-  )
-
-  $sections = New-Object System.Collections.Generic.List[string]
-  $count = $BundleSlides.Count
-
-  for ($i = 0; $i -lt $BundleSlides.Count; $i++) {
-    $num = '{0:d2}' -f $BundleSlides[$i].Number
-    $title = $BundleSlides[$i].Title
-    $file = $BundleSlides[$i].File
-    $sections.Add(@"
-    <section class="slide-wrapper" data-slide-number="$num">
-      <div class="slide-label screen-only">SLIDE $num / 28 - $title</div>
-      <div class="slide-page">
-        <iframe
-          src="$file"
-          id="frame-$num"
-          title="Slide $num"
-          scrolling="no"
-          referrerpolicy="no-referrer"
-        ></iframe>
-      </div>
-    </section>
-"@)
-  }
-
-  $html = @"
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>$Heading</title>
+  <title>Sales Data OS - Print Edition (27-28)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
@@ -184,17 +116,40 @@ function New-PrintBundle {
 <body>
   <div class="print-header screen-only">
     <div>
-      <h1>$Heading</h1>
-      <p>$Subheading</p>
+      <h1>Sales Data OS - Print Edition (27-28)</h1>
+      <p>27~28번 전용 인쇄본 · 마지막 두 슬라이드 안정 출력용</p>
     </div>
     <div class="print-actions">
-      $ExtraActionsHtml
+      <a class="nav-btn alt" href="print.html">1-26 메인 열기</a>
       <div class="status-badge" id="print-status">슬라이드 준비 중...</div>
       <button class="print-btn" id="print-btn" disabled>PDF로 인쇄</button>
     </div>
   </div>
 
-$($sections -join "`n")
+    <section class="slide-wrapper" data-slide-number="27">
+      <div class="slide-label screen-only">SLIDE 27 / 28 - Report 04</div>
+      <div class="slide-page">
+        <iframe
+          src="slide-27.html"
+          id="frame-27"
+          title="Slide 27"
+          scrolling="no"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+    </section>
+    <section class="slide-wrapper" data-slide-number="28">
+      <div class="slide-label screen-only">SLIDE 28 / 28 - RADAR Decision Brief</div>
+      <div class="slide-page">
+        <iframe
+          src="slide-28.html"
+          id="frame-28"
+          title="Slide 28"
+          scrolling="no"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+    </section>
 
   <script>
     const ANIMATION_KILL_CSS = [
@@ -353,35 +308,3 @@ $($sections -join "`n")
   </script>
 </body>
 </html>
-"@
-
-  Set-Content -Path $OutFile -Value $html -Encoding UTF8
-}
-
-$numberedSlides = for ($i = 0; $i -lt $slides.Count; $i++) {
-  [pscustomobject]@{
-    Number = $i + 1
-    File   = $slides[$i].File
-    Title  = $slides[$i].Title
-  }
-}
-
-$part1 = $numberedSlides | Where-Object { $_.Number -le 26 }
-$part2 = $numberedSlides | Where-Object { $_.Number -ge 27 }
-
-New-PrintBundle `
-  -OutFile (Join-Path $root 'print.html') `
-  -Heading 'Sales Data OS - Print Edition (1-26)' `
-  -Subheading '1~26번 메인 인쇄본 · 27~28번은 별도 전용 파일에서 인쇄' `
-  -BundleSlides $part1 `
-  -ExtraActionsHtml '<a class="nav-btn alt" href="print-27-28.html">27-28 전용 열기</a>'
-
-New-PrintBundle `
-  -OutFile (Join-Path $root 'print-27-28.html') `
-  -Heading 'Sales Data OS - Print Edition (27-28)' `
-  -Subheading '27~28번 전용 인쇄본 · 마지막 두 슬라이드 안정 출력용' `
-  -BundleSlides $part2 `
-  -ExtraActionsHtml '<a class="nav-btn alt" href="print.html">1-26 메인 열기</a>'
-
-Write-Output "Generated: print.html"
-Write-Output "Generated: print-27-28.html"
